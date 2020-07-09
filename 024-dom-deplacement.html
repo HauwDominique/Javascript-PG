@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Supprimer, cloner, déplacer un nœud dans le DOM</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>Supprimer, cloner, déplacer un nœud dans le DOM</h1>
+
+<h2>Cloner ou remplacer un nœud dans le DOM</h2>
+<ul>
+    <li id="li1"><b>cloneNode()</b> de Node : renvoie une <b>copie du nœud sur lequel elle a été appelée. Il faudra indiquer où doit se positionner le clone avec une méthode (par ex : insertAdjacentElement())</b>.<br>
+        Cette méthode prend <b>un booléen en argument.</b> Si la valeur passée est <b>true, les enfants du nœud seront également clonés.</b>
+        Si on lui passe false, en revanche, seul le nœud spécifié sera cloné.<br>
+        Par défaut, cette méthode copie également le contenu du nœud cloné.
+        <p id="p1">Un noeud d'id="p1"<br>
+        Du texte suite à un br
+        </p>
+        <p> let li1 = document.getElementById('li1'); on cilbe la balise li d'id="li1"<br>
+            let p1 = document.getElementById('p1'); //on cible l'élément "p1"<br>
+            let cloneP1 = p1.cloneNode(true); ;  ∕∕on stocke dans la variable cloneP1 ce que l'on veut cloner (p1 stocké dans la variable p1)<br>
+            li1.appendChild(cloneP1); // on clone en tant que dernier enfant de li1, cloneP1 (et ses enfants)
+
+
+        </p>
+    </li>
+    <li id="li2"><b>replaceChild()</b> de Node :  va <b>remplacer un certain nœud par un autre</b>.<br>
+        Cette méthode va prendre <b>en arguments le nœud de remplacement et le nœud qui doit être remplacé</b>.<br>
+        <span class="underline">Noter</span>: que si le nœud de remplacement existait déjà dans le DOM, il sera d’abord retiré de son emplacement d’origine.
+        <p>let li2 = document.getElementById('li2'); //on cible li2<br>
+            let p2 = document.getElementById('p2'); //on cible l"élément à remplacer<br>
+            li2.replaceChild(newP, p2); //on indique que l'on remplace dans l12, p2 par newP (newP remplace p2 dans li2)
+        </p>
+        <p id="p2">paragraphe source</p>
+    </li>
+</ul>
+
+<h2>Supprimer un nœud du DOM</h2>
+<ul>
+    <li><b>remove()</b> du mixin ChildNode() : permet tout simplement de <b>retirer un nœud de l’arborescence</b> et qui dispose aujourd’hui d’un bon support par les navigateurs (cette façon de faire est plus récente que la précédente).
+        <p id="sp1">1er paragraphe id="sp1"</p>
+        <p id="sp2">2eme paragraphe id="sp2"</p>
+        <p id="sp3">3e paragraphe id="sp3"</p>
+        <p>let sp2 = document.getElementById('sp2');<br>
+            sp2.remove();<br>
+        </p>
+    </li>
+    <li id="li3"><b>removeChild()</b> de Node : va <b>supprimer un nœud enfant passé en argument d’un certain nœud parent</b> de l’arborescence du DOM et <b>retourner le nœud retiré</b>.
+        <p>let li3 = document.getElementById('li3'); //on cible li3 comme parent<br>
+            let p3 = document.getElementById('p3'); //on cible l'élément p3 à supprimer<br>
+            let eltDel = li3.removeChild(p3); //on indique que l'on supprime p3 de li3 et renvoie le noeud supprimé<br>
+            console.log(eltDel); // renvoie l'élément supprimé et son contenu
+        </p>
+        <p>un 1er paragraphe</p>
+        <p id="p3">un 2nd paragraphe</p>
+        <p>un 3e paragraphe</p>
+    </li>
+
+</ul>
+
+<script src="js/dom-deplacement.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Paramètres du reste et opérateur de décomposition des fonctions JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+
+<h1>Paramètres du reste et opérateur de décomposition des fonctions JavaScript</h1>
+<p>Souvent, dans le cas d’opérations mathématiques, on aimerait faire en sorte qu’<b>une fonction puisse recevoir un nombre variable d’arguments</b>.
+</p>
+
+<h2>Les paramètres du reste <span class="alert">...</span> </h2>
+<p><span class="alert">...</span>  : permet de définir un <b>nombre variable d'arguments dans une fonction</b>.<br></p>
+<p>Lorsqu’on déclare des paramètres de cette manière, on parle de <b>« paramètres du reste »</b>.
+Littéralement, on demande au JavaScript de <b>stocker les arguments passés dans un tableau qui possèdera le nom mentionné après ….</b>
+</p>
+<p>On va également pouvoir créer des fonctions en précisant des paramètres de manière « classique » et en utilisant aussi des paramètres du reste. <br>
+    Dans ce cas-là, seuls les arguments supplémentaires passés à la fonction seront stockés dans le tableau.<br>
+    Attention cependant : il faudra toujours préciser les <b>paramètres classiques en premier</b> et les <b>paramètres du reste en dernier</b> dans la déclaration de la fonction.
+</p>
+<p class="underline">Mettons en pratique :</p>
+<div class="borderLeft">
+    <p>let nom = "Banner", prenom = "David"; <br>
+        let p1 = document.getElementById('p1'); <br> <br>
+
+        function profil(nom, prenom, <span class="alert"> ...hobbies </span>) { <br>
+        let h = ''; <br>
+        <span class="ital underline"> // on boucle sur le tableau hobbies </span> <br>
+        for(hobbie of hobbies){
+        h += hobbie + ' - ';
+        } <br>
+        return nom + ' ' + prenom + ' : ' + h; <br>
+        }
+
+    </p>
+    <p id="p1"></p>
+</div>
+
+<h2>L’opérateur de décomposition</h2>
+<p>Les paramètres du reste permettent de stocker une liste d’arguments dans un tableau qu’on va ensuite pouvoir manipuler.</p>
+<p><b>L’opérateur de décomposition</b> permet de faire l’opération inverse, à savoir <b>transformer un tableau en une liste d’arguments</b>
+    qu’on va pouvoir passer à une fonction.
+</p>
+<p>L’opérateur de décomposition utilise la même syntaxe avec … que les paramètres du reste à la différence qu’on
+    va <b>faire suivre les trois points par le nom d’un tableau</b> existant.
+</p>
+<p class="underline">En pratique :</p>
+<p>Servons-nous de la fonction js Math.max() :</p>
+<div class="borderLeft">
+    <p>
+        Math.max(5, 10, 20, 15); - // renvoie 20 <br><br>
+        let tb1 = [1, 2, 3, 4]; <br>
+        Math.max( <span class="alert"> tb1 </span>); - // retourne <span class="alert"> NaN </span>, car reçoit un tableau en argument <br>
+        math.max( <span class="alert"> ...tb1 </span> ); - // <span class="alert"> 4 </span>. L'opérateur de décomposition transforme le tableau en ligne
+    </p>
+</div>
+<p>Cette façon de faire va être très utile dans le cas où on ne sait pas à l’avance combien de nombres on va passer à max.</p>
+
+
+<script src="js/parametre-reste.js"></script>
+</body>
+</html>

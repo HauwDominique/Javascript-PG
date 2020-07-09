@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>L’objet global JavaScript Math, propriétés et méthodes</title>
+</head>
+<body>
+<h1>L’objet global JavaScript Math, propriétés et méthodes</h1>
+<p>A la différence des autres objets globaux, l’objet natif Math n’est pas un constructeur.
+    En conséquence, toutes les propriétés et méthodes de cet objet sont statiques et vont donc devoir être utilisées directement avec cet objet.</p>
+
+<h2>Les propriétés de l’objet Math</h2>
+<p>Les propriétés de l’objet Math stockent des constantes mathématiques utiles.</p>
+<ul>
+    <li><strong>Math.pi </strong> a pour valeur pi, soit environ 3,14159.<br>
+    on l'écrit : Math.pi</li><br>
+    <li><strong>Math.SQRT1_2 </strong> a pour valeur la racine carrée de ½, soit environ 0,707 ;</li><br>
+    <li><strong>Math.SQRT2 </strong> a pour valeur la racine carrée de 2, soit environ 1,414.</li><br>
+</ul>
+
+<h2>Les méthodes de l’objet Math</h2>
+<p>L’objet Math possède des méthodes qui permettent d’arrondir des nombres, de générer des nombres aléatoires
+    ou encore de calculer le cosinus, sinus, tangente, logarithme ou l’exponentielle d’un nombre.</p>
+<ul>
+    <li>La méthode <strong> floor() </strong> va <b>arrondir la valeur</b> passée en argument <b>à l’entier immédiatement inférieur </b>(ou égal) à cette valeur.</strong></li>
+    <br>
+    <li>La méthode <strong> ceil() </strong>, au contraire, va <b>arrondir la valeur</b> passée en argument à <b>l’entier immédiatement supérieur</b> (ou égal) à cette valeur.
+    </li>
+    <br>
+    <li>La méthode <strong>round() </strong> va elle arrondi la valeur passée en argument à <b>l’entier le plus proche</b>.
+        Ainsi, si la partie décimale de la valeur passée est supérieure à 0,5, la valeur sera arrondie à l’entier supérieur, sinon à l'entier inférieur..</li>
+    <br>
+    <li>la méthode <strong>trunc()</strong> va tout simplement ignorer la partie décimale d’un nombre et <b>ne retourner que sa partie entière</b>.>
+        <p id="p1"></p>
+    </li>
+    <li>La méthode <strong> random()  </strong> permet de <b>générer un nombre décimal compris entre 0 (inclus) et 1 (exclu) de manière pseudo-aléatoire</b>.
+        On va ensuite pouvoir multiplier son résultat par un autre nombre afin d’obtenir un nombre pseudo-aléatoire compris dans l’intervalle de notre choix.
+        <p id="p2"></p>
+        <p id="p3"></p>
+        <p id="p4"></p>
+    </li>
+    <li>Les méthodes <strong>min() et max() </strong><br>
+        La méthode <b>min() renvoie le plus petit nombre d’une série</b> de nombres passés en arguments. <br>
+        La méthode <b>max(), au contraire, va renvoyer le plus grand nombre d’une série</b> de nombres passés en arguments.<br>
+        Dans les deux cas, si l’une des valeurs fournies en argument n’est pas un nombre et ne peut pas être convertie en nombre, alors ces méthodes renverront la valeur NaN.4
+        <p id="p5"></p>
+        <p id="p6"></p>
+        <p id="p7"></p>
+    </li>
+    <li>La méthode <strong>abs()</strong> renvoie la <b>valeur absolue d’un nombre</b>, c’est-à-dire le nombre en question sans signe.
+        <p id="p8"></p>
+    </li>
+    <li>Les méthodes <strong> cos(), sin(), tan(), acos(), asin() et atan() </strong>
+        retournent respectivement le cosinus, le sinus, la tangente, l’arc cosinus, l’arc sinus et l’arc tangente d’une valeur passée en argument.<br>
+        Les valeurs passées et retournées sont exprimées en radians. Pour convertir une valeur en radians en une valeur en degrés, il suffit de multiplier la valeur en radians par 180 et de diviser par pi (180° = pi radian, 360° = 2pi radian).</li>
+</ul>
+
+<script src="js/math.js"></script>
+</body>
+</html>

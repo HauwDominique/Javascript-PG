@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Différence entre var et let</title>
+</head>
+<body>
+
+<h2>Différence entre var-et-let</h2>
+<p>
+    Si let et var sont des variables déclarées en dehors d'une fonction, elles ont une portée globales.<br>
+    Si on crée les mêmes noms de variable dans une fonction, ces variables locales n'écrasent pas les variables globales portant le même nom.
+</p>
+<p>En revanche, si on déclare dans une fonction, des variables let et var, et qu'ensuite on déclare dans des sous blocs de cette fonction : <br>
+    la variable let n'écrase pas lam ême variable déclarée dans un bloc parent de la fonction, <br>
+mais <strong> variable var déclarée dans un sous block, va écraser la même variable d'un bloc parent de la fonction.</strong>
+</p>
+
+<p id="p1"></p>
+<p id="p2"></p>
+<p id="p3"></p>
+<p id="p4"></p>
+<p id="p5"></p>
+<p id="p6"></p>
+
+<script src="js/var_et_let.js"></script>
+</body>
+</html>

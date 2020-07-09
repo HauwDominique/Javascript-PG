@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>L’objet global JavaScript String, propriétés et méthodes</title>
+</head>
+<body>
+<h1>L’objet global JavaScript String, propriétés et méthodes</h1>
+<p>L’objet String gère les chaînes de caractères. Le constructeur String() possède deux propriétés et une trentaine de méthodes.</p>
+<h4>Les propriétés de l’objet String</h4>
+<p>Le constructeur String() ne possède que deux propriétés : une propriété <strong>length</strong> et, bien évidemment, une propriété <strong>prototype</strong> comme tout objet.</p>
+<p>let str2 = 'Pierre Giraud';</p>
+<p id="p4"></p>
+<h4>Les méthodes de l’objet String</h4>
+<p>On définit (pour cet exemple) une variable prez : let prez = "Bonjour, je m'appelle Pierre et j'ai 29 ans";</p>
+<ul>
+    <li><strong>La méthode includes() :</strong> permet de <b>déterminer si</b> une chaine de caractères est inclue dans une autre. <b>Renvoie true ou false</b><br>
+        <p>if(prez.includes('Pierre')){
+            document.getElementById('sp1').textContent = '"Pierre" est présent dans let prez';
+            };</p>
+        <span id="sp1"></span><br>
+        <span id="sp2"></span>
+    </li><br>
+    <li>Les méthodes <strong>startsWith() et endsWith() :</strong> La méthode startsWith() permet de déterminer si une chaine commence par une certaine sous chaine (ou expression).
+        La méthode endsWith() permet de déterminer si une chaine se termine par une certaine sous chaine. Ces 2 méthodes <b>renvoient true ou false</b><br>
+        <p>if(prez.startsWith('Bonjour')) {
+            document.getElementById('sp3').textContent = 'prez commence par "Bonjour"';
+            }</p>
+        <span id="sp3"></span>
+    </li><br>
+    <li>La méthode <strong>substring() :</strong> retourne <b>une sous-chaîne de la chaîne courante à partir d’un indice de départ </b>.
+        Cette méthode demande un indice de départ en argument obligatoire qui va servir à indiquer la position de départ de la sous-chaine. On va également pouvoir passer un deuxième indice facultatif pour préciser une position de fin pour notre sous-chaine.
+        Notez que dans le cas où on fournit une position de départ qui se situe après la position de fin, la méthode substring() intervertira automatiquement les deux valeurs.<br>
+        <p>
+            <span id="sp4"></span><br>
+            <span id="sp5"></span>
+        </p>
+    </li>
+    <li>Les méthodes <strong>indexOf() et lastIndexOf() :</strong><br>indexOf() permet de <b>déterminer la position</b> de la première occurrence d’un caractères ou d’une chaine de caractères dans une chaîne de caractères de base<br>
+        <p>
+            <span id="sp6"></span><br>
+            <span id="sp7"></span>
+        </p>
+        <p>La méthode lastIndexOf() va fonctionner exactement de la même manière que sa sœur indexOf() à la différence près que c’est la position de la dernière occurrence de l’expression cherchée qui va être renvoyée (ou -1 si l’expression n’est pas trouvée dans la chaine).</p>
+        <span id="sp8"></span>
+    </li><br>
+    <li>La méthode <strong>slice() : </strong>La méthode slice() <b>extrait une section d’une chaine de caractères et la retourne comme une nouvelle chaine de caractères</b>. La chaîne de caractères de départ n’est pas modifiée.
+        <br>
+        Cette méthode va donc fonctionner comme substring() à deux différences près :
+        En passant des valeurs négatives en argument à slice(), les positions de départ et de fin d’extraction seront calculées à partir de la fin de la chaine de caractères à partir de laquelle on extrait ;
+        En passant une position de départ plus lointaine que la position d’arrivée à slice(), cette méthode n’inverse pas les valeurs mais renvoie une chaine de caractères vide.
+        Vous pouvez également noter que la méthode slice() ne modifie pas la chaine de caractères d’origine mais renvoie une nouvelle chaine.
+        <p id="pslice"></p>
+    </li>
+    <li>La méthode <strong>replace() : </strong>La méthode replace() nous permet de rechercher une expression dans une chaine de caractères et de la remplacer par une autre.
+        On va passer deux arguments à cette méthode : l’expression à rechercher, et l’expression de remplacement.
+        La méthode replace() va <b>renvoyer une nouvelle chaine de caractères avec les remplacements faits</b>. La chaine de caractères de départ ne sera pas modifiée.
+        <p>let prez = "Bonjour, je m'appelle Pierre et j'ai 29 ans";
+        </p>
+        <span id="sp9"></span>
+    </li><br>
+    <li>La méthode <strong>trim() : </strong>La méthode trim() supprime les espaces ou les « blancs » en début et en fin de chaîne. Cette méthode va s’avérer très pratique lorsqu’on voudra nettoyer des données pour ensuite effectuer des opérations dessus.</li>
+    <br>
+    <li><strong>Autres méthodes de l’objet String : </strong>
+        <ul>
+            <li>match()</li>
+            <li>matchAll()</li>
+            <li>search()</li>
+            <li>split()</li>
+        </ul>
+        <p>Ces méthodes seront vues ultérieurement.</p>
+    </li>
+</ul>
+
+<script src="js/string.js"></script>
+</body>
+</html>

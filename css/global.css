@@ -1,0 +1,52 @@
+h2, h3{
+    margin : 2em 0 1em;
+}
+
+li{
+    margin : .6em 0;
+}
+.underline{
+    text-decoration: underline;
+}
+.ital{
+    font-style : italic;
+}
+.alert{
+    color : red;
+}
+.alertBold{
+    color: red;
+    font-weight: bold;
+}
+
+span:active{
+    color: red;
+}
+.margeLeft{
+    margin-left: 20px;
+}
+.field{
+    border : solid black 1px;
+    padding: 10px;
+    width : 300px;
+}
+.borderLeft{
+    border-left: solid grey 1px;
+    margin-left: 50px;
+    padding-left: 5px;
+}
+
+table{
+    border-collapse: collapse;
+    width : 650px;
+    margin: 40px 20px;
+}
+td{
+    border: solid grey 1px;
+    padding : 15px;
+}
+.firstTd{
+    width: 70px;
+    text-align: center;
+}
+

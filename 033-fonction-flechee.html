@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Les fonctions fléchées JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+<h1>Les fonctions fléchées JavaScript</h1>
+<p>Il existe quatre syntaxes différentes nous permettant de créer une fonction en JavaScript.</p>
+<ul>
+    <li>une <b> déclaration </b> de fonction ;</li>
+    <li>une <b> expression </b> de fonction ;</li>
+    <li>une <b> fonction </b> fléchée ;</li>
+    <li>la syntaxe <b> new Function </b> (pratiquement plus utilisée).</li>
+</ul>
+
+<h2>Les déclaration de fonctions</h2>
+<p>On déclare une fonction avec le mot clef <b>"function" suivi du nom de la fonction</b>.</p>
+<p class="underline">En pratique :</p>
+<div class="borderLeft">
+    <p> <b> function </b> disBonjour(){<br>
+        return 'Bonjour';<br>
+        };
+    </p>
+    <p id="p1"></p>
+</div>
+
+<h2>Les expressions de fonctions</h2>
+<p>On va cette fois-ci directement <b>assigner notre fonction à une variable</b> dont on choisira le nom.</p>
+<p>Généralement, lorsqu’on crée une fonction de cette manière, on utilise une <b>fonction anonyme qu’on assigne ensuite à une variable</b>. Pour appeler une fonction créée comme cela, on va pouvoir utiliser
+    la variable comme une fonction, c’est-à-dire avec un couple de parenthèses après son nom.
+</p>
+<p>Notez cependant que rien ne nous empêche de <b>donner un nom à notre fonction au départ anonyme</b>.
+    Dans ce cas-là, on parlera de <b>« NFE »</b> pour « Named Function Expression » ou <b>« expression de fonction nommée »</b> en français.
+</p>
+<p class="underline">En pratique :</p>
+<div class="borderLeft">
+    <p> <b>let </b> disAurevoir = function(){
+            return "Au revoir";
+        };
+    </p>
+        <b>let</b> sayGoodBye = function <b>goodBye(nom)</b> { <br>
+        if(nom) {
+        return "Good Bye " + nom; }<br>
+        else {
+        return <b>goodBye('inconnu')</b>;
+        ;}<br>
+        };
+    </p>
+<p id="p2"></p>
+</div>
+<p>Ajouter un nom à une expression de fonction permet à la fonction de faire référence à elle-même en interne en étant sûr de s’appeler.<br>
+    De plus, <b>le nom passé aux NFE n’est pas accessible depuis l’extérieur de la fonction</b>.
+    Cela garantit qu’en l’utilisant dans notre expression de fonction, il fera toujours bien référence à la fonction actuelle.
+</p>
+
+<h2>Les expressions de fonctions fléchées : syntaxe et intérêts <span class="alert"> => </span> </h2>
+<p>Les fonctions fléchées sont des fonctions qui possèdent une <b>syntaxe très compacte</b>, ce qui les rend très <b>rapide à écrire</b>.</p>
+<p class="underline">En pratique</p>
+<div class="borderLeft">
+    <p>
+       <span class="ital"> Une expression de fonction classique :</span> <br>
+    let somme = function(a, b) {return a + b;};
+    </p>
+    <p>
+        <span class="ital"> Une fonction fléchée :</span> <br>
+        let sommeFleche = (a, b) => a + b;
+    </p>
+    <p>
+        <span class="ital"> Une fonction fléchée <span class="underline"> a un seul argument</span> :</span> <br>
+        let sommeFleche = a => a * 2;
+    </p>
+</div>
+<p class="ital">Résultat :</p>
+<div class="borderLeft">
+    <p id="p3"></p>
+</div>
+
+<h2>Les particularités des fonctions fléchées</h2>
+<p>Les fonctions fléchées possédent certains <b>comportements différents des fonctions classiques</b>.<br>
+    Elles ne possèdent <b>pas de valeur pour this</b> ni pour l'objet arguments.
+</p>
+
+<h3>Les fonctions fléchées et le mot clef this</h3>
+<p>Pour rappel, <span class="alert">this</span> utilisé dans la méthode d'un objet pour accèder aux information stocké dans cet objet, fait référence à l'objet lui-même.</p>
+<p class="underline">Exemple de <b>this dans une méthode d'un objet </b>:</p>
+<div class="borderLeft">
+    <p>
+        let banner = {nom: 'Banner', <br>
+                        prenom: 'David', <br>
+                        hobbies: ['sciences', 'techno'], <br>
+    </p>
+    <p> // méthode getFullName déclarée dans l'objet lui-même <br>
+        getFullName(){ <br>
+        return <span class="alert"> this.prenom </span> + ' ' + <span class="alert"> this.nom </span> + ' : '; <br>
+        }; <br>
+    </p>
+    <p>banner.getFullName(); // retourne David Banner</p>
+</div>
+<br>
+
+<p><span class="underline">Attention </span> : <b>en JavaScript</b>, à la différence de la plupart des langages, le mot clef  <span class="alert"> this </span> n’est <b>pas lié à un objet</b> en particulier.
+    En effet, la valeur de <b>this va être évaluée au moment de l’appel de la méthode</b> dans laquelle il est présent en JavaScript. <br>
+    Ainsi, la valeur de this ne va pas dépendre de l’endroit où la méthode a été déclarée mais de l’objet qui l’appelle.
+</p>
+<p class="underline">Exemple de <b>this dans une fonction déclarée en dehors d'un objet : </b>:</p>
+<div class="borderLeft">
+    <p>
+        let pierre = {name: 'Pierre'}; <br>
+        let jean = {name: 'Jean'}; <br> <br>
+
+        function sayHello(){ <br>
+        return "Bonjour " + <span class="alert"> this.name </span>; <br>
+        }; <b>C'est une fonction js en dehors d'un objet</b>.<br><br>
+
+        pierre.bonjour = sayHello; //ici on associe la fonction js sayHello à la clef "bonjour" de l'objet pierre. Cette clef "bonjour" devient implicitement une méthode associée à cet objet <br>
+        jean.bonjour = sayHello;  <br>
+        console.log('pierre : ' + pierre.bonjour()); // on appelle la méthode bonjour() associée implicitement à l'objet pierre. retourne "Bonjour Pierre" <br>
+        console.log('jean : ' + jean.bonjour()); // retourne "Bonjour Jean"
+    </p>
+</div>
+<br>
+<p class="underline">fonction fléchée dans un objet :</p>
+<div class="borderLeft">
+    <p>
+        let alain = { <br>
+        nom: 'Croyable', <br>
+        prenom: 'Alain', <br> <br>
+
+        disBonjour(){ <br>
+        <b> let bonjour = () => alert('Bonjour ' + <span class="alert"> this.prenom </span> + ' ' + this.nom); </b> <br>
+        <b> bonjour(); </b> <br>
+        } <br>
+        };
+    </p>
+    <p>alain.disBonjour(); // affiche "Bonjour Alain Croyable</p>
+</div>
+
+<h2>Les fonctions fléchées et l’objet arguments</h2>
+<p>L’objet arguments est un objet qui recense les différents arguments passés à une fonction. <br>
+    Cet objet est une <b>propriété disponible dans toutes les fonctions <span class="underline"> sauf les fonctions fléchées </span>.</b>.
+
+</p>
+
+<script src="js/fonction-flechee.js"></script>
+</body>
+</html>

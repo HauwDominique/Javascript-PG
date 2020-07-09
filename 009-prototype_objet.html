@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Le prototype constructeur</title>
+</head>
+<body>
+
+<h1>Le prototype constructeur en javascript</h1>
+
+<p>A quoi servent la <strong> prototype d’un constructeur et la propriété __proto__ </strong>dont disposent à la fois le
+    constructeur mais également tous les objets créés à partir de celui-ci ?</p>
+
+<p>En fait, le contenu de <strong>la propriété prototype d’un constructeur va être partagé par tous les objets créés à
+    partir
+    de ce constructeur</strong>. Comme cette propriété est un objet, on va <strong>pouvoir lui ajouter des propriétés et
+    des méthodes que
+    tous les objets créés à partir du constructeur vont partager.</strong></p>
+
+<p>Cela permet l’<strong>héritage en orienté objet JavaScript</strong>. On dit qu’un objet « hérite » des membres d’un
+    autre objet
+    lorsqu’il peut accéder à ces membres définis dans l’autre objet.
+<p>
+
+<p>En l’occurrence, ici, les objets crées à partir du constructeur ne possèdent pas vraiment les propriétés et les
+    méthodes définies dans la propriété prototype du constructeur mais vont pouvoir y accéder et se « partager » ces
+    membres définis dans l’objet prototype du constructeur.</p>
+
+<p>Définir des propriétés et des méthodes dans le prototype d’un constructeur nous permet ainsi de les rendre accessible
+    à tous les objets créés à partir de ce constructeur sans que ces objets aient à les redéfinir.</p>
+
+<p>Pour avoir le code le plus clair et le plus performant possible, nous définirons donc généralement les propriétés des
+    objets (dont les valeurs doivent être spécifiques à l’objet) au sein du constructeur et les méthodes (que tous les
+    objets vont pouvoir appeler de la même façon) dans le prototype du constructeur.</p>
+
+<h3>La chaine des prototypes ou chaine de prototypage et l’objet Object</h3>
+<p>Chaque constructeur contient 2 propriétés (cachées) qui sont "constructor" et "prototype".</p>
+<p>La propriété 'constructor' renvoie vers le constructeur contenant le prototype</p>
+<p>La propriété 'prototype' est aussi un objet contenant plusieurs propriétés et méthode, dont la propriété '_proto-'.
+    Lorsqu'on crée un objet, javascript va automatiquement ajouté à cet objet la propriété '_proto_' qui est identique à celle du constructeur.</p>
+
+<h3>La chaine des prototypes ou chaine de prototypage et l’objet Object</h3>
+<p>Comment un objet peut-il accéder à une propriété ou à une méthode définie dans un autre objet ?<br>
+    Pour répondre à cette question, il faut savoir que lorsqu’on essaie d’accéder à un membre d’un objet, le navigateur (qui exécute le JavaScript) va d’abord chercher ce membre au sein de l’objet.
+    S’il n’est pas trouvé, alors le membre va être cherché au sein de la propriété __proto__ de l’objet dont le contenu est, rappelons-le, égal à celui de la propriété prototype du constructeur qui a servi à créer l’objet.
+    Si le membre est trouvé dans la propriété __proto__ de l’objet (c’est-à-dire s’il a été défini dans la propriété prototype du constructeur), alors il est utilisé. Si ce n’est pas le cas, alors on va aller chercher dans la propriété __proto__ dont dispose également le constructeur et qui va être égale au prototype du constructeur du constructeur.
+    On dit alors qu’on « remonte la chaine des prototypes ». A ce niveau, il faut savoir que tous les objets en JavaScript descendent par défaut d’un objet de base qui s’appelle Object.<br>
+    L’objet ou le constructeur Object() va être le parent de tout objet en JavaScript (sauf certains objets particuliers créés intentionnellement pour ne pas dépendre d’Object) et également posséder une propriété prototype.
+    Ainsi, lorsqu’on essaie d’accéder à un membre d’un objet, le membre en question sera d’abord cherché dans l’objet puis dans sa propriété __proto__ s’il n’est pas trouvé dans l’objet puis dans la propriété __proto__ de son constructeur et etc. jusqu’à remonter au constructeur Object().
+    Si finalement le membre demandé n’est pas trouvé dans le constructeur Object(), alors il sera considéré comme non présent.</p>
+
+<h3>Mise en place d’une hiérarchie d’objets avec héritage en JavaScript</h3>
+<p>Lorsqu’on a compris comment le JavaScript utilise le prototypage, on est capable de créer une hiérarchie d’objets avec des objets qui héritent des membres d’autres objets.</p>
+<p>Parfois, nous voudrons créer des types d’objets relativement proches. Plutôt que de redéfinir un constructeur entièrement à chaque fois, il va être plus judicieux de créer un constructeur de base qui va contenir les propriétés et méthodes communes à tous nos objets puis des constructeurs plus spécialisés qui vont hériter de ce premier constructeur.</p>
+<p>Pour mettre en place un héritage ou plus exactement un système de délégation, nous allons toujours procéder en trois étapes :</p>
+<ol>
+    <li>On va créer un constructeur qui sera notre constructeur parent;</li>
+    <li>On va ensuite créer un constructeur enfant qui va appeler le parent ;</li>
+    <li>On va modifier la __proto__ de la propriété prototype de l’enfant pour qu’elle soit égale au parent.</li>
+</ol>
+
+<div id="p1"></div>
+<div id="p2"></div>
+<div id="p3"></div>
+
+<script src="js/prototype_objet.js"></script>
+</body>
+</html>

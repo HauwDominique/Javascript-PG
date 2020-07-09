@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajouter, modifier ou supprimer des éléments du DOM avec JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>Ajouter, modifier ou supprimer des éléments du DOM avec JavaScript</h1>
+<h2>Créer de nouveaux nœuds et les ajouter dans l’arborescence du DOM</h2>
+<p>En JavaScript, on peut ajouter des éléments dans notre document. <br>
+    Il faut procéder <b>en deux étapes</b> : on va déjà <b>créer un nouveau nœud</b>, puis on va ensuite <b>l’insérer à une certaine place dans le DOM</b>.
+</p>
+<br>
+
+<h3>1 - Créer un nœud Element ou un nœud Texte</h3>
+<ul>
+    <li>méthode <b>createElement()</b> : pour créer un nouvel élément HTML en JavaScript. Cette méthode va prendre en argument le nom de l’élément HTML que l’on souhaite créer.<br>
+        <span class="underline">A noter</span> que celui-ci ne contient pour le moment ni attribut ni contenu textuel, et n’a pas encore été inséré à l’intérieur de notre page à un endroit précis.
+        <p class="ital">let newP = document.createElement('p'); //On crée un nouveau élément p</p>
+    </li>
+    <li>propriété <b>textContent</b> : pour insérer du texte dans notre nœud élément.
+        <p class="ital">newP.textContent = 'Paragraphe créé et inséré grâce au javascript'; //on insère du texte dans ce nouvel élément</p>
+    </li>
+    <li><b>createTextNode()</b> de Document : permet de créer directement un nœud de type texte. Il faudra ensuite insérer ce nœud dans un nœud élément avec l’une des méthodes.
+        <p class="ital">let newTexte = document.createTextNode('Texte écrit en javascript');  // création direct d'un noeud type texte</p>
+    </li>
+</ul>
+
+<h3>2 - Insérer un nœud dans le DOM</h3>
+<p>Il existe différentes méthodes qui nous permettent d’insérer des nœuds dans d’autre nœuds.
+    La différence entre ces méthodes va souvent consister dans la position où le nœud va être inséré.
+</p>
+<ul>
+    <li>méthodes <b>prepend()</b> du mixin ParentNode : permet d’<b>insérer un nœud ou du texte <span class="underline">avant le premier enfant</span> d’un certain nœud</b></li>
+    <li>méthodes <b>append()</b> du mixin ParentNode : permet d’<b>insérer un nœud ou du texte <span class="underline"> après le premier enfant</span> d’un certain nœud.</b>
+        <div id="append">
+            <p>let newP = document.createElement('p'); //On crée un nouveau élément p (donc une balise Html p)</p>
+            <p>//insertion du nouveau noeud après un noeud existant (ici la div d'id=append)<br>
+                let appendDiv = document.getElementById('append'); // on ciblel la div d'id="append"<br>
+                appendDiv.append(newP); // on insère dans cet div, la variable newP qui contient l'élément créé.
+            </p>
+        </div>
+    </li>
+    <li><b>appendChild()</b> de l’interface Node : permet d’ajouter un <b>nœud en tant que <span class="underline"> dernier</span> enfant d’un nœud parent</b>.</li>
+    <br>
+    <p>Les <b>différences entre append() de ParentNode et appendChild() de Node</b> sont les suivantes :
+        <ul>
+            <li>La méthode <b>append()</b> permet également d’<b>ajouter directement une chaine de caractères</b> tandis que <b>appendChild() n’accepte que des objets de type Node</b> ;
+            </li>
+            <li>La méthode <b>append() peut ajouter plusieurs nœuds et chaines de caractères</b> au contraire de appendChild() qui ne peut ajouter qu’un nœud à la fois ;
+            </li>
+            <li>La méthode <b>append() n’a pas de valeur de retour</b>, tandis que appendChild() retourne l’objet ajouté.
+            </li>
+        </ul>
+    </p>
+    <div id="divAppend2"></div>
+    <li><b>insertBefore()</b> de l’interface Node : permet pour sa part d’<b>insérer un nœud en tant qu’enfant d’un autre nœud <span class="underline">juste avant un certain nœud</span> enfant donné</b> de ce parent.<br>
+        Cette méthode va prendre <b>en arguments le nœud à insérer et le nœud de référence</b> c’est-à-dire le nœud juste avant lequel le nœud passé en premier argument doit être inséré.
+        <p class="underline">Exemple :</p>
+        <p>let b = document.body; ∕∕on cible le body de la page<br>
+            let p1 = document.getElementById('p1'); ∕∕on cble le paragraphe d'id="p1"<br>
+            let newP3 = document.createElement('p'); ∕∕on crée un nouveau paragraphe que l'on stocke dans la variable newP3<br>
+        b.insertBefore(newP3, p1); //on insère avant le noeud enfant de b (ici p1, la balise p stockée dans la variable newP3;
+    </li>
+    <li> <b>insertAdjacentElement()</b> :  insère un nœud élément à une position donnée par rapport à l’élément sur lequel il est appelé.</li>
+    <li><b>insertAdjacentText()</b> : insère un nœud texte à une position donnée par rapport à l’élément sur lequel il est appelé.</li>
+    <li><b>insertAdjacentHTML()</b> : analyse une chaine de caractères en tant que HTML et insère les nœuds créés avec le balisage donné dans le DOM à une certaine position spécifiée.</li>
+    <p><span class="underline">ATTENTION : </span> pour chacune de ces trois méthodes, nous allons devoir <b>spécifier la position où on souhaite insérer nos nœuds ainsi que le nœud à insérer en arguments.</b> <br>
+        Pour la position, il faudra fournir l’un des mots clefs suivants :
+        <ul id="insertAdjacent">
+            <li><b>beforebegin</b> : Insère le ou les nœuds <b>avant l’élément</b> ;</li>
+            <li><b>afterbegin</b> : Insère le ou les nœuds <b>avant le premier enfant de l’élément</b> ;</li>
+            <li><b>beforeend</b> : Insère le ou les nœuds <b>après le dernier enfant de l’élément</b> ;</li>
+            <li><b>afterend</b> : Insère le ou les nœuds <b>après l’élément</b>.</li>
+            <li>Les deux méthodes <b>before() et after()</b> : permettent d’insérer un nœud avant ou après un certain enfant d’un certain nœud parent.
+                Toutefois, ces deux méthodes sont récentes et <b>ne sont donc pas encore supportées par tous les navigateurs.</b> <br>
+                Dans ce cas-là, les méthodes vont déplacer le nœud dans le DOM vers la nouvelle position indiquée.
+            </li>
+            <p class="underline">Exemple : </p>
+            <p>let sp4 = document.getElementById('sp4');<br>
+                let newP4 = document.createElement('p');<br>
+                let htmlContent = '<strong> et du texte important </strong>';<br>
+                <br>
+                newP4.textContent = 'Un paragraphe P4 créé en JS';<br>
+                sp4.insertAdjacentElement("afterbegin", newP4);<br>
+                sp4.insertAdjacentHTML("beforeend", htmlContent);
+            </p>
+            <p id="sp4">Paragraphe d'id="sp4"</p>
+        </ul>
+
+    </p>
+
+</ul>
+
+
+<script src="js/dom-manipulation.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Les propriétés de l'objet number</title>
+</head>
+<body>
+
+<h1>Les propriétés de l'objet Number</h1>
+
+<p>L’objet Number gère les nombres. Le constructeur Number() possède une dizaine de propriétés et une dizaine de méthodes.</p>
+
+<h2>Les propriétés</h2>
+<ul>
+    <li>les propriétés <strong>MIN_VALUE et MAX_VALUE : </strong> représentent respectivement les <b>plus petite valeur numérique positive et plus grand valeur numérique</b> qu’il est possible de représenter en JavaScript</li>
+        <p id="nbMin"></p>
+    <li>Les propriétés <strong>MIN_SAFE_INTEGER et MAX_SAFE_INTEGER : </strong> respectivement le <b>plus petit et le plus grand entiers représentables correctement</b> ou de façon « sûre » en JavaScript.
+        L’aspect « sûr » ici fait référence à la capacité du JavaScript à représenter exactement ces entiers et à les comparer entre eux.
+        Au-delà de ces limites, les entiers différents seront jugés égaux ;</li>
+    <br>
+    <li>Les propriétés <strong>NEGATIVE_INFINITY et POSITIVE_INFINITY : </strong>servent respectivement à représenter <b>l’infini côté négatif et côté positif</b> ;</li>
+    <br>
+    <li>La propriété <strong>NaN : </strong>représente une valeur qui n’est pas un nombre (« NaN » est l’abréviation de « Not a Number ») et est équivalente à la valeur NaN.
+    </li>
+</ul>
+
+<h2>Les méthodes de l’objet Number</h2>
+<ul>
+    <li>La méthode <strong> isFinite() : </strong> permet de déterminer <b>si une valeur fournie est un nombre fini</b>. On va lui passer en argument la valeur à tester.
+        Si l’argument passé est bien une valeur finie, isFinite() renverra le booléen true. Dans le cas contraire, cette méthode renverra la booléen false.<br>
+        <p>Voici comment on écrit cette méthode : <br>
+            let nb1 = 10;<br>
+            Number.isFinite(nb1); //renvoie true<br>
+            <span id="p1"></span>
+        </p>
+    </li>
+    <li>La méthode <strong> isInteger() :</strong> permet de déterminer <b>si une valeur est un entier valide</b>. Renvoie true ou false.
+        <p>let nb4 = 10.2; <br>
+            console.log(Number.isInteger(nb4)); // renvoie false <br>
+        let nb5 = 10;
+            console.log(Number.isNaN(nb5)); //renvoie false
+        </p>
+    </li>
+    <li>La méthode <strong> isNaN() : </strong>La méthode isNaN() permet de déterminer <b>si la valeur passée en argument est la valeur NaN</b> (valeur qui appartient au type Number).
+        On va lui passer en argument la valeur qui doit être comparée à NaN. Si la valeur passée est bien égale à NaN, notre méthode renverra le booléen true. Dans le cas contraire, le booléen false sera renvoyé.
+        <p>let nb4 = NaN;<br>
+            console.log('isNaN() : ' + Number.isNaN(nb4)); //renvoie true</p>
+    </li>
+    <li>La méthode <strong> isSafeInteger() : </strong>
+        La méthode isSafeInteger() permet de déterminer <b>si une valeur est un entier sûr</b> (un entier que le JavaScript peut représenter correctement).
+        Cette méthode prend la valeur à tester en argument et retourne le booléen true si la valeur est bien un entier sûr ou false sinon.
+        <p>let nb6 = 10;<br>
+            let nb7 = 100000000000000000000000000;<br>
+            console.log('isSafeInteger() : ' + Number.isSafeInteger(nb6)); //renvoie true<br>
+            console.log(Number.isSafeInteger(nb7)); //renvoie false</p>
+    </li>
+    <li>La méthode <strong> parseFloat() : </strong>
+        La méthode parseFloat() permet de <b>convertir une chaîne de caractères en un nombre décimal</b>. Pour cela, on va lui passer la chaine à transformer en argument et la méthode renverra un nombre décimal en retour.
+        L’analyse de la chaîne <strong> s’arrête dès qu’un caractère qui n’est pas +,-, un chiffre, un point ou un exposant est rencontré.</strong> Ce caractère et tous les suivants vont alors être ignorés. Si le premier caractère de la chaîne ne peut pas être converti en un nombre, parseFloat() renverra la valeur NaN
+        <p>let nb8 = '29 Pierre';<br>
+            let nb9 = '29.5 Pierre 30';<br>
+            let nb10 = 'Pierre 29';<br>
+            console.log('parseFloat() : ' + Number.parseFloat(nb8)); //renvoie : 29;<br>
+            console.log(Number.parseFloat(nb9)); //renvoie 29.5;<br>
+            console.log(Number.parseFloat(nb10)); //renvoie NaN</p>
+    </li>
+    <li>La méthode <strong> parseInt() : </strong>
+        La méthode parseInt() permet de <b>convertir une chaine de caractères en un entier selon une base et va renvoyer ce nombre en base 10.</b> On va lui passer deux arguments : la chaine de caractères à convertir et la base utilisée pour la conversion.
+        Dans la vie de tous les jours, nous utilisons la base 10 : nous possédons dix unités de 0 à 9 et dès qu’on dépasse 9 une dizaine est formée. En informatique, il est courant de travailler en binaire, c’est-à-dire en base 2.<br>
+        En programmation web, on utilise également aussi parfois des bases octales (base 8) qui utilisent 8 unités ainsi que des bases hexadécimales (base 16), notamment pour définir les couleurs en CSS.
+        Une base hexadécimale utilise 16 unités. Pour représenter le « 10 » de notre base 10 en hexadécimale, on utilise le chiffre 0 suivi de la lettre A. Le 11 est représenté par 0B, le 12 par 0C, le 13 par 0D, le 14 par 0E et le 15 par 0F.
+        <p>
+            /*La base 16 utilise les chiffres de 0 à 9 et les lettres A, B, C, D, E et F pour compter.
+            "FFF" = 15 * 15 * 15 = 16 * 16 * 16 -1 = 4095 en base 10. La base 2 n'utilise que les chiffres 0 et 1 pour compter */<br><br>
+            Number.parseInt('0F', 16)) - ∕∕ renvoie 15;<br>
+            Number.parseInt('FFF', 16)) - ∕∕ renvoie 4095;<br>
+            Number.parseInt('1000', 2))  - ∕∕ renvoie 8;</p>
+    </li>
+    <li>La méthode <strong> toFixed() : </strong>
+        La méthode toFixed() permet de <b>formater un nombre en indiquant le nombre de décimales</b> (nombre de chiffres après la virgule) qu’on souhaite conserver.
+        On va indiquer en argument de cette méthode le nombre de décimales souhaitées et notre méthode <strong> va renvoyer une chaine de caractères </strong> qui représente le nombre avec le nombre de décimales souhaitées.
+        Dans le cas où on demande à toFixed() de renvoyer un nombre avec moins de décimales que le nombre de base, l’arrondi se fera à la décimale supérieure si la décimale suivant celle où le nombre doit être arrondi est 5 ou supérieure à 5.
+        <p>let nb11 = 1234.5678;<br>
+            nb11.toFixed(2)); // renvoie 1234.56</p>
+    </li>
+    <li>La méthode <strong> toPrecision() : </strong>
+        La méthode toPrecision() est relativement similaire à la méthode toFixed(). Cette méthode <b>permet de représenter un nombre avec un nombre de chiffre données</b> (avec une certaine « précision »).
+        On va lui passer en argument le nombre de chiffres qu’on souhaite conserver et celle-ci va renvoyer une chaine de caractères représentant notre nombre avec le bon nombre de chiffres.
+        Les règles d’arrondi vont être les mêmes que pour la méthode toFixed().
+        <p>let nb12 = 1245.450;<br>
+            nb12.toPrecision(2); //renvoie 1.2e+3 - il est impossible de représenter notre nombre 1234,450 de manière « traditionnelle » en ne conservant que deux chiffres. Une notation sous forme d’exponentielle (puissances de 10) est donc utilisée<br>
+            nb12.toPrecision(4); //renvoie 1245<br>
+            nb12.toPrecision(6); //renvoie 1245.45</p>
+    </li>
+    <li>La méthode <strong> toString() : </strong>
+        La méthode toString() permet de <b>transformer un nombre en une chaine de caractères</b>. On va pouvoir lui passer <strong> une base en argument </strong>
+        pour formater notre nombre. Elle renverra une chaine de caractères représentant notre nombre.
+        <p>let nb13 = 255;<br>
+            nb13.toString(16); //avec une base 16 : renvoie ff<br>
+            let tostring = nb13.toString(2);<br>
+            console.log(tostring); //avec une base 2 renvoie 11111111<br>
+            console.log(typeof tostring); //renvoie string ; c'est bien devenue une chaine de caractère</p>
+    </li>
+</ul>
+
+
+<script src="js/number.js"></script>
+</body>
+</html>

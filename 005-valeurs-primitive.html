@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>valeurs-primitive</title>
+</head>
+<body>
+
+<h3>Les valeurs primitive</h3>
+
+<p>En JavaScript, il existe 7 types de valeurs différents : <br>
+</p>
+<p>6 valeurs primitives :</p>
+<ol>
+    <li>string</li>
+    <li>number</li>
+    <li>boolean</li>
+    <li>undefined</li>
+    <li>null</li>
+    <li>symbol</li>
+</ol>
+<p>et la valeur appartenant au type objet: l'objet</p>
+
+<p>Le JavaScript possède deux grandes catégories de types de données : les valeurs primitives et les objets.<br>
+    On appelle valeur primitive en JavaScript une valeur qui n’est pas un objet et qui ne peut pas être modifiée.<br>
+    Autre différence notable entre valeurs primitives et objets : les valeurs primitives sont passées et comparées par <b>valeur</b> tandis que les objets sont passés et comparés par <b>référence</b>.
+</p>
+
+<p>let ch1 = "Une chaine de caractères";<br>
+    let ch2 = "Une chaine de caractères";</p>
+<p id="p1"></p>
+<p>let ob1 = {prenom : 'Pierre'};<br>
+    let ob2 = {prenom : 'Jean'};<br>
+    let ob3 = ob1;</p>
+
+<p id="p2"></p>
+<p id="p3"></p>
+
+<p>A partir d’ici, il y a une chose que vous devez bien comprendre : <strong> chaque type de valeur primitive, à l’exception de null et de undfenied, possède un équivalent objet prédéfini en JavaScript </strong>.</p>
+<p>Ainsi, le JavaScript possède quatre objets natifs String, Number, Boolean et Symbol qui contiennent des propriétés et des méthodes (voir  les fichiers string.html, number.html).</p>
+
+
+
+
+<script src="js/valeurs-primitive.js"></script>
+</body>
+</html>

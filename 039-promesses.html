@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Les promesses en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>Les promesses en JavaScript</h1>
+<p>Les <b>avantages des promesses</b> par rapport à l’utilisation de simples fonctions de rappel pour gérer des opérations asynchrones vont être :</p>
+<ul>
+    <li>la possibilité de <b>chainer les opérations asynchrones</b>,</li>
+    <li>la garantie que les opérations vont <b>se dérouler dans l’ordre voulu</b></li>
+    <li>une <b>gestion des erreurs simplifiées</b> tout en évitant le « callback hell ».</li>
+</ul>
+
+<h2>Présentation et définition des promesses</h2>
+<p>Une promesse en JavaScript est <b>un objet qui représente l’état d’une opération asynchrone</b>.
+    Une opération asynchrone peut être dans l’un des états suivants :
+</p>
+<ul>
+    <li>Opération en cours (<b>non terminée</b>) </li>
+    <li>Opération terminée avec succès (<b>promesse résolue</b>) ;</li>
+    <li>Opération terminée ou plus exactement stoppée après un échec (<b>promesse rejetée</b>).</li>
+</ul>
+<p>L’idée est la suivante : nous allons <b>définir une fonction</b> dont le rôle est d’effectuer <b>une opération asynchrone</b> et cette fonction va, lors de son exécution, <b>créer et renvoyer un objet Promesse</b>.</p>
+<p class="underline">Exemple :</p>
+<p class="borderLeft">
+    const promesse = <span class="alert"> new Promise((resolve, reject) =></span> { <br>
+    // <b>Tache asynchrone à réaliser</b> <br>
+    // Appel de <b>resolve()</b> si la promesse est résolue (tenue) <br>
+    // <b>ou appel de reject()</b> si elle est rejetée (rompue) ; <br>
+    )};
+</p>
+<p class="underline">Explication :</p>
+<p>Lorsque nos <b>fonctions asynchrones</b> s’exécutent, elles <b>renvoient une promesse.</b> <br>
+    <b>Cette promesse va partager les informations liées à l’opération qui vient de s’exécuter</b> et on va pouvoir l’utiliser pour définir quoi faire en fonction du résultat qu’elle contient
+</p>
+<p><b>Les promesses</b> permettent ainsi de représenter et de <b>manipuler un résultat, un évènement futur</b> et nous permettent donc de <b>définir à l’avance quoi faire</b> lorsqu’une opération asynchrone est terminée,
+    que celle-ci ait été terminée avec succès ou qu’on ait rencontré un cas d’échec.</p>
+<p>Le code à exécuter après la consommation d’une promesse va être passé sous la forme de <b>fonction de rappel qu’on va attacher à la promesse</b> en question.</p>
+
+<p class="underline">Exemple de création de promesse :</p>
+<div class="borderLeft">
+    <p>
+        function loadScript(src) { <br>
+        <b>return new Promise((resolve, reject) => {</b> <br> <br>
+
+        //tache asynchrone a éxécutée (ici on injecte dans le Dom, la ligne script dans le noeud head)<br>
+        let script = document.createElement('script'); <br>
+        script.src = src; <br>
+        document.head.append(script); <br><br>
+
+        // appel de resolve, et appel de reject  <br>
+        script.onload = () <b>=> resolve('Fichier ' + src + ' bien chargé')</b>; <br>
+        script.onerror = () <b>=> reject(new Error('Echec de chargement de ' + src))</b>; <br>
+        }); <br>
+        }; <br> <br>
+
+        const promesse1 = loadScript('js/navigator.js'); <br>
+        const promesse2 = loadScript('script2.js');
+    </p>
+</div>
+
+<p class="underline">Résultat de la promesse exécutée correctement :</p>
+<div class="borderLeft">
+    //Ces lignes de code suivantes servent pour la promesse chargeant le src=js/navigator.js.
+    <p id="sp1"></p>
+    <p id="p1"></p>
+</div>
+
+<h2>Exploiter le résultat d’une promesse avec les méthodes then() et catch()</h2>
+<p><span class="alert">then()</span>  : pour obtenir et exploiter le résultat d’une promesse, on va généralement utiliser la méthode <b>then()</b> du constructeur Promise.</p>
+<p><b> then()</b> nous permet d’<b>enregistrer deux fonctions de rappel</b> qu’on va passer <b>en arguments</b> : </p>
+<ul>
+    <li>une première qui sera appelée si la <b>promesse est résolue</b> et qui va <b>recevoir le résultat</b> de cette promesse</li>
+    <li>et une seconde qui sera appelée si la <b>promesse est rompue</b> et que va <b>recevoir l’erreur.</b></li>
+</ul>
+<p class="underline">Mettons en place cette exploitation du résultat de la promesse :</p>
+<div class="borderLeft">
+    <p>On se sert ici du résultat de la fonction précédement créée (loadScript())</p>
+    <p>
+        promesse1<span class="alert">.then( <br>
+        function (result) {alert(result);}, - // 1ere fonction de rappel : le résultat si la promesse est tenue <br>
+        function (error) {alert(error);}</span> - // 2eme fonction de rappel : l'erreur si la promesse n'est pas tenue <br>
+        );
+    </p>
+    <p>
+        // Code similaire à la fonction précédente, avec des fonctions fléchées <br>
+        promesse2<span class="alert">.then(result => alert(result), error => alert(error))</span>;</p>
+</div>
+<p><span class="underline">Notez </span>: on peut  utiliser then() en ne lui passant qu’une seule fonction de rappel en argument qui sera alors appelée si la promesse est tenue. </p>
+<p class="borderLeft">const.promesse1.then(alert);</p>
+<p><span class="alert"> catch() </span> uniquement pour le cas où une <b>promesse est rompue</b>, qui va prendre une unique <b>fonction de rappel en argument</b> qui va être appelée si la promesse est rompue.</p>
+<p class="underline">Exemple avec catch()</p>
+<p class="borderLeft">promesse2.catch(alert);</p>
+
+<p><b>Utiliser à la fois then() et catch()</b> plutôt que simplement then() va souvent créer un <b>code plus rapide</b> dans son exécution et plus clair dans sa syntaxe
+    et va également nous permettre de <b>chainer efficacement les méthodes</b>.
+</p>
+
+<h2>Le chainage des promesses</h2>
+<p>« Chainer » des méthodes signifie <b>les exécuter les unes à la suite des autres</b>.</p>
+<p>La méthode <b>then()</b> retourne automatiquement une nouvelle promesse. On va donc pouvoir <b>utiliser une autre méthode then() sur le résultat renvoyé</b> par la première méthode then() et ainsi de suite.</p>
+<p class="underline">Mettons en pratique :</p>
+<div class="borderLeft">
+    <p>
+        loadScript('js/navigator.js') <br>
+        .then(function (result) { <br>
+        return loadScript('js/script2.js', result); <br>
+        }) <br>
+        .then(function (result2) { <br>
+        return loadScript('js/script3.js', result2); <br>
+        }) <br>
+        .catch(alert);
+    </p>
+    <p> Equivaut à :  <br>
+        loadScript('js/navigator.js')<span class="alert">.then(result => loadScript('js/script2.js', result)) </span> <br>
+        .then(result2 => loadScript('js/script3.js', result2)) <br>
+        <span class="alert">.catch(alert);</span>
+    </p>
+</div>
+<p>Pour que ce code fonctionne, il faut cependant bien évidemment que chaque fonction asynchrone renvoie une promesse.</p>
+<p>Il est possible de <b>continuer à chaîner après un rejet</b>, c’est-à-dire après une méthode catch().</p>
+    <p class="borderLeft">
+        loadScript('js/navigator.js').then(result => loadScript('js/script2.js', result)) <br>
+        .then(result2 => loadScript('js/script3.js', result2)) <br>
+        <span class="alert">.catch(alert) <br>
+        .then(()=> console.log('après le catch'));</span> - // on éxécute une autre fonction après le catch()
+    </p>
+<p><span class="underline">Attention :</span>Si un gestionnaire catch() génère une erreur, la nouvelle promesse est également rejetée. </p>
+
+<h2>La composition de promesses - all()</h2>
+<p>Nous allons pouvoir combiner des promesses pour en produire une nouvelle.</p>
+<p>Nous allons pouvoir utiliser la méthode <span class="alert"> all() </span> de Promise qui va prendre <b>en argument un tableau de promesses et retourner une nouvelle promesse.</b>
+    Cette nouvelle promesse va être résolue si l’ensemble des promesses passées dans le tableau sont résolues ou va être rejetée si au moins l’une des promesses du tableau échoue.</p>
+<p>Notez que cette méthode <b>conserve l’ordre des promesses du tableau passé</b> lors du renvoi des résultats.</p>
+<p>On peut ainsi lancer plusieurs opérations asynchrones en parallèle puis attendre qu’elles soient toutes terminées.</p>
+<p class="borderLeft">
+    Promise <span class="alert">.all([funct1(), funct2(), funct(3)])</span> <br>
+    <span class="alert">.then(([result1, result2, result3]) => { </span> <br>
+    // utilisation de result1, result2, result3 <br>
+    };
+</p>
+<br>
+
+<h1>Utiliser async et await pour créer des promesses plus lisibles en JavaScript</h1>
+<p>La déclaration <b>async function</b> et le mot clef <b>await</b> sont des « sucres syntaxiques », qui permettent de créer et d’utiliser des promesses avec un code plus intuitif
+    et qui ressemble davantage à la syntaxe classique du JavaScript à laquelle nous sommes habitués.
+</p>
+
+<h2>Le mot clef async</h2>
+<p><b>async devant une déclaration de fonction</b> (ou une expression de fonction, ou encore une fonction fléchée) permet de <b>la transformer en fonction asynchrone.</b></p>
+<p>La fonction en question va <b>toujours retourner une promesse</b>.</p>
+
+<p class="underline">En pratique :</p>
+<div class="borderLeft">
+    <p>
+       <span class="alert"> async function bonjour() {return 'Bonjour';};</span> <br>
+        console.log(bonjour()); - // retourne "Promise{resolved: "Bonjour"} <br>
+        bonjour().then(alert); - // affiche le message "Bonjour"
+    </p>
+</div>
+
+<h2>Le mot clef await</h2>
+<p>await est <b>uniquement valide au sein de fonctions asynchrones définies avec async.</b></p>
+<p>Il permet de <b>mettre en pause l’exécution d’une fonction asynchrone tant qu’une promesse n’est pas résolue ou rejetée.</b> La fonction asynchrone reprend ensuite puis renvoie la valeur de résolution.<br>
+    Le moteur peut effectuer d’autres tâches en attendant
+</p>
+<p>await est une syntaxe alternative à then(), plus facile à lire, à comprendre et à écrire.</p>
+
+<p class="underline">En pratique :</p>
+<div class="borderLeft">
+    <p>
+        async function test() { <br>
+        const promise = new Promise((resolve, reject) => { <br>
+        setTimeout(() => resolve('Ok, function test achevée !'), 2000) <br>
+        });<br><br>
+
+       <span class="alert"> let result = await promise; </span> //Attend que la promesse soit résolue ou rejetée<br>
+        console.log(result); - // le message n'apparait qu'au bout de 2s dans le console log<br>
+        };
+    </p>
+</div>
+
+<h2>Utiliser async et await pour réécrire nos promesses</h2>
+<p class="underline">appliquons le async avec await, sans gestion des erreurs</p>
+<p class="borderLeft">
+   <span class="alert"> async function </span> asyncAwait() { <br>
+    const test1 = <span class="alert"> await loadScript('js/navigator.js');</span> <br>
+    alert(test1); <br>
+    const test2 = <span class="alert"> await loadScript('js/script3.js');</span> <br>
+    alert(test2); <br>
+    }; <br> <br>
+
+    asyncAwait();
+</p>
+
+<p class="underline">avec cette fois la gestion des erreurs :</p>
+<p class="borderLeft">
+   <span class="alert"> async function </span>test3() { <br>
+    <span class="alert"> try{ </span><br>
+    const test1 = <span class="alert">  await loadScript('js/navigator.js')</span>; <br>
+    alert(test1); <br>
+    const test2 = <span class="alert"> await loadScript('js/script3.js');</span> <br>
+    alert(test2); <br>
+    const test3 = <span class="alert"> await loadScript('js/toto.js');</span> <br>
+    alert(test3); <br>
+    <span class="alert">  } catch(err){ <br>
+    alert(err);</span> <br>
+    let script =  document.head.lastChild; <br>
+    script.remove(); //supprime le script ajouté, si il y a une erreur <br>
+    } <br>
+    };
+
+    test3();
+</p>
+
+<p class="underline">Autre exemple avec la gestion d'un setTimeOut()</p>
+<p class="borderLeft">
+
+    // on crée une function qui retourne un chiffre aléatoire entre 0 et 100 <br><br>
+    function getNumber() { <br>
+    return Math.round(Math.random()*100); <br>
+    }; <br> <br>
+
+    // 1 - on créé une function qui va renvoyer une PROMESSE. Cette fonction ajout un setTimeOut sur la fonction getNumbmer() <br><br>
+    function getNumberPromise(){ <br>
+    <span class="alert"> return new Promise(resolve =>{ <br>
+    setTimeout(()=>{resolve(getNumber())}, 1000); <br>
+        }); </span><br>
+    }; <br> <br>
+
+    // 2 - on crée une fonction ASYNCHRONE qui va exploiter le résultat de la promesse <br><br>
+    async function additonNumber() { <br>
+    console.log('calling additionNumber'); - //ici le code s'éxécute de suite <br>
+
+    <span class="alert"> try{ <br>
+    const result1 = await getNumberPromise(); - //ici le code attend le résultat de la promesse <br>
+    const result2 = await getNumberPromise();</span> - //ici le code attend le résultat de la promesse<br>
+
+    let addition = result1 + result2; <br>
+    }<span class="alert">< catch(err){ <br>
+    console.log(err); <br>
+    }</span>
+    }; <br> <br>
+
+    // - 3 - on appel la fonction pour exécuter le code <br>
+    additonNumber();
+</p>
+
+<h2>Async/ await et all()</h2>
+<p>On peut utiliser la syntaxe <b>async / await avec la méthode all().</b> Cela va nous permettre d’obtenir la liste des résultats liés à ensemble de promesses avec un code plus lisible.</p>
+
+<h2>A retenir : la syntax async/await</h2>
+<ul>
+    <li><b>async et await</b> sont un sucre syntaxique ajouté au JavaScript pour nous <b>permettre d’écrire du code asynchrone</b>.</li>
+    <li><b>async devant une fonction</b> force la fonction à <b>retourner une promesse</b> et nous permet d’<b>utiliser await</b> dans celle-ci.</li>
+    <li><b>await devant une promesse</b> oblige <b>JavaScript à attendre que la promesse soit consommée</b>. Si la promesse est résolue, le résultat est retourné. Si elle est rompue, une erreur (exception) est générée.</li>
+    <li><b>try and catch</b> permette de <b>gérer les erreurs avec async et await</b>.</li>
+</ul>
+
+<script src="js/promesses.js"></script>
+</body>
+</html>

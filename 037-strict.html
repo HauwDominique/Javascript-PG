@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Le mode strict en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<h1>Le mode strict en JavaScript</h1>
+<p>Le mode <b>strict de JavaScript</b> est, comme son nom l’indique, un mode qui va <b>contenir une sémantique<</b> légèrement <b>différente et plus stricte</b> par rapport au JavaScript « classique ». <br>
+    Le mode strict va notamment lever plus d’erreurs que le JavaScript classique.
+</p>
+
+<h2>Activer et utiliser le mode strict</h2>
+<p>Pour <b>activer le mode strict</b>, nous allons utiliser la syntaxe <b><span class="alert"> use strict </span></b>. On va pouvoir choisir d’activer le mode strict </pour un script entier ou seulement pour certaines fonctions choisies</b></p>
+<ul>
+    <li><b>use strict</b> : <b>dans tout le script</b>, ajoutez l'instruction au tout début de celui-ci.
+        <p class="borderLeft">
+            <span class="alert"> use strict; </span> <br><br>
+            // le reste du code vient ici
+        </p>
+    </li>
+    <li><b>use strict</b> : <b>dans une fonction uniquement</b>, ajoutez use strict dans le code de la fonction, au tout début.
+        <p class="borderLeft">
+            let prenom = 'Jean'; <br><br>
+            // du code ici <br><br>
+            <b>function demo(){ </b><br>
+            <span class="alert"> use strict; </span> <br>
+            let x = 5; <br>
+            // du code ici <br>
+            };
+        </p>
+    </li>
+</ul>
+<p> <span class="underline">Attention</span> : si l’instruction use strict n’est pas la première dans le script ou dans une fonction, alors le mode strict ne fonctionnera pas. </p>
+<p>Le contenu des modules JavaScript est automatiquement en mode strict.</p>
+
+<h2>Exemples de code qui vont déclencher une erreur en mode strict (et pas en mode classique :</h2>
+<ul>
+    <li>Déclarer une variable sans let ou var</li>
+    <li>Affecter une valeur à une variable ou une propriété non accessible en écriture;</li>
+    <li>Tenter de supprimer une propriété non supprimable (comme la propriété prototype par exemple);</li>
+    <li>Déclarer plusieurs paramètres de même nom dans une fonction;</li>
+    <li>Utiliser des notations octales (si on fait précéder un nombre par un 0);</li>
+    <li>Définir des propriétés sur des valeurs primitives;</li>
+    <li>Utiliser with et eval() (fortement déconseillé, même en mode classique;</li>
+    <li>Utiliser this. <br>
+        La valeur de this en mode strict n’est pas transformée en objet (contrairement au mode classique) et si elle n’est pas définie la valeur passée sera undefined.
+    </li>
+    <li>utiliser arguments; <br>
+        La propriété arguments, quant-à-elle, ne permet pas d’accéder aux variables passées à la fonction lors de son appel en mode strict. Cela permet également de réduire les failles de sécurité.
+    </li>
+    <li>Le mode strict et les noms réservés. <br>
+        En mode strict, il est <b>interdit d’utiliser les termes implements, interface, let, package, private, protected, public, static, et yield pour nommer des variables ou des arguments</b> car ce sont des mots réservés.
+    </li>
+</ul>
+
+
+<script src="js/strict.js"></script>
+</body>
+</html>

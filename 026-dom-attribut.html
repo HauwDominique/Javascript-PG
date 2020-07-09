@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Manipuler les attributs via le DOM en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+<h1>Manipuler les attributs des éléments via le DOM en JavaScript</h1>
+<p>Grâce au DOM, nous pouvons tester si un élément <b>possède un attribut, récupérer la valeur </b>d’un attribut donné, <b> ajouter, modifier ou supprimer des attributs.</b></p>
+
+<h2>Tester la présence d’attributs</h2>
+<ul>
+    <li><b>hasAttribut<span class="alert">e()</span> </b> de l’interface Element : permet de <b>tester la présence d’<span class="underline">un</span> attribut en particulier</b> pour un élément.<br>
+        Cette méthode prend <b>en argument <pan class="underline">le nom</pan> de l’attribut</b> qu’on recherche et <b>renvoie</b> la valeur booléenne <b>true</b> si l’élément possède bien cet attribut ou false sinon.
+    </li>
+    <li><b>hasAttribute<span class="alert">s</span>() </b> de cette même interface. Cette méthode retourne à nouveau une valeur booléenne
+        (true si l’élément possède au moins un attribut ou false si l’élément ne possède pas d’attribut).
+
+        <p>let sp1 = document.getElementById('sp1');<br>
+            let noeudP1 = document.createElement('span');<br>
+            noeudP1.textContent = ' // Ce paragraphe a un attribut';</p>
+
+        <p id="sp1" class="blue">Un paragraphe d'id="sp1" avec un attribut</p>
+
+        <p>/*Si sp1 possède des attributs, hasAttributes() renvoie true et exécute le code de la condition */<br>
+            if(sp1.hasAttribute<span class="alert">s()</span>) {<br>
+            vide.textContent = 'sp1 possède des attributes';<br>
+            };
+        </p>
+        <p>//si sp1 possède un attribut id, hasAttribute(à renvoie true<br>
+            if(sp1.hasAttribut<span class="alert">e('id')</span>) {
+            vide.textContent += ' dont un attribut id';
+            }
+        </p>
+        <p id="vide"></p>
+    </li>
+</ul>
+
+
+<h2>Récupérer la valeur ou le nom d’un attribut ou définir un attribut</h2>
+<ul>
+    <li>La <b>propriété attributes</b> de l’interface Element <b>renvoie la liste des attributs d’un (nœud)</b> élément spécifié.<br>
+        La liste d’attributs est renvoyée <b>sous la forme « clef / valeur » et est un objet</b> de l’interface NamedNodeMap .
+        <p>L’interface NamedNodeMap est une interface qui sert à représenter des ensembles d’objets de l’interface Attr. L’interface Attr sert à représenter
+            les attributs des éléments du DOM sous forme d’objets.<br>
+            On va pouvoir <b>récupérer les noms et valeurs de chaque attribue en utilisant une boucle for</b> pour itérer dans cette liste et les propriétés <b>name et value</b> de l’interface Attr.
+        </p>
+        <p id="p2" class="blue">Un paragraphe d'id="2" et de class="blue"</p>
+
+        <p>let p2 = document.getElementById('p2');<br>
+            let vide2 = document.getElementById('vide2');<br><br>
+
+            if(p2.hasAttributes()){<br>
+            let attP1 = <span class="alert"> p2.attributes </span>; //Liste des attributs de p1<br>
+            for(attr of attP1) {<br>
+            vide2.innerHTML += attr.name + ' = ' + attr.value + ' - ';<br>
+            }
+            }</p>
+        <p id="vide2"></p>
+    </li>
+    <li><b>getAttributeNames()</b> : renvoie les <b>noms des attributs</b> d’un élément <b>sous forme de tableau</b> (type Array). </li>
+    <li><b>getAttribute()</b> : renvoie la <b>valeur de l’attribut</b> donné si celui-ci existe <b>ou null ou la chaine de caractères vide</b> dans le cas contraire.
+
+        <p id="p3" class="red">Un paragraphe d'id="p3" et de class="red"</p>
+        <p>let p3 = document.getElementById('p3');<br>
+            let vide3 = document.getElementById('vide3');<br>
+            if(p3.hasAttributes()) {<br>
+            let attP3 = p3.<span class="alert"> getAttributeNames() </span>; //on récupère le nom des attributs dans un tableau (ici  le tableau contient id, class)<br>
+            vide3.innerHTML = 'Attribut de p3 : <br>';<br>
+            <br>
+            //on boucle sur ce tableau<br>
+            for(attr of attP3) {<br>
+            let valeur = p3.<span class="alert"> getAttribute(attr)</span>; //on récupère la valeur de l'attribut<br>
+            vide3.innerHTML += attr + ' = ' + valeur + ' - ';<br>
+            };
+            }
+        </p>
+        <p id="vide3"></p>
+    </li>
+</ul>
+
+<h2>Ajouter un nouvel attribut, changer la valeur d’un attribut existant, ou supprimer un attribut</h2>
+<ul>
+    <li><b>setAttribute()</b> : permet d'<b>ajouter un nouvel attribut</b> ou de <b>changer la valeur d’un attribut</b> existant pour un élément,
+        en passant <b>en arguments le nom et la valeur de l’attribut</b> à ajouter ou à modifier.
+        <p><span class="underline">Notez</span> que pour obtenir ou pour définir la valeur d’un attribut class ou id en particulier,
+            on va également pouvoir utiliser les <b>propriétés className et id</b> de l’interface Element.
+        </p>
+        <p id="p4" class="blue">Un paragraphe d'id="p4" et de class="blue"</p>
+    </li>
+    <li><b>removeAttribute()</b>  de l’interface Element : permet de <b>supprimer un attribut</b> d’un élément. Cette méthode va prendre <b>en argument le nom de l’attribut à supprimer</b>.
+        <p id="p5" class="blue">Un paragraphe d'id="p5" et de class="blue"</p>
+        <p>let p5 = document.getElementById('p5');<br>
+            let attrP5 = p5.getAttributeNames(); //contient un tableau avec "id, class"<br>
+            p5.removeAttribute('class'); //supprimer l'attribut class</p>
+        <p id="vide5"></p>
+    </li>
+</ul>
+
+<h2>Inverser la valeur logique d’un attribut</h2>
+<ul>
+    <li><b>toggleAttribute()</b> de Element : permet d'<b>inverser la valeur logique d’un attribut de type<span class="underline"> booléen</span></b>.
+        Ceci est très pratique pour activer ou désactiver des fonctions liées à la valeur d’un booléen.
+    </li>
+    <div id="div6">
+        <p>let p6 = document.getElementById('p6');<br>
+            let btn6 = document.getElementById('btn6');<br>
+            btn6.addEventListener('click', function () { //au clic on déclenche le toogle <br>
+            p6.toggleAttribute('readOnly'); //ajoute ou supprime l'attribut readOnly <br>
+            });</p>
+        <input id="p6" value="text"></input>
+        <button id="btn6">toogleReadOnly</button>
+    </div>
+</ul>
+
+<h2>Modifier les styles d’un élément</h2>
+<p>On peut modifier les styles d’un élément grâce à la <b>propriété style</b> de l’interface HTMLElement </p>
+<p>let p7 = document.getElementById('p7');<br>
+    p7.style.color = 'blue';<br>
+    p7.style.fontWeight = 'bold';<br>
+    p7.style.fontStyle = 'italic';
+</p>
+<p id="p7">un paragraphe bleu avec un texte gras et italic</p>
+
+
+
+<script src="js/dom-attribut.js"></script>
+</body>
+</html>

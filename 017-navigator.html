@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> L’interface et l’objet Navigator et la géolocalisation en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<h1> L’interface et l’objet Navigator et la géolocalisation en JavaScript</h1>
+
+<h2>Présentation de l’objet Navigator</h2>
+<p>L’objet Navigator va nous donner des informations sur le navigateur de vos visiteurs en soi ainsi que sur les préférences enregistrées (langue, etc.).
+    C’est également ce qu’on appelle le « user agent ».</p>
+
+<h2>Les propriétés de Navigator</h2>
+<p>Les propriétés les plus intéressantes vont être les suivantes :</p>
+<ul>
+    <li><b>language : retourne la langue</b>  définie dans le navigateur ;</li>
+    <li><b>cookieEnabled</b> : détermine si les cookies sont autorisés ou non et retourne <b>true ou false.</b> </li>
+    <li><b>platform : retourne la plateforme utilisée</b> par le navigateur.</li>
+    <li><b>appName</b> : retourne le <b>nom du navigateur</b>;</li>
+    <li><b>appCodeName</b> : retourne le <b>nom de code du navigateur</b> ;</li>
+    <li><b>appVersion </b>: retourne la <b>version du navigateur utilisée</b> ;</li>
+    <li><b>userAgent</b> : retourne l’<b>en-tête du fichier user-agent</b> envoyé par le navigateur.
+        <p id="sp1"></p>
+    </li>
+    <li><b>geolocation : retourne un objet Geolocation</b> qui peut être utilisé pour définir la localisation de l’utilisateur.</li>
+</ul>
+
+<h2>L’interface et l’objet Geolocation</h2>
+<p>L’interface Geolocation nous permet de géolocaliser (obtenir la position) d’un appareil (ordinateur, tablette ou smartphone).<br>
+    On va pouvoir utiliser cette interface à travers un objet Geolocation qu’on va obtenir à partir de la propriété geolocation de l’objet Navigator.<br>
+</p>
+<p>L'interface Geolocation n'a aucune propriété. Par contre, elle possède 3 méthodes, qui ne sont disponibles que dans des contextes sécurisées (Https) :</p>
+<ul>
+    <li><b>getCurrentPosition()</b> :  permet d’obtenir la <b>position actuelle de l’appareil en retournant un objet Position</b> ;</li>
+    <li><b>watchPosition()</b> :  permet de définir une <b>fonction de retour qui sera appelée automatiquement dès que la position de l’appareil change</b>>. Cette méthode retourne une valeur (un ID) qui va pouvoir être utilisé par la méthode clearWatch()
+        pour supprimer la fonction de retour définie avec watchPosition() ;</li>
+    <li><b>clearWatch()</b> : est utilisée pour supprimer la fonction de retour passée à watchPosition().</li>
+</ul>
+
+<br>
+<p>La méthode <b>getCurrentPosition() retourne un objet Position</b>. L’interface Position ne dispose d’aucune méthode mais implémente <b>deux propriétés</b> :</p>
+<ul>
+    <li>Une propriété <b>timestamp</b> qui représente le <b>moment où la position de l’appareil a été récupérée</b>.</li>
+    <li>une propriété <b>coords</b> : qui retourne un <b>objet Coordinates</b> avec les cordonnées de position de l’appareil.<br>
+    L’interface Coordinates ne possède pas de méthodes mais implémente les propriétés suivantes :
+        <ul>
+            <li><b>latitude</b> qui représente la latitude de l’appareil ;</li>
+            <li><b>longitude</b> qui représente la longitude de l’appareil ;</li>
+            <li><b>altitude</b> qui représente l’altitude de l’appareil ;</li>
+            <li><b>accuracy</b> qui représente le degré de précision (exprimé en mètres) des valeurs renvoyées par les propriétés latitude et longitude ;</li>
+            <li><b>altitudeAccuracy</b> qui représente le degré de précision de la valeur renvoyée par la propriété altitude ;</li>
+            <li><b>heading</b> qui représente la direction dans laquelle l’appareil se déplace. La valeur renvoyée est une valeur en degrés exprimée par rapport au Nord ;</li>
+            <li><b>speed</b> qui représente la vitesse de déplacement de l’appareil ; vitesse exprimée en mètres par seconde.</li>
+        </ul>
+        <p class="underline">Voici comment utiliser getCurrentPosition() :</p>
+        <p>navigator.geolocation.getCurrentPosition(coordonnees);</p>
+        <p>
+            function coordonnees(pos) {<br>
+            let crd = pos.coords;<br>
+            let latitude = crd.latitude;<br>
+            let longitude = crd.longitude;<br>
+            document.getElementById('p1').innerHTML = 'Latitude : ' + latitude.toFixed(2);<br>
+            document.getElementById('p2').innerHTML = 'Longiture : ' + longitude.toFixed(2);<br>
+            };
+        </p>
+        <p id="p1"></p>
+        <p>Explication : <br>
+            La méthode getCurrentPosition() prend une fonction de rappel en argument qui doit elle-même prendre un objet Position comme seule valeur d’entrée.
+
+            Ici, on appelle notre fonction de rappel coordonnees(). On définit notre fonction en lui passant un argument pos qui va représenter notre objet position.
+
+            Cette fonction va avoir pour rôle de récupérer les coordonnées d’un appareil. Pour cela, on va avoir besoin d’un objet Coordinates qu’on obtient avec pos.coords (la propriété coords de l’objet Position retourne un objet Coordinates).
+
+            On va ainsi pouvoir utiliser les différentes propriétés de Coordinates en utilisant notre objet crd.
+        </p>
+    </li>
+</ul>
+
+
+
+<script src="js/navigator.js"></script>
+</body>
+</html>

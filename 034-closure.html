@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Les closures en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>Les closures en JavaScript</h1>
+<p>On appelle closure (ou « fermeture » en français) <b>une fonction interne qui va pouvoir continuer d’accéder à des variables</b> définies dans la fonction externe
+    à laquelle elle appartient <b>même après que cette fonction externe ait été exécutée</b>
+</p>
+
+<h2>Portée et durée de vie des variables</h2>
+<p>2 contextes ou environnements de portée différents en JavaScript :</p>
+<ul>
+    <li>le contexte <b>global</b> : tout le code d’un script qui n’est pas contenu dans une fonction</li>
+    <li>le contexte <b>local</b> : le code propre à une fonction. </li>
+</ul>
+<p><span class="underline">Attention : </span>si une fonction définit une variable en utilisant le même nom qu’une variable déjà définie dans le contexte global,
+    Si une variable locale porte le même nom qu'une variable globale, la <b>variable locale sera utilisée en priorité par la fonction</b>.
+</p>
+
+<div class="borderLeft">
+    <p>let x = 5 - //variable globale.</p>
+    <p>fonction portee1 = { <br>
+        let y = 10; - // variable locale <br>
+        alert(x+y); // x + 10 = 15 <br>
+        }
+    </p>
+    <p>fonction portee2 = { <br>
+        let x = 100; - // variable locale <br>
+        alert(x) - // x = 100 <br>
+        }
+    </p>
+</div>
+<p>les fonctions internes ont accès aux variables définies dans la fonction externe et peuvent les utiliser durant son exécution.
+    Le contraire n’est cependant pas vrai : <b>la fonction externe n’a aucun moyen d’accéder aux variables définies dans une de ses fonctions internes</b>.
+</p>
+<div class="borderLeft">
+    <p>let prenom = "Pierre";</p>
+    <p>fonction bio() { <br>
+        let age = 29; <br>
+        fonction hobbies() { <br>
+        let hobbie = "Trail"; <br>
+        return prenom + ", " + age + " ans. Je fais du " + hobbie; <br>
+        }
+    </p>
+    <p>//hobbies() a accés à let prenom (variable globale), et aussi à let age (variable de la fonction externe) et ausi à let hobbie. <br>
+        Par contre, bio() a accès a let prenom (et à let age), mais pas à let hobbies;
+    </p>
+</div>
+
+<p>Les variables ont une « durée de vie ». Une variable définie dans le contexte global n’existera que durant la durée d’exécution du script puis sera écrasée.
+    Une variable définie dans un <b>contexte local n’existera que durant la durée d’exécution de la fonction</b> dans laquelle elle est définie… <b>à moins d’étendre sa durée de vie en utilisant une closure</b>.
+</p>
+
+<h2>Les closures en pratique</h2>
+<p>Une closure est une <b>fonction interne</b> qui va « se souvenir » et pouvoir <b>continuer à accéder à des variables définies dans sa fonction parente même après </b> la fin de l’exécution de celle-ci.
+</p>
+<p class="underline">En pratique :</p>
+<div class="borderLeft">
+    <p>
+        function compteur() { <br>
+        let count = 0; <br> <br>
+
+        return function(){ <br>
+        return count++; <br>
+        }; <br>
+        } <br>
+    </p>
+    <p>
+        let plusUn = compteur(); <br>
+        console.log(plusUn<span class="alertBold">()</span>); - //retourne "0" -ATTENTION, ici on fait appelle à la variable plusUn() auquel on ajoute des "()" pour l'appeler comme une fonction <br>
+        console.log(plusUn()); - // retourne cette fois "1". ; elle c'est "souvenue" que count était passée à "0" précédement; <br>
+        console.log(plusUn()); - // retourne cette fois "2". ; elle c'est "souvenue" que count était passée à "1" précédement; <br> <br>
+
+        let plusUnbis = compteur(); - // cette fois on stocke dans une autre variable la fonction compteur(). La variable count vaut désormais 0 (et non plus 1). <br>
+        console.log(plusUnbis());
+    </p>
+</div>
+<p class="underline">Explication :</p>
+<div class="borderLeft">
+    <p>Lorsqu’une <b>fonction interne est disponible en dehors d’une fonction parente</b>, on parle alors de <b>closure</b> ou de « fermeture » en français. <br>
+        Si une <b>fonction interne parvient à exister plus longtemps que la fonction parente</b> dans laquelle elle a été définie, alors <b>les variables de cette fonction parente
+            vont continuer d’exister</b> au travers de la fonction interne qui sert de référence à celles-ci. <br>
+    </p>
+    <div class="ital">
+        <p>
+        C'est pourquoi ici à chaque fois que l'on appelle la variable "plusUn" sous forme de fonction (donc "plusUn <span.alertBold>()</span.alertBold>"), la variable count se souvient de sa valeur précédente et s'incrémente de 1. (soit 0, puis 1, puis 2, etc... ). <br>
+        A noter que si on stocke la fonction "compteur()" dans une nouvelle variable (ici "plusUnbis") et que l'on appelle sous forme de fonction "plusUnbis()", alors cette fois "count" dépend (lors de son 1er appelle avec "plusUnbis()" de la fonction parente (ici plusUnbis) est vaut 0.
+        </p>
+    </div>
+</div>
+
+
+<script src="js/closure.js"></script>
+</body>
+</html>

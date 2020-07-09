@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Les symboles et l’objet Symbol en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>Les symboles et l’objet Symbol en JavaScript</h1>
+<p>Les symboles correspondent à un <b>nouveau type primitif de données</b> introduit récemment en JavaScript</p>
+
+<h2>Présentation des symboles en JavaScript</h2>
+<p>Un symbole est un <b>identifiant unique</b> qui va pouvoir servir d’identifiant <b>pour une propriété d’un objet</b> par exemple. <br>
+    L’idée principale derrière l’introduction des symboles est d’éviter les problèmes de collision entre différentes entités qui pourraient porter les mêmes noms.
+</p>
+<p>En ce sens, vous pouvez considérer les <b>symboles comme des chaines de caractères uniques : on ne peut pas avoir deux symboles de même nom dans un script.</b><br>
+    Les symboles fournissent un moyen plus robuste de représenter des identifiants.
+</p>
+
+<h2>Définir des symboles <span class="alert">Symbol()</span> </h2>
+<p>On va pouvoir créer un nouveau symbole en appelant le constructeur <b>Symbol()</b>.<br>
+    On peut lui passer en <b>argument une description du symbole</b> créée (utile pour déboguer).
+</p>
+<p class="underline">En pratique :</p>
+<p class="borderLeft">
+    const symbole1 = Symbol(); <br>
+    console.log(symbole1); - ∕∕ renvoie "Symbol()"  <br> <br>
+
+    const symbole2 = Symbol('symbole2');  <br>
+    console.log(symbole2); - // renvoie "Symbol(symbole2)" <br> <br>
+
+    const x42 = Symbol(42); <br>
+    console.log(x42); - // renvoie "Symbol(42)<br>
+</p>
+<p>Chaque symbole créé avec Symbol() est <b>unique et immutable</b>. Cela évite les problèmes de collision puisqu’on ne peut pas avoir deux symboles identiques</p>
+
+<h2>Créer un symbole global <span class="alert">Symbol.for(argument)</span> </h2>
+<p>Symbol() ne permet de <b>créer que des symboles disponibles localement</b> et qui ne vont pas être disponibles dans d’autres fichiers.</p>
+<p>Pour créer un <b>symbole global</b> (appartenant à l’environnement global) et <b>disponible dans différents fichiers</b>, nous utiliserons la méthode <b>for()</b> de Symbol.<br>
+    Elle prend la <b>clef du symbole en argument</b> et cherche le symbole associé à cette clef dans l’environnement global.
+    Si le <b>symbole</b> est <b>trouvé, il est renvoyé</b>. Dans le <b>cas contraire</b>, un symbole associé à la clef passée est <b>créé puis renvoyé.</b>
+</p>
+
+<h2>Récupérer la clef d'un symbol global <span class="alert">Symbol.keyFor()</span> </h2>
+<p><span class="alert">Symbol.keyFor(argument)</span>  : prend le <b>symbole dont on souhaite connaitre la clef en argument</b> et <b>renvoie une chaîne de caractères</b> qui représente la clé d’un symbole donné
+    si celui-ci est trouvé dans le registre global <b>ou undefined</b> dans le cas contraire.
+</p>
+<p class="underline">En pratique :</p>
+<p class="borderLeft">
+    const symboleGlobal = Symbol.for('symbole3'); <br>
+    const clefSymboleGlobal = Symbol.keyFor(symboleGlobal); <br>
+    console.log('clefSymboleGlobale = ' + clefSymboleGlobal); -// renvoie "Symbol(symbole3)" <br>
+</p>
+
+<h2>Les well-known symbols</h2>
+<p>Il existe des <b>symboles prédéfinis en JavaScript</b>, appelés les <b>« well-known symbols », </b> et dont le JavaScript se sert en interne et qu’on va pouvoir utiliser <b>pour personnaliser le comportement de nos objets.</b><br>
+    Les plus utiles sont les suivants :
+<p/>
+<ul>
+    <li>Symbol.hasInstance ;</li>
+    <li>Symbol.iterator ;</li>
+    <li>Symbol.toPrimitive ;</li>
+    <li>Symbol.isConcatSpreadable.</li>
+</ul>
+<p>Comme ces propriétés sont des symboles, on est certain qu’elles ne pourront être écrasées et elles sont protégées de toute modification.</p>
+
+<h2>Cas concrets d’utilisation des symboles</h2>
+<p>L’utilisation la plus courante qu’on va faire des symboles va être de les utiliser comme clés d’un objet ou d’une classe.</p>
+<p class="underline">En pratique :</p>
+<p class="borderLeft">
+    const prenom = Symbol('clef1'); <br>
+    let user = { <br>
+    [prenom] : 'Jean', - // ici on appelle la clef stocké dans la const "prenom". Notez l'utilisation ces [] pour appeler cette clef.<br>
+    }; <br> <br>
+
+    user.prenom = 'toto'; - // on créé une nouvelle propriété "prenom" dans cet objet<br>
+    console.log('user.prenom = ' + user.prenom); - //  on appelle la propriété "prenom" (sans les []) - retourne "toto"<br>
+    console.log('user[prenom] = ' + user[prenom]); - // on appelle la propriété symbol [prenom] (avec les [] - retourne "Jean" <br><br>
+
+    On constate donc que le symbol [prenom] n'a pas été écrasé par la création de la propriété "prenom" appelée et créé en dehors de l'objet.
+</p>
+<p>L’unicité des symboles permet de nous assurer qu’il n’y aura <b>pas de problème de collision entre les clés d’un objet</b> et
+    on peut ainsi par exemple laisser des utilisateurs <b>étendre des objets sans</b> prendre le risque d’<b>avoir des propriétés écrasées par erreur</b>.
+</p>
+
+<h1>Les protocoles et objets Iterable et Iterateur en JavaScript</h1>
+<p>En JavaScript, un objet est dit <b>« itérable »</b> si celui-ci a été créé de façon à ce qu’on puisse <b>parcourir ses valeurs une à une</b>.
+    Un objet est dit <b>« itérateur » s’il permet de parcourir les valeurs d’un itérable.</b>
+</p>
+
+<h2>L’utilité des protocoles iterable et iterateur</h2>
+<p><b>Certains types d’objets</b>, comme String et Array <b>ou encore les API</b> Map et Set sont des <b>itérables natifs</b> : on va pouvoir <b>parcourir leurs valeurs une à une en utilisant des boucles</b> par exemple.</p>
+<p><b>Les objets Object</b> qu'on va <b>créer manuellement ne sont pas itérables nativement.</b> Pour pouvoir parcourir leur valeur une par une, javascript met à disposition <b>2 protocoles</b> :</p>
+<ul>
+    <li>le protocole itérateur ;</li>
+    <li>le protocole itérable.</li>
+</ul>
+
+<h3>Le protocole itérateur :</h3>
+<p>Un objet est dit "itérateur' si il dispose d'<b>outils permettant de parcourir les éléments d'une collection un à un.</b></p>
+<p>Cet objet est <b>itérateur si</b> il implémente la <b>méthode next()</b>, méthode qui <b>renvoie un objet</b> qui possède les <b>propriétés done et value.</b> </p>
+<p><b>done</b> renvoie <b>un bolean</b> qui vaut <b>false tant l'itérateur a pu produire la prochaine valeur de la suite</b> (tant qu'il reste des valeurs à itérer), et <b>true lorsqu'il arrive au bout de la suite</b>; <br>
+    <b>value</b> peut être <b>>n’importe quelle valeur JavaScript, renvoyée par l’itérateur</b>. Cette propriété peut être absente lorsque done vaut true.
+</p>
+
+<h3>Le protocole itérable</h3>
+<p>Un objet « est » <b>itérable s’il peut être parcouru valeur par valeur</b>, c’est-à-dire s’il définit un comportement lors d’une itération (en définissant la façon dont ses valeurs doivent être parcourues par exemple).</p>
+<p>Cet objet <b>doit implémenter une méthode @@iterator</b> pour être itérable. Cela signifie que l’objet (ou un des objets de sa chaîne de prototypes) doit avoir une propriété avec une clé @@iterator
+    à laquelle on peut accéder via <b>Symbol.iterator</b>.
+</p>
+<p>Lorsqu’on itère sur un objet itérable (en utilisant une boucle for...of par exemple), sa méthode @@iterator est appelée sans argument et l’itérateur
+    qui est renvoyé est utilisé afin d’obtenir les valeurs sur lesquelles itérer.
+</p>
+
+<p class="underline">Mettons en pratique : avec d'abord un objet non itérable</p>
+<p class="borderLeft">
+    let utilisateur = { <br>
+    prenom: 'Pierre', <br>
+    nom: 'Richard', <br>
+    age: 29 <br>
+    } <br> <br>
+
+    for(let p <span class="alert">in</span> utilisateur){console.log('in utilisateur : ' + p);} - // renvoie les clefs (ici "prenom", "nom", "age") <br>
+    for(let p <span class="alert">of</span> utilisateur){console.log('of utilisateur : ' + p);} - // renvoie une erreur <b>"TypeError : utlisateur is not iterable"</b>
+</p>
+
+<p class="alert">Sur un objet non itérable, on peut parcourir les clefs (avec une boucle for... in) mais pas leur valeur.<br>
+Pour parcourir leur valeur, il faut rendre cet objet itérable.
+</p>
+
+<p class="underline">cette fois avec un objet itérable</p>
+<p>
+    let utilisateur = { <br>
+    prenom: 'Pierre', <br>
+    nom: 'Richard', <br>
+    age: 29, <br> <br>
+
+    // Méthode itérateur avec Symbol.iterateur comme clef (ce qui permet de parcourir dans une boucle les valeurs de l'objet <br>
+     <span class="alert"> [Symbol.iterator]() { </span> <br>
+    // renvoie un tableau contenant les valeurs des propriétés de l'objet <br>
+    <span class="alert"> let tableau = Object.values(this); <br>
+    let prop = 0; <br> <br>
+
+    return{ <br>
+    next(){if(prop < tableau.length){ <br>
+    return{ value: tableau[prop++], <br>
+    done: false}; <br>
+    }else{ <br>
+    return{value: undefined, <br>
+        done: true};</span> <br>
+    } <br>
+    } <br>
+    }; <br>
+    } <br>
+    }; <br>
+</p>
+<p>Notez que dans le <b>cas d’opérations asynchrones</b>, l’objet devra implémenter une méthode </@@asyncIterator (accessible via Symbol.asyncIterator)</body> pour être itérable.</p>
+
+
+<script src="js/symbol.js"></script>
+</body>
+</html>

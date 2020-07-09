@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Introduction aux expressions régulières ou expressions rationnelles en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>Introduction aux expressions régulières ou expressions rationnelles en JavaScript</h1>
+<p>Les expressions régulières, ou <b>Regex</b>, ne sont pas un élément du langage JavaScript en soi mais constituent en fait <b>un autre langage</b> en soi.<br>
+JavaScript supporte l’utilisation des expressions régulières et nous fournit des outils pour utiliser toute leur puissance.
+</p>
+
+<h2>Présentation des expressions régulières</h2>
+<p>Les regex sont des schémas ou des motifs utilisés pour <b>effectuer des recherches et des remplacements dans des chaines de caractères</b>.
+    Concrètement, les expressions régulières vont nous permettre de vérifier la présence de certains caractères ou suites de caractères dans une expression.
+</p>
+<p>En JavaScript, les expressions régulières sont avant tout des objets appartenant à l’<b>objet global constructeur RegExp.</b><br>
+    Nous n’allons pas être obligés d’instancier ce constructeur pour créer des expressions régulières ni pour utiliser des méthodes avec celles-ci.<br>
+    Nous allons également pouvoir passer nos expressions régulières en argument de certaines méthodes de l’<b>objet String</b>
+</p>
+
+<h2>Création d’une première expressions régulière et syntaxe des Regex</h2>
+<p>Il y a 2 façons de créer nos expressions régulières en JavaScript :</p>
+<ul>
+    <li><b>la méthode littérale</b> : déclarer nos expressions régulières de manière littérale, en utilisant <b>des <span class="alert underline"> slashs </span> comme caractères d’encadrement</b>,</li>
+    <li><b>la méthode du constructeur RegExp()</b> : appeler le constructeur RegExp().</li>
+    <p>Mettons en pratique :</p>
+    <p class="borderLeft ital">
+    <p>// On définit ici 2 masques de recherche de la chaine de caractère "Pierre" </p>
+        let masque1 = /Pierre/; // méthode littérale <br>
+        let masque2 = new RegExp('Pierre'); // méthode constructeur RegExp
+    </p>
+</ul>
+<p>Dans cet exemple, nos deux expressions régulières disposent du même <b>motif</b> qui est le motif simple /Pierre/.
+    Ce motif va nous permettre de tester la présence de « Pierre » c’est-à-dire d’un « P » suivi d’un « i » suivi d’un « e » suivi d’un « r » suivi d’un autre « r » suivi d’un « e » dans une chaine de caractères.
+</p>
+<hr>
+
+<h1>Utiliser les expressions régulières pour effectuer des recherches et remplacements en JavaScript</h1>
+
+<h2>La méthode match() de l’objet String</h2>
+<ul>
+    <li> <b>match()</b> de l’objet String permet de <b>rechercher la présence de caractères ou de séquences</b> de caractères dans une chaine de caractères.<br>
+        match() <b>renvoie un tableau</b> avec les correspondances entre notre masque et la chaine de caractères. Si rien n'est trouvé, il renvoie null.
+        <p><span class="underline">Noter </span> : que match() ne <b>renvoie</b> par défaut <b>que la première correspondance trouvée</b>.
+            Pour toutes les correspondances, il faudra utiliser l’option ou <b>« drapeau » g</b> qui permet d’effectuer des recherches globales.
+        </p>
+        <p>Mettons en pratique :</p>
+        <div class="borderLeft italic">
+            <p id="p1"></p>
+            <p>let masque1 = /Pierre/; <br>
+                let masque2 = /[A-Z]/;  //ici on utilise un intervalle ou une classe de caractères que l'on place dans des délimiteurs<br>
+                let masque3 = /[A-Z]<span class="alert">/g;</span>  // ici on se sert du drapeau g pour effectuer une recherche globale<br>
+            </p>
+            <p id="p2"></p>
+            <p><span class="underline">Notez </span> que <b>les drapeaux</b> sont les seules entités dans les expressions régulières qui vont se placer <b>à l’extérieur des délimiteurs.</b></p>
+        </div>
+    </li>
+</ul>
+
+<h2>La méthode search() de l’objet String</h2>
+<ul>
+    <li><b>search()</b> permet d’effectuer une recherche dans une chaine de caractères <b>à partir d’une expression régulière fournie en argument</b>.<br>
+        <b>Retourne <span class="underline"> la position </span></b> à laquelle a été trouvée <b>la première occurrence</b> de l’expression recherchée dans une chaîne de caractères <b>ou -1</b> si rien n’est trouvé.
+        <p>Mettons en pratique :</p>
+        <p class="borderLeft ital" id="p4"></p>
+    </li>
+</ul>
+
+<h2>La méthode replace() de l’objet String</h2>
+<ul>
+    <li><b>replace()</b> permet de <b>rechercher</b> un caractère ou une séquence de caractères dans une chaine et de les <b>remplacer</b> par d’autres caractère ou séquence.<br>
+        On va lui <b>passer une expression régulière et une expression de remplacement en arguments</b>.<br>
+        Cette méthode <b>renvoie une nouvelle chaine de caractères</b> avec les remplacements effectués mais n’affecte pas la chaine de caractères de départ qui reste inchangée.
+    </li>
+    <p>Mettons en pratique :</p>
+    <p class="borderLeft italic" id="p5"></p>
+</ul>
+
+<h2>La méthode split() de l’objet String</h2>
+<ul>
+    <li><b>split()</b> permet de <b>diviser ou de casser une chaine</b> de caractères en fonction d’un <b>séparateur fournit en argument</b>.<br>
+        <b>Retourne un tableau</b> de sous chaines créé à partir de la chaine de départ. La chaine de départ n’est pas modifiée.
+    </li>
+    <p>Mettons en pratique :</p>
+    <div class="borderLeft ital">
+        <p>let chaine3 = "Hello, je m'appelle Bond";</p>
+        <p>let masque6 = /[,']/; - // attention, ici on recherche les séparateurs "," et " ' "</p>
+        <p id="p6"></p>
+    </div>
+</ul>
+
+<h2>Les méthodes exec() et test() de l’objet RegExp</h2>
+<ul>
+    <li><b>exec()</b> de RegExp va <b>rechercher des correspondances entre une expression régulière et une chaine de caractères</b>.<br>
+        Retourne <b><span class="underline"> un tableau </span> avec les résultats</b> si au moins une correspondance a été trouvée <b>ou null</b> dans le cas contraire.<br>
+        Le tableau renvoyé contient le <b>texte correspondant en premier élément. Les éléments suivants sont composés du texte correspondant
+            aux <span class="underline"> parenthèses capturantes </span> </b> éventuellement utilisées dans notre expression régulière.
+        <p>Mettons en pratique :</p>
+        <p class="borderLeft italic">let chaine4 = 'bonjour je suis Alain.';<br>
+                let masque7 = /Alain/;<br><br>
+
+                let resultat = masque7.exec(chaine4); - // signifie recherche masque 7 dans chaine 4<br><br>
+
+            //  retourne <b>un tableau dont le 1er élément correspond au texte</b>, les autres éléments correspondent aux parenthèses capturantes<br>
+            console.log(resultat) = [<b> "Alain",</b> index: 16, input: "bonjour je suis Alain.", groups: undefined]
+        </p>
+    </li>
+    <li><b>test()</b> de RegExp va également <b>rechercher des correspondances entre une expression régulière et une chaine de caractères</b>.
+    mais va cette fois-ci <b>renvoyer le <span class="underline"> booléen </span> true</b> si au moins une correspondance a été trouvée ou false dans le cas contraire.
+        <p>Mettons en pratique :</p>
+        <p class="borderLeft italic">
+            let resultat2 = masque7.test(chaine4); - // retourne true;
+        </p>
+    </li>
+</ul>
+
+<script src="js/regex.js"></script>
+</body>
+</html>

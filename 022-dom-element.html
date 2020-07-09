@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Accéder aux éléments dans un document avec JavaScript et modifier leur contenu</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+
+<h1>Accéder aux éléments dans un document avec JavaScript et modifier leur contenu</h1>
+<p>L’interface DOM va nous permettre de manipuler le contenu HTML et les styles d’un document.</p>
+<p>Voici différentes propriétés et méthodes nous permettant d'accéder au contenu html :</p>
+
+<h2>Accéder à un élément à partir de son sélecteur CSS associé</h2>
+<p>La façon la plus simple d’accéder à un élément dans un document va être de la faire en le ciblant avec le sélecteur CSS qui lui est associé.</p>
+<p>Deux méthodes nous permettent de faire cela : les méthodes <b>querySelector() et querySelectorAll()</b> qui sont des méthodes du mixin ParentNode
+    et qu’on va pouvoir implémenter à partir des interfaces Document et Element.
+    <ul>
+    <li><b>querySelector()</b> : retourne un <b>objet Element représentant le premier élément dans le document correspondant au sélecteur</b> (ou au groupe de sélecteurs) CSS passé en argument
+        ou la valeur null si aucun élément correspondant n’est trouvé.</li>
+    <li><b>querySelectorAll()</b> : renvoie un <b>objet appartenant à l’interface NodeList</b>. Les objets NodeList sont des collections (des listes) de nœuds.</li>
+</ul>
+<p>L’objet NodeList renvoyé est une liste statique (c’est-à-dire une liste dont le contenu ne sera pas affecté par les changements dans le DOM) des éléments du document qui correspondent au sélecteur (ou au groupe de sélecteurs) CSS spécifiés.</p>
+<p>Pour itérer dans cette liste d’objets NodeList et accéder à un élément en particulier, on va pouvoir utiliser la méthode <b>forEach()</b>.
+    Cette méthode prend une <b>fonction de rappel en argument</b> et cette fonction de rappel peut prendre <b>jusqu’à 3 arguments optionnels</b> qui représentent :
+    <ul>
+        <li>L’<b>élément</b> en cours de traitement dans la NodeList ;</li>
+        <li>L’<b>index de l’élément</b> en cours de traitement dans la NodeList ;</li>
+        <li>L’<b>objet NodeList</b> auquel forEach() est appliqué.</li>
+    </ul>
+</p>
+<p><span class="underline">Notez que :</span>
+    Lorsqu’on utilise <b>querySelector() ou querySelectorAll()</b> avec un objet Document, la recherche se fait <b>dans tout le document</b>.
+    Lorsqu’on utilise l’une de ces méthodes à partir d’un objet <b>Element, la recherche se fait parmi les descendants de l’élément</b> sur lequel on appelle la méthode en question.
+</p>
+
+<p class="underline">Exemple de sélection css</p>
+
+<div class="exo1">div Exo1
+    <h3 class="bleu">H3 - Test sélecteur CSS</h3>
+    <p id="p1">p - Un paragraphe</p>
+    <div>
+        <p>p - Un paragraphe dans le div</p>
+        <p class="bleu">p - Un autre paragraphe dans le div</p>
+    </div>
+    <p>p - Un autra paragraphe</p>
+</div>
+<br>
+
+<p>//On cible dans le document la div de class="exo1"<br>
+    let divExo1 = document.querySelector('div.exo1');
+</p>
+<p>//on cible ensuite dans cette div, le titre h3 et on en change son contenu text<br>
+    divExo1.querySelector('h3').textContent ='Test avec le sélecteur CSS';
+</p>
+<p>//sélectionne tous les paragraphes de divExo1<br>
+    let allParasExo1 = divExo1.querySelectorAll('p');
+</p>
+<p>//utilisation de forEach() sur l'objet NodeList de allParasExo1<br>
+    allParasExo1.forEach(function (nom, index) {<br>
+    nom.textContent += ' - (paragraphe n° : ' + index + ')';<br>
+    })
+</p>
+
+<h2>Accéder à un élément en fonction de la valeur de son attribut id</h2>
+<p><b>getElementById('numéro id')</b> : Cette méthode renvoie un objet Element qui représente l’élément dont la valeur de l’attribut id correspond à la valeur spécifiée en argument.</p>
+<p>//sélectionne l'élément avec un id = p1<br>
+    document.getElementById('p1').style.color = 'red';</p>
+
+<h2>Accéder à un élément en fonction de la valeur de son attribut class</h2>
+<p>Les interfaces Element et Document vont toutes deux définir une méthode getElementsByClassName() qui va renvoyer
+    une liste des éléments possédant un attribut class avec la valeur spécifiée en argument.
+    <b>La liste renvoyée est un objet</b> de l’interface HTMLCollection qu’on va pouvoir <b>traiter quasiment comme un tableau</b>.
+    <ul>
+        <li><b>getElementsByClassName()</b> avec un <b>objet Document</b> , la recherche des éléments se fera dans <b>tout le document.</b></li>
+        <li><b>getElementsByClassName()</b> avec un <b>objet Element</b>, la recherche se fera <b>dans l’élément en question.</b></li>
+    </ul>
+</p>
+<p>//sélectionne l'élément avec un className Attention, retourne un tableau qu'il faut ensuite traiter<br>
+    let classNameBleu = document.getElementsByClassName('bleu');<br><br>
+    for(valeur of classNameBleu) {<br>
+    valeur.style.color = 'blue';<br>
+    }
+</p>
+
+<h2>Accéder à un élément en fonction de la valeur de son attribut tagName</h2>
+<p>La méthode <b>getElementsByTagName()</b> permet de sélectionner des éléments <b>en fonction de leur nom et renvoie un objet HTMLCollection</b> qui consiste en une liste d’éléments correspondant au nom de balise passé en argument.
+    A noter que <b>cette liste est mise à jour en direct</b> (ce qui signifie qu’elle sera modifiée dès que l’arborescence DOM le sera).
+    <ul>
+        <li><b>getElementsByTagName(</b>) avec un <b>objet Document</b>, la recherche se fait <b>dans tout le document.</b></li>
+        <li><b>getElementsByTagName()</b> avec un <b>objet Element</b>, la recherche se fera <b>dans l’élément en question seulement.</b></li>
+    </ul>
+</p>
+<p>//sélectionne tous les élémnents p de la div Exo1<br>
+    let parasExo1 = divExo1.getElementsByTagName('p');<br><br>
+    for(valeur of parasExo1) {<br>
+    valeur.style.color = 'orange';<br>
+    }
+</p>
+
+<h2>Accéder à un élément en fonction de son attribut name</h2>
+<p> l’interface Document met également à notre disposition la méthode <b>getElementsByName()</b> qui renvoie un <b>objet NodeList contenant la liste des éléments
+    portant un attribut name</b> avec la valeur spécifiée en argument sous forme d’objet.</p>
+<p>On va pouvoir utiliser cette méthode pour sélectionner des éléments de formulaire par exemple.</p>
+
+<h2>Accéder directement à des éléments particuliers avec les propriétés de Document</h2>
+<p> l’interface Document fournit également des propriétés qui vont nous permettre d’accéder directement à certains éléments ou qui vont retourner des objets contenant des listes d’éléments.</p>
+<p>Les propriétés les plus intéressantes :
+    <ul>
+        <li><b>body</b> : retourne le <b>nœud représentant l’élément body</b></li>
+        <li><b>head</b> : retourne le <b>nœud représentant l’élément head</b></li>
+        <li><b>links</b> : retourne <b>une liste de tous les éléments a ou area possédant un href avec une valeur</b></li>
+        <li><b>url</b> : renvoie l’<b>URL du document</b> sous forme de chaine de caractères ;</li>
+        <li><b>scripts</b> : retourne une liste de tous les <b>éléments script du document</b></li>
+        <li><b>cookie</b> : retourne la <b>liste de tous les cookies associés au document</b> sous forme de chaine de caractères ou qui <b>permet de définir un nouveau cookie</b>.</li>
+    </ul>
+</p>
+<p class=underline>quelques exemples de code :</p>
+<p>//sélectionne l'élémnet body et applique une couleur jaune<br>
+    document.body.style.color = 'yellow';
+</p>
+<p>//modifie le texte de l'élément title<br>
+    document.title = "Document Objet Model en détail"
+</p>
+
+<h2>Accéder au contenu des éléments et le modifier</h2>
+<p>Pour récupérer le contenu d’un élément ou le modifier, nous allons pouvoir utiliser l’une des propriétés suivantes :
+    <ul>
+        <li><b>innerHTML</b> de l’<b>interface Element</b> permet de <b>récupérer ou de redéfinir la syntaxe HTML interne</b> à un élément.</li>
+        <li><b>outerHTML</b> de l’interface Element permet de récupérer ou de redéfinir l’<b>ensemble de la syntaxe HTML interne d’un élément et de l’élément en soi</b> ;</li>
+        <li><b>textContent</b> de l’<b>interface Node</b> représente le <b>contenu textuel d’un nœud et de ses descendants</b>. On utilisera cette propriété <b>à partir d’un objet Element</b> ;</li>
+        <li> <b>innerText</b> de l’<b>interface Node</b> représente le <b>contenu textuel <span class="underline">visible</span> sur le document final d’un nœud et de ses descendants</b>. On utilisera cette propriété à partir d’un objet Element</li>
+    </ul>
+</p>
+
+<p class="underline">Exemple de code : </p>
+<div class="exo2">div Exo2
+    <h3 class="bleu">H3 - Titre principal</h3>
+    <p id="p1">p - Un paragraphe</p>
+    <div>
+        <p>p - Un paragraphe dans le div</p>
+        <p id="texte">p - Un autre paragraphe dans le div</p>
+    </div>
+    <p id="p2">p - Un autra paragraphe
+        <span style="visibility: hidden">avec du contenu caché;</span>
+    </p>
+</div>
+
+<p>//Accède au texte visible de l'élément avec l'id p2<br>
+    let texteVisible = document.getElementById('p2').innerText;
+</p>
+<p>∕∕Accède au texte (visible ou non) de l'élément avec l'id p2<br>
+    let texteEntier = document.getElementById('p2').textContent;
+</p>
+
+<script src="js/dom-element.js"></script>
+</body>
+</html>

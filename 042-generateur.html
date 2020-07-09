@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Les générateurs en Javascript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>Les générateurs en Javascript</h1>
+<p>Les générateurs sont une alternative à l’utilisation d’itérateurs</p>
+
+<h2>Les fonctions génératrices et l’objet Generator</h2>
+<p>On peut <b>créer un générateur à partir</b> d’un type spécial de fonction qu’on appelle « <b>fonction génératrice</b> ».
+    Un générateur <b>permet de retourner plusieurs valeurs</b> à la différence des fonctions classiques qui ne peuvent retourner qu’une valeur.
+</p>
+<p>Pour <b>définir une fonction génératrice</b>, nous allons devoir utiliser la syntaxe <span class="alert">function* </span> ainsi que le mot clef <span class="alert">yield</span>.</p>
+<p class="underline">En pratique :</p>
+<p class="borderLeft">
+   <span class="alert"> function*</span> generateSequence() { <br>
+    <span class="alert"> yield 1; </span><br>
+    yield 2; <br>
+    yield 3; <br>
+    }; <br>
+</p>
+
+<p>Lorsqu’on <b>appelle notre fonction génératrice, un générateur</b> (un objet Generator) <b>est retourné</b>. <br>
+    On va <b>utiliser ce générateur pour obtenir des valeurs</b>. Notez que l’objet Generator retourné sera à la fois un itérateur et un itérable.
+</p>
+<p class="borderLeft">
+    let generateur = generateSequence(); - //appel de la fonction génératrice que l'on stocke dans une variable (qui fait ici office d'objet générateur)
+</p>
+<p>L’objet Generator possède trois méthodes :</p>
+<ul>
+    <li><b>next()</b> permet de renvoyer une valeur générée avec yield ;</li>
+    <li><b>return()</b> renvoie une valeur et met fin à l’exécution du générateur ;</li>
+    <li><b>throw()</b> permet de lever une exception au sein d’un générateur</li>
+</ul>
+
+<h2>Le mot clef yield et l’utilisation des générateurs</h2>
+<p>Le mot clef <b>yield est semblable à return</b> mais <b>pour les générateurs</b>. Lorsqu’on utilise ce mot clef, <b>le générateur est suspendu</b> et yield <b>retourne</b> un objet IteratorResult qui possède <b>deux propriétés</b> value et done.</p>
+<p>La valeur de <b>value</b> correspond à la valeur suivant le mot clef yield. La valeur de <b>done est false</b> par défaut ce qui indique que le générateur n’a pas terminé son exécution.</p>
+<p><b>next()</b> permet de <b>relancer le générateur</b>.<br>
+    Le générateur va ainsi reprendre son exécution <b>jusqu’à atteindre le prochain yield</b> ou une instruction throw ou return ou encore la fin du générateur.
+</p>
+<p>On peut donc suspendre ou quitter un générateur grâce à yield, puis continuer son exécution plus tard grâce à next();</p>
+
+<p class="underline">En pratique :</p>
+<p class="borderLeft">
+    function* generateSequence() { <br>
+    yield 1; <br>
+    yield "toto"; <br>
+    yield ['Jean', 'Pierre']; <br>
+    }; <br> <br>
+
+    let generateur = generateSequence(); <br>
+    let un =<span class="alert"> generateur.next();</span> <br>
+    let string = generateur.next() <br>
+    let array = generateur.next() <br>
+    console.log(un); - // renvoie l'objet de valeur "1", et done false<br>
+    console.log(string); - // renvoie l'objet de valeur "toto" et done à false<br>
+    console.log(array); - // renvoie l'objet de valeur contenant un array [['Jean', 'Pierre']<br>
+</p>
+
+<h2>La composition de générateurs</h2>
+<p><b>yield*</b> est utilisée pour <b>déléguer l’exécution à un autre générateur</b> (ou à un autre objet itérable).<br>
+    yield* va nous permettre d’exécuter le code d’un générateur à partir d’un autre générateur et donc de renvoyer les valeurs liées aux yield de ce premier générateur.
+</p>
+<p class="underline">En pratique :</p>
+<p class="borderLeft">
+    // On créé 2 fonction génératrice : <br>
+
+    function* generateSequence1(){ <br>
+    yield 10; <br>
+    yield 20; <br>
+    }; <br> <br>
+
+    function* generateSequence2() { <br>
+    yield 30; <br>
+    <span class="alert"> yield<b>*</b></span> generateSequence1(); - // délègue l'exécution de la fonction génératrice generateSequence1<br>
+    yield 40; <br>
+    }; <br> <br>
+
+    //on crée un générateur (stocké dans l'objet "generateur2") <br>
+    let generateur2 = generateSequence2(); <br><br>
+    let trente = generateur2.next(); - //{value: 30, done: false} <br>
+    let yielSeqdGen1 = generateur2.next(); - //{value: 10, done: false} - récupère la 1ère valeur du générateur 'generateSequence1" <br>
+    let yieldSeqGen2 = generateur2.next(); - //{value: 20, done: false} - récupère la 2ème valeur du générateur 'generateSequence1" <br>
+    let yieldSeqGen3 = generateur2.next(); - //{value: 40, done: false}  - récupère la 3e valeur du générateur 'generateSequence2", car "generateSequence1 n'a plus de valeur<br>
+
+</p>
+
+
+<script src="js/generateur.js"></script>
+</body>
+</html>

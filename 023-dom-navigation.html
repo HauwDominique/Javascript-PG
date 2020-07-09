@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Naviguer ou se déplacer dans le DOM en JavaScript grâce aux noeuds</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>Naviguer ou se déplacer dans le DOM en JavaScript grâce aux noeuds</h1>
+<p>Comment naviguer dans le DOM, c’est-à-dire comment se déplacer de nœud en nœud afin de pouvoir atteindre un élément impossible à cibler directement ?</p>
+
+<h2>Accéder au parent ou à la liste des enfants d’un nœud</h2>
+<p>Gràce aux propriétés suivantes : </p>
+<ul id="ul1">
+    <li><b>parentNode</b> de l’interface Node <b>renvoie le parent du nœud spécifié</b> dans l’arborescence du DOM ou null si le nœud ne possède pas de parent.<br>
+        Notez que le parent d’un élément n’est pas forcément un nœud Element mais peut également être un nœud Document. La propriété parentNode renverra le parent d’un nœud <b>quel que soit son type.</b>
+    </li>
+    <li><b>parentElement</b> : pour n’accéder au parent <b>que dans le cas où celui-ci est un nœud Element</b>, on utilisera plutôt la propriété <b>parentElement</b> de Node qui ne renvoie le parent d’un nœud que s’il s’agit d’un nœud Element ou null sinon.
+    </li>
+    <li><b>childNodes</b> : de l’interface Node, <b>renvoie une liste sous forme de tableau des nœuds enfants de l’élément donné.</b> Le premier nœud enfant reçoit l’indice 0 comme pour tout tableau.<br>
+        A noter que la propriété childNodes renvoie tous les nœuds enfants et cela <b>quels que soient leurs types</b> : nœuds élément, nœuds texte, nœuds commentaire, etc.
+    </li>
+    <li><b>children</b> : si on ne souhaite récupérer <b>que les nœuds enfants <span class="underline">éléments</span></b>, alors on utilisera plutôt la propriété <b>children</b> du mixin ParentNode (qui est implémenté par Document et par Element).
+    </li>
+    <li> <b>firstChild</b> de l’interface Node renvoie le <b>premier nœud enfant direct</b> d’un certain nœud ou null s’il n’en a pas, et quels que soit sont type (nœuds élément, nœuds texte ou nœuds commentaire)</li>
+    <li><b>firstElementChild</b> : renvoie le 1er noeud enfant de type élément seulement.</li>
+    <li><b>lastChild</b> renvoie le <b>dernier nœud enfant direct</b> d’un certain nœud ou null s’il n’en a pas, , et quels que soit sont type (nœuds élément, nœuds texte ou nœuds commentaire).</li>
+    <li><b>lastElementChild </b> : renvoie le dernier noeud enfant de type élément seulement.</li>
+    <li><b>previousSibling</b> de l’interface Node renvoie le <b>nœud précédent un certain nœud</b> dans l’arborescence du DOM (en <b>ne tenant compte que des nœuds de même niveau</b>)
+        ou null si le nœud en question est le premier, et cela quel que soit le type du nœud précédent ou suivant.
+    </li>
+    <li><b>previousElementSibling</b> : accéder spécifiquement au <b>nœud <span class="underline"> élément</span> précédent </b>.</li>
+    <li><b>nextSibling</b> renvoie elle le <b>nœud suivant un certain nœud</b> dans l’arborescence du DOM (en <b>ne tenant compte que des nœuds de même niveau</b>)
+        ou null si le nœud en question est le dernier, et cela quel que soit le type du nœud précédent ou suivant.
+    </li>
+    <li><b>nextElementSibling</b> : accéder spécifiquement au <b>nœud <span class="underline"> élément</span> suivant </b>.</li>
+    <li><b>nodeName</b> retourne une chaine de caractères contenant le <b>nom du nœud</b> (nom de la balise dans le cas d’un nœud de type Element ou #text dans le cas d’un nœud de type Text) ;</li>
+    <li><b>nodeValue</b> renvoie ou permet de définir la <b>valeur du nœud</b>. On pourra notamment utiliser cette propriété sur des nœuds #text pour obtenir le texte qu’ils contiennent ;</li>
+    <li><b>nodeType</b> renvoie un <b>entier qui représente le type du nœud</b> (tel que vu dans la première leçon de cette partie).</li>
+</ul>
+
+<!--EXMPLE DE CODE -->
+
+<p class="underline">Exemple de code :</p>
+<h3 id="h3">Titre de cet exemple</h3>
+<p id="p1">Un paragraphe d'id = p1 <span>avec un span</span></p>
+<div id="div1">
+    <p id="p2">Un paragraphe avec un id=p2, dans une div</p>
+    <p>Un autre paragraphe dans cette div</p>
+</div>
+<p>Un paragraphe hors de cette div</p>
+
+
+<!--EXPLICATION DE EXEMPLE DE CODE-->
+
+<p class="underline">Explication :</p>
+<p>let p1 = document.getElementById('p1');<br>
+    let enfantsP1 = p1.childNodes; //on accède à tous les noeuds enfant de p1. ChildNodes renvoie une <b>NodeList</b><br>
+    enfantsP1[1].style.color = 'blue';     //on utilise ensuite une boucle forEach() pour les manipuler, ou un indice pour manipuler un seul noeud enfant
+</p>
+<p>let enfantEltP1 = p1.children; /*on accède au noeud enfant élément seulement de p1;
+    children renvoie une <b>HTMLCollection</b> */<br>
+    //on accède ensuite aux différents enfants comme pour un tableau<br>
+    enfantEltP1[0].style.textDecoration = 'underline';
+</p>
+<p>//Premier noeud enfant de body<br>
+    document.body.firstChild;  // renvoie [object Text]
+</p>
+<p>//Dernier noeud enfant élément de body<br>
+    document.body.lastElementChild;  // renvoie [object HTMLScriptElement]
+</p>
+
+<p id="sp1"></p>
+<p id="sp2"></p>
+
+
+
+<script src="js/dom-navigation.js"></script>
+</body>
+</html>

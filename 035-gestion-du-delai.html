@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gestion du délai d’exécution en JavaScript avec setTimeout() et setInterval()</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<h1>Gestion du délai d’exécution en JavaScript avec setTimeout() et setInterval()</h1>
+<p>Parfois, on ne voudra <b>pas exécuter une fonction immédiatement</b> mais plutôt dans un certain temps
+    ou on pourra encore vouloir <b>exécuter une fonction plusieurs fois</b> avec un intervalle de temps défini entre chaque exécution.</p>
+<p>Le JavaScript met à notre disposition deux méthodes pour gérer le délai d’exécution d’un code : les méthodes <b>setInterval() et setTimeout()</b>
+    qui sont des méthodes qui vont être implémentées par Window dans un contexte Web.
+</p>
+
+<h2>La méthode setTimeout()</h2>
+<p>setTimeout() permet d’<b>exécuter une fonction</b> ou un bloc de code <b>après une certaine période définie</b> (à la fin de ce qu’on appelle un « timer »). <br>
+    On passe <b>2 arguments</b> à cette méthode : le nom de la fonction à exécuter et un nombre en millisecondes qui représente le délai d’exécution de la fonction. <br>
+    On pourra aussi passer des arguments facultatif
+</p>
+<p> <span class="underline">Notez</span> que la méthode <b>setTimeout() renvoie un entier positif</b> à l’issue de son exécution qui va identifier la timer créé par l’appel à setTimeout().
+    On va ainsi pouvoir utiliser cet entier pour <b>annuler l’exécution de la fonction</b> à laquelle on a ajouté un délai avec clearTimeout().
+</p>
+
+<p class="underline">En pratique</p>
+<div class="borderLeft">
+    <p>
+        let btn1 = document.getElementById('btn1'); <br>
+        btn1.addEventListener('click', message); <br> <br>
+
+        function message() { <br>
+        setTimeout(<span class="alertBold">alert, 2000, 'Message d\'alerte après 2 seconde'</span>); - // Attention, ici 3 arguments (la fonction alert, le temps, et le message de la fonction alert())<br>
+        }
+    </p>
+</div>
+
+<button id="btn1">setTimeout()</button>
+
+<h2>La méthode clearTimeout()</h2>
+<p>La méthode clearTimeout() va nous permettre d’<b>annuler ou de supprimer un délai défini avec setTimeout()</b> (et donc également d’annuler l’exécution de la fonction définie dans setTimeout()). <br>
+    Pour que cette méthode fonctionne, il va falloir lui passer <b>en argument l’identifiant retourné par setTimeout()</b>.
+</p>
+<p class="underline">En pratique :</p>
+<div class="borderLeft">
+    <p>
+        let btn2 = document.getElementById('btn2'); <br>
+        let timeoutId; - // on crée cette variable pour s'en servir avec clearTimeou() <br> <br>
+
+        btn2.addEventListener('click', messageBtn2); <br>
+
+        function messageBtn2(){ <br>
+       <pan class="alert"> timeoutId = </pan> setTimeout(alert, 2000, 'Btn2 message après 2s');
+        }; - // on récupère le résultat renvoyé par setTimeout() dans la variable timeoutId.<br> <br>
+
+        let btn3 = document.getElementById('btn3'); <br>
+        btn3.addEventListener('click', stopDelai); <br> <br>
+
+        function stopDelai() { <br>
+        clearTimeout(<pan class="alert"> timeoutId </pan>); - // on fait un clearTimeout() sur la variable timeoutId <br>
+        }
+    </p>
+</div>
+
+<button id="btn2">setTimeout() Btn2</button>
+<button id="btn3">clearTimeout() Btn2</button>
+
+<h2>La méthode setInterval()</h2>
+<p>setInterval() permet d’<b>exécuter une fonction</b> ou un bloc de code <b>en l’appelant en boucle selon un intervalle de temps</b> fixe entre chaque appel. <br>
+    Elle  prend <b>en arguments le bloc de code à exécuter en boucle et l’intervalle entre chaque exécution</b> exprimé en millisecondes.<br>
+    En <b>arguments facultatifs</b> : les arguments de la fonction qui doit être exécutée en boucle.
+</p>
+<p>setInterval() renvoie un entier positif qui va servir à identifier un appel à setInterval() et nous permettre d’annuler l’intervalle de répétition avec clearInterval().</p>
+
+<p class="underline">En pratique :</p>
+<div class="borderLeft">
+    <p>
+        let btn4 = document.getElementById('btn4'); <br>
+        let btn5 = document.getElementById('btn5'); <br>
+        let p1 = document.getElementById('p1'); <br>
+        let intervalHologeId; <br>
+    </p>
+    <p>
+        btn4.addEventListener('click', afficheHeure); <br> <br>
+
+        function afficheHeure() { <br>
+        intervalHologeId = setInterval(function () { <br>
+        let d = new Date(); <br> - // on appelle l'objet Date()
+        p1.innerHTML = d.toLocaleTimeString(); - // ici on se sert de tolocaleTimeString pour afficher l'horolge<br>
+        }, 1000); <br>
+        }; <br> <br>
+
+        btn5.addEventListener('click', stopHorloge); <br> <br>
+
+        function stopHorloge() { <br>
+        clearInterval(intervalHologeId); <br>
+        };
+    </p>
+</div>
+
+<p id="p1">Horloge</p>
+<button id="btn4">setInterval()</button>
+<button id="btn5">clearSetInterval() Btn4</button>
+
+<h2>La méthode clearInterval()</h2>
+<p>clearInterval() permet d’<b>annuler l’exécution en boucle d’une fonction</b> ou d’un bloc de code définie avec setInterval().<br>
+    Pour que cette méthode fonctionne, il va falloir lui passer en argument l’identifiant retourné par setInterval().
+</p>
+
+<p class="underline">En pratique :</p>
+<div class="borderLeft">
+    <p>
+        let btn6 = document.getElementById('btn6'); <br>
+        let btn7 = document.getElementById('btn7'); <br>
+        let p2 = document.getElementById('p2'); <br>
+        let heu = 0, min = 0, sec = 0, dec = 0; - // on déclare 4 variable à la suite<br>
+        let intervalTimerId; <br> <br>
+
+        btn6.addEventListener('click', startTimer); <br> <br>
+
+        function startTimer() { <br>
+        intervalTimerId = setInterval(function () { <br>
+        p2.textContent = heu + ' : ' + min + ' : ' + sec + ' : ' + dec; <br>
+        dec += 1; <br>
+        if(dec >=10) { dec = 0; sec += 1 ;}; <br>
+        if(sec >= 60) { sec = 0; min += 1}; <br>
+        if(min >= 60) {min = 0; heur += 1}; <br>
+        if(heu >= 24) {heu = 0}; <br>
+        }, 100) <br>
+        }; <br> <br>
+
+        btn7.addEventListener('click', stopTimer); <br>
+        function stopTimer() { <br>
+        clearInterval(intervalTimerId); <br>
+        }
+    </p>
+</div>
+
+<p id="p2">Timer</p>
+<button id="btn6">setInterval()</button>
+<button id="btn7">clearSetInterval() Btn6</button>
+
+
+<script src="js/gestion-du-delai.js"></script>
+</body>
+</html>

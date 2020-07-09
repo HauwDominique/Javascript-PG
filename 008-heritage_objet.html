@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>heritage_objet en objet javascript</title>
+</head>
+<body>
+
+<h1>Héritage d'objet en objet javascript</h1>
+<h3>Mise en place d’une hiérarchie d’objets avec héritage en JavaScript
+</h3>
+<p>Pour mettre en place un héritage ou plus exactement un système de délégation , on procède toujours <strong>en trois étapes :</strong></p>
+<ul>
+    <li>Créer un constructeur parent</li>
+    <li>Créer un constructeur enfant qui appelle le parent</li>
+    <li>Modifier la <strong>__proto__</strong> de la propriété <strong>prototype de l'enfant, pour quelle soit égale au parent</strong></li>
+</ul>
+
+<p id="p1"></p>
+<p id="p2"></p>
+<p id="p3"></p>
+
+<script src="js/heritage_objet.js"></script>
+</body>
+</html>

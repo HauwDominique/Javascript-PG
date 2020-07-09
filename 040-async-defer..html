@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Le chemin critique du rendu et les attributs HTML async et defer</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+<h1>Le chemin critique du rendu et les attributs HTML async et defer</h1>
+<p><b>async et defer</b> qui vont nous permettre d’<b>indiquer quand doit être chargé un document JavaScript externe</b>.</p>
+
+<h2>Le chemin critique du rendu et la performance d’un site</h2>
+<p>Le chemin critique du rendu (la construction de la page dans le navigateur) <b>a  un impact</b> sur le chargement et l’analyse des ressources par le navigateur <b>s
+    ur le temps de chargement d’une page</b>.
+</p>
+<p>Lorsqu’on veut accéder à une page d’un site Internet (via ne URL), le navigateur contacte le serveur qui héberge la page et lui demande de renvoyer le document demandé ainsi que les ressources nécessaires à son bon fonctionnement (images, etc.).<br>
+    Le navigateur interprète le code HTML, CSS et JavaScript renvoyé par le serveur et s’en sert pour afficher une page qui n’est autre qu’un ensemble de pixels dessinés à l’écran.
+</p>
+<p>Le passage du <b>code brut au rendu final se fait en différentes étapes</b> que le navigateur va exécuter à la suite et qu’on appelle également <b>le « chemin critique du rendu ».</b></p>
+
+<p>Le chemin critique du rendu est constitué de <b>6 grandes étapes</b> :</p>
+<ol>
+    <li class="underline">La construction de l’<b>arborescence du DOM</b> (Document Object Model) ;</li>
+    <p>L'avantage du HTML est qu’il <b>peut être exécuté en plusieurs parties</b>. Il n’est pas nécessaire que le document complet soit chargé pour que le contenu apparaisse sur la page.</p>
+
+    <li class="underline">La construction de l’<b>arborescence du CSSOM</b> (CSS Object Model) ;</li>
+    <p><b>Le CSS</b>, à la différence du HTML, <b>doit être complètement analysé</b> à cause de la notion d’héritage en cascade.<br>
+        Le CSS est donc considéré comme <b>une ressource bloquant le rendu</b> : l’arbre de ne peut pas être construit tant qu’il n’a pas été complètement analysé
+    </p>
+
+    <li class="underline">L’exécution du <b>code JavaScript</b> ;</li>
+    <p>Le JavaScript, enfin, est considéré comme une <b>ressource bloquante pour l’analyseur</b> : l’analyse du document HTML lui-même est bloquée par le JavaScript.<br>
+        Aujourd’hui, le JavaScript externe peut cependant être chargé de manière asynchrone en utilisant l’attribut async
+    </p>
+
+    <li class="underline">La construction de <b>l’arbre de rendu</b> ;</li>
+    <p>L’arbre de rendu est une <b>combinaison du DOM et du CSSOM.</b> Il représente ce qui va être affiché sur la page (c’est-à-dire uniquement le contenu visible).</p>
+
+    <li class="underline">La génération de <b>la mise en page</b> ;</li>
+    <p><b>Le « layout »</b>, c’est-à-dire la disposition ou mise en page est ce qui <b>détermine la taille de la fenêtre active</b> (le « viewport »). Déterminer cela va être essentiel pour pouvoir appliquer les styles CSS définis avec des unités en pourcentage ou en viewport.
+        Le viewport est déterminé par la balise meta name="viewport".</p>
+
+    <li class="underline">La <b>conversion</b> du contenu visible final <b>de la page en pixels</b>.</li>
+    <p>Une fois la mise en page générée, le contenu visible de la page peut finalement être converti en pixels qui vont être affichés à l’écran.</p>
+</ol>
+<p>Le temps nécessaire à la réalisation de ces opérations détermine en partie la vitesse d’affichage des pages de votre site.</p>
+
+<h2>Les attributs async et defer</h2>
+<p>Les sites Web se complexifient de plus en plus et font appel à toujours <b>plus de ressources externes, dont les scripts JavaScript</b> : chargement de telle librairie, script de récolte des données comme Google Analytics, etc.<br>
+    Si ces script js sont exécutés, cela peut <b>bloquer l’affichage de la page</b> pendant de précieuses secondes
+</p>
+<p>HTML5 nous fournit deux nouveaux attributs : <b>async et defer</b> qu’on va pouvoir <b>inclure dans nos balises script</b> servant à charger un fichier externe.</p>
+<ul>
+    <li><span class="alert"> async </span> est utilisé pour indiquer au navigateur que le fichier JavaScript peut être exécuté de manière <b>asynchrone.</b></li>
+    <li><span class="alert"> defer </span> permet d’indiquer au navigateur que le fichier JavaScript ne doit être <b>exécuté qu’une fois que le code HTML a fini</b> d’être analysé</li>
+</ul>
+
+<h2>Quand utiliser async ou defer ?</h2>
+<p>Si vous placez vos balises <b>script en fin de document, les attributs async et defer n’auront aucun effet</b> puisque l’analyse du document HTML sera déjà effectuée.</p>
+<p>Quand nous <b>ne pouvons pas les placer en fin de document</b> :</p>
+<ul>
+    <li><span class="alert"> async </span> : si on doit télécharger plusieurs scripts dans notre page et que <b>la bonne exécution de chaque script ne dépend pas des autres</b>.
+        L’ordre de chargement des scripts importe donc peu.
+    </li>
+    <li><span class="alert"> defer </span> : Si
+        <ul>
+            <li>un fichier de <b>script interagit avec le DOM</b> de la page, alors il faudra s’assurer que le DOM ait été entièrement créé avant d’exécuter le script.</li>
+            <li>certains scripts ont besoin que <b>d’autres scripts soient déjà disponibles</b> pour fonctionner. On fera <b>attention à l’ordre d’inclusion des scripts</b> dans la page.
+                En effet, l’attribut defer va permettre d’exécuter les scripts dans l’ordre donné dès la fin du chargement de la page au contraire de async qui va exécuter les scripts dès que ceux-ci sont prêts. </li>
+        </ul>
+
+    </li>
+</ul>
+
+
+<script src="js/async-defer.js"></script>
+</body>
+</html>

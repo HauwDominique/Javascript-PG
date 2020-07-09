@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Présentation de l’élément HTML canvas et de l’API Canvas</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/canvas.css">
+
+</head>
+<body>
+<h1>Présentation de l’élément HTML canvas et de l’API Canvas</h1>
+<p><b>L’élément HTML canvas</b> est un élément qui va <b>servir de conteneur</b> et au sein duquel on va pouvoir <b>dessiner toutes sortes de graphiques</b> en utilisant le JavaScript.</p>
+<p>Canvas est centré autour du dessin 2D</p>
+
+<h2>L’élément HTML canvas</h2>
+<p><span class="alert"> &ltcanvas&gt </span> va servir de <b>conteneur pour nos dessins et figures</b>. Nous allons dessiner à l’intérieur de celui-ci.</p>
+<p class="underline">Exemple de code dans  le html</p>
+<p class="borderLeft">
+    &ltbody&gt <br>
+    <span class="alert">&ltcanvas</span> id="c1" style="background-color: orange;" width="200px" height="100px" <span class="alert">&gt &lt/canvas&gt</span> <br>
+    &lt/body&gt
+</p>
+<canvas id="c1" style="background-color: orange" width="200px" height="100px"></canvas>
+<p><b>Par défaut,</b> l’élément canvas est représenté visuellement par <b>une zone rectangulaire de 300px de large par 150px de haut</b> dans la page HTML, est transparent et ne possède ni contenu, ni bordure. <br>
+    Pour modifier la taille d’un élément canvas, on peut soit utiliser les attributs HTML width (pour la largeur) et height (pour la hauteur),
+    soit les propriétés width et height de l’interface HTMLCanvasElement qui hérite de l’interface DOM HTMLElement qu’on connait bien.
+</p>
+
+<h2>Dessiner dans un canevas en JavaScript,  la théorie</h2>
+<p><b>Pour dessiner</b> au sein d’un élément canvas en JavaScript, il faut suivre ces étapes ;</p>
+<ul>
+    <li><b>Accéder à l’élément canvas</b> en JavaScript ;</li>
+    <li><b>Accéder au contexte de rendu</b> du canevas ;</li>
+    <li><b>Utiliser les propriétés et méthodes</b> adaptées pour dessiner.</li>
+</ul>
+<br>
+
+<h4>1 - Accéder à l’élément canvas en JavaScript :</h4>
+<p>On peut utiliser document.querySelector() ou document.getElementById()</p>
+<p class="borderLeft">
+    let canvasElt = document.getElementById('c1')
+</p>
+
+<h3>2 - Accéder au contexte de rendu du canevas ou « l’extraire ».</h3>
+<p><b>canvas crée en effet une surface de dessin</b> qui va exposer <b>plusieurs contextes</b> sur lesquels on va se baser pour dessiner. <br>
+    Les deux contextes les plus connus et utilisés sont le <b>contexte 2D et le contexte 3D</b>
+</p>
+<p>La méthode getContext() permet d'accéder à ce contexte. On y passe en argument le contexte auquel on veut accéder.</p>
+<p class="borderLeft">
+    let ctx = canvasElt.<span class="alert">getContext('2d')</span>;
+</p>
+<p><b>getContext() renvoie un objet</b> appartenant à l’interface CanvasRenderingContext2D. Nous allons utiliser cet objet pour <b>accéder aux méthodes de cette interface</b> qui vont nous permettre de dessiner.</p>
+<br>
+
+<p>canvas ne supporte qu’<b>un type de figure géométrique : le rectangle (vide et plein).</b> Les autres types de figures vont êtes construites en traçant des lignes à partir de coordonnées de points qu’on va donner.</p>
+
+<h2>Dessiner un rectangle vide : <span class="alert">strokeRect()</span> et <span class="alert">strokeStyle</span> </h2>
+<p class="underline">1 - Assigner une valeur à strokeStyle</p>
+<p>Pour dessiner un rectangle vide dans notre canevas, on va donc déjà <b>commencer par fournir une valeur à la propriété strokeStyle</b>
+    <span class="alert">puis</span> on utilisera <b>la méthode strokeRect()</b> pour définir l’emplacement et la taille de notre rectangle vide comme ceci.</p>
+<p><span class="alertBold">strokeStyle</span> permet de dessiner le <b>contour du rectangle.</b> Il est impératif d'<span class="alert"><b>exécuter strokeStyle avant strokeRect()</b></span><br>
+    Attention ici : si on exécute la méthode strokeRect() avant d’avoir passé une valeur à strokeStyle, cette valeur ne pourra pas être utilisée pour dessiner les contours de notre rectangle vide.<br>
+    strokeStyle peut prendre <b>une couleur, un dégradé ou un motif</b>.
+</p>
+
+<p class="underline">2 - Utiliser la méthode strokeRect()</p>
+<p>Avec strokeRect(), seul le contour du rectangle sera dessiné. Ce contour sera dessiné en utilisant la valeur de la propriété strokeStyle</p>
+<p>strokeRect() prend <b>4 arguments</b> : les deux premiers correspondent respectivement au <b>retrait de notre rectangle</b> par rapport aux <b>bord gauche</b> et <b>bord supérieur</b> de notre canevas
+    tandis que les deux autres servent à indiquer <b>la largeur</b> et <b>la hauteur</b> de notre rectangle.
+</p>
+<p><span class="underline">Attention :</span> ne pas préciser d’unités avec les arguments de strokeRect()</p>
+<p class="underline">En pratique :</p>
+<p class="borderLeft">
+    let canvas2 = document.getElementById('c2'); <br>
+    let ctxC2 = canvas2.getContext('2d'); <br> <br>
+
+    ctxC2.<span class="alert">strokeStyle = '#4444CC';</span> - // Nuance de bleu <br>
+    ctxC2.<span class="alert">strokeRect(50, 25, 200, 100);</span> - // A noter que nouv obtenons un caneva de 300x150px, avec à l'intérieur, un triangle vide de 200x100px
+</p>
+<canvas id="c2" style="background-color: yellow" width="300px" height="150px"></canvas>
+
+<h2>Dessiner un rectangle plein : <span class="alert">fillRect()</span> et <span class="alert">fillStyle</span> </h2>
+<p><b>fillStyle et fillRect()</b> s'utilise de la même façon que strokeRect(). On ne précisera <b>pas d’unités</b> lorsqu’on passe <b>des arguments</b>.</p>
+<p>On doit <b>commencer par</b> fournir une valeur à <b>fillStyle</b> puis utiliser <b>ensuite fillRect()</b> pour dessiner un rectangle plein dans le canevas.</p>
+<p class="borderLeft">
+    let canvas3 = document.getElementById('c3'); <br>
+    let ctxC3 = canvas3.getContext('2d'); <br> <br>
+
+    ctxC3<span class="alert">.fillStyle = "#4444CC";</span> - //Nuance de bleu <br>
+    ctxC3<span class="alert">.fillRect(10, 10, 200, 100);</span> - // cette fois le rectangle est plein
+</p>
+<canvas id="c3" class="canvasColor1"></canvas>
+
+<h2>Effacer une zone rectangulaire dans le canevas : <span class="alert">clearRect()</span> </h2>
+<p><span class="alertBold">clearRect()</span> prend <b>4 arguments (sans unités également):</b> retrait bord gauche, retrait bord supérieur, largeur, et hauteur.</p>
+<p class="borderLeft">
+    let canvas4 = document.getElementById('c4'); <br>
+    let ctxC4 = canvas4.getContext('2d'); <br><br>
+
+    ctxC4.fillStyle = "#4444CC"; //Nuance de bleu <br>
+    ctxC4.fillRect(10, 10, 200, 100); <br><br>
+
+    ctxC4.strokeStyle = "#4444CC"; <br>
+    ctxC4.strokeRect(250, 10, 200, 100); <br><br>
+    
+    ctxC4<span class="alert">.clearRect(100, 25, 150, 50);</span> - // on "évide" les rectangles créés dans le canvas
+</p>
+<canvas id="c4" class="canvasColor1" width="475px" height="125px"></canvas>
+
+<h1>Définir des tracés pour dessiner des formes dans un canevas en JavaScript</h1>
+<p>On peut aussi définir des tracés pour créer toutes formes de figures et de dessins.</p>
+<p>Un tracé va être représenté par un point d’origine, une suite de points intermédiaire et un point d’arrivée. Des segments vont ensuite être tracés pour relier les différents points entre eux.</p>
+<p>Il faut suivre les étapes suivantes :</p>
+<ul>
+    <li><b>Définition d’un tracé </b>(points d’origine, intermédiaires et d’arrivée) ;</li>
+    <li><b>Choix de la forme</b> (courbé, droit, etc.) et de la couleur de chaque segment ;</li>
+    <li><b>Remplissage de l’espace entre les segments</b> ou définition des contours ;</li>
+    <li><b>Fermeture</b> du tracé.</li>
+</ul>
+
+
+
+<h3>1 - Définir un tracé :</h3>
+<ul>
+    <li><span class="alert">beginPath() </span> permet de <b>démarrer un tracé</b>.Cette méthode ne prend <b>pas d’argument</b>.<br>
+    Chaque tracé va posséder ses propres styles (couleur, épaisseur, forme) mais on ne va pouvoir appliquer qu’un style à chaque tracé. Il faudra créer un <b>nouveau tracé pour changer de style</b>.</p>
+    </li>
+    <li><span class="alert">moveTo(x, y)</span> définit <b>un point à partir duquel faire quelque chose</b>. Cette méthode prend <b>une paire de coordonnées en arguments</b>
+        qui correspondent à la distance par rapport aux bords gauche et haut du canevas.
+    </li>
+    <li><span class="alert">lineTo(x, y)</span> prend en arguments une paire de coordonnées qui indiquent le <b>point final de la ligne</b>.</li>
+    <li><span class="alert">strokeStyle('couleur')</span> permet de determiner la couleur de la ligne.</li>
+    <li><span class="alert">lineWidth</span> permet de choisir l'épaisseur de la ligne.</li>
+    <li><span class="alert">stroke()</span> permet d’appliquer les styles définis avec strokeStyle à notre ligne.</li>
+</ul>
+
+<p class="underline">En pratique :</p>
+<p class="borderLeft">
+    let canvas5 = document.getElementById('c5'); <br>
+    let ctxC5 = canvas5.getContext('2d'); <br> <br>
+
+    ctxC5.<span class="alert">beginPath();</span> <br>
+    ctxC5.<span class="alert">moveTo(50, 25);</span> <br>
+    ctxC5.<span class="alert">lineTo(250, 125);</span> <br>
+    ctxC5.<span class="alert">lineWidth = 3;</span> <br>
+    ctxC5.<span class="alert">strokeStyle ='#4488EE';</span> <br>
+    ctxC5.<span class="alert">stroke();</span>
+</p>
+<canvas id="c5" class="canvasColor1"></canvas>
+
+<h2>Dessiner des figures en utilisant plusieurs lignes à la suite</h2>
+<p>On peut dessiner toutes sortes de figures en dessinant plusieurs lignes à la suite dans le canevas.<br> </p>
+<ul>
+    <li><span class="alert">lineTo() utilisé plusieurs fois</span> permet de dessiner des figures.<br>
+     Les coordonnées du point défini par la première méthode lineTo() serviront de point de départ pour la ligne tracé par le deuxième appel à la méthode lineTo() et etc.
+    </li>
+    <li><span class="alert">closePath()</span> permet le retour du stylo au point départ du sous tracé courant. Il est nécessaire pour démarrer un nouveau tracé (il faut en effet fermer le tracé en cours. </li>
+    <li><span class="alert">stroke()</span> permet de dessiner que les contours du triangle sans remplir l'intérieur.</li>
+    <li><span class="alert">fill()</span> permet de remplir le triangle. On utilise du coup <span class="alert">fillStyle</span> avec <b>fill()</b>.<br>
+        fill() <b>ferme automatiquement le tracé</b> (c’est la raison pour laquelle on l’appelle en dernier) et donc closePath() n’a aucun effet et n’est pas nécessaire
+    </li>
+</ul>
+
+<p class="underline">En pratique</p>
+<img src="images/canvas-triangle.png" alt="">
+<canvas id="c6" class="canvasColor1"></canvas>
+
+<h2>Dessiner plusieurs lignes avec des arrivées et origines différentes</h2>
+<p><span class="alert">moveTo()</span> permet aussi de définir de nouvelle coordonnées de départ pour chaque nouvelle ligne.</p>
+<img src="images/canvas-sablier.png" alt="">
+<canvas id="c7" class="canvasColor1"></canvas>
+
+<h2>Dessiner des arcs de cercle <span class="alert">arc() et arcTo()</span> </h2>
+<p><span class="alertBold">arc()</span> prend <b>6 arguments</b> :</p>
+<ul>
+    <li>Un nombre correspondant au <b>décalage du point central de l’arc de cercle par rapport au bord gauche</b> du canvas ;</li>
+    <li>Un nombre correspondant au <b>décalage du point central de l’arc de cercle par rapport au bord supérieur</b> du canvas ;</li>
+    <li>Un nombre correspondant à la <b>taille du rayon</b> ;</li>
+    <li>L’<b>angle de départ</b>, exprimé <b>en radians</b> ;</li>
+    <li>L’<b>angle de fin</b>, exprimé <b>en radians</b> ;</li>
+    <li>Un booléen (facultatif) qui indique si l’arc de cercle doit être dessiné dans le sens des aiguilles d’une montre (false, valeur par défaut) ou dans le sens inverse (true).</li>
+</ul>
+<p><span class="underline">Pour rappel</span> : un tour de cercle complet = 360deg = 2PI radian. Pour convertir facilement les degrés en radians, vous pouvez retenir l’équation suivante :
+    <b>radians = PI*deg / 180.</b> Pour obtenir la valeur de PI, on peut utiliser Math.PI.
+</p>
+<img src="images/canvas-arc-cercle.png" alt="">
+<canvas id="c8" class="canvasColor1"></canvas>
+<br> <br>
+
+<p><span class="alertBold">artTo()</span> utlise des tangentes pour dessiner des arcs de cercle, et prend 5 arguments: </p>
+<ul>
+    <li>une <b>paire de coordonnées</b> définissant l’<b>emplacement du premier point de contrôle</b></li>
+    <li>une autre <b>paire</b> de coordonnées définissant l’emplacement du <b>deuxième point de contrôle</b></li>
+    <li>et le <b>rayon du cercle</b>.</li>
+</ul>
+<img src="images/canvas-tangente.png" alt="">
+<canvas id="c9" class="canvasColor1"></canvas>
+
+<h2>Dessiner avec les courbes de Bézier <span class="alert">bezierCurveTo() et quadraticCurveTo() :</span></h2>
+<p>Les courbes de Bézier sont des courbes définies à partir d’un certain nombre de points.</p>
+<p><span class="alertBold">bezierCurveTo()</span> prend <b>6 arguments</b></p>
+<ul>
+    <li>une première paire de coordonnées indiquant l’emplacement d’un premier point de contrôle</li>
+    <li>une deuxième paire de coordonnées indiquant l’emplacement d’un deuxième point de contrôle</li>
+    <li>une troisième paire de coordonnées indiquant l’emplacement du point d’arrivée.</li>
+</ul>
+<p><span class="alertBold">quadraticCurveTo()</span> n'utilise e qu’un point de contrôle et ne va donc avoir besoin que de 4 arguments.</p>
+<p>Ces points de contrôle vont servir à déterminer un certain arc en traçant de multiples tangentes entre le point de départ et d’arrivée.</p>
+<br>
+
+<h1>Création de dégradés ou de motifs dans un canevas en JavaScript</h1>
+<p>On peut créer deux sortes de dégradés : des dégradés linéaires ou radiaux.<br>
+    On peut utiliser des images ou des captures d’images de vidéos comme motifs.</p>
+
+<h2>Créer un dégradé linéaire dans un canevas <span class="alert">createLinearGradient()</span> </h2>
+<p><span class="alert">createLinearGradient()</span> prend <b>4 arguments :</b> et retourne un objet CanvasGradient.</p>
+<ul>
+    <li>L’écart entre le <b>point de départ du dégradé et le bord gauche du canevas</b> ;</li>
+    <li>L’écart entre le point de départ du dégradé et le <b>bord supérieur du canevas</b> ;</li>
+    <li>L’écart entre le <b>point de fin du dégradé et le bord gauche du canevas</b> </li>
+    <li>L’écart entre le point de fin du dégradé et le <b>bord supérieur du canevas</b> .</li>
+</ul>
+<p><span class="alert">addColorStop()</span> permet d’ajouter des « couleurs stop », c’est-à-dire des <b>points d’arrêt</b> ou encore des <b>transitions de couleurs</b> dans notre dégradé.<br>
+    Elle prend <b>2 arguments :</b><br>
+        <ul>
+            <li><b>le décalage</b> : compris entre 0 et 1 (correspond au pourcentage de la taille totale du dégradé);.</li>
+            <li>les couleurs</li>
+        </ul>
+</p>
+<p class="underline">En pratique :</p>
+<img src="images/canvas-degrade-linaire.png" alt="">
+<canvas id="c10" class="canvasColor1" width="500px"></canvas>
+
+<h2>Dégradé radial dans un canevas <span class="alert">createRadialGradient().</span> </h2>
+<p>Un dégradé radial est un dégradé qui part d’un point central et se propage dans toutes les directions à partir de celui-ci et selon une ellipse.</p>
+<p><span class="alert">createRadialGradient()</span> prend <b>6 arguments</b> (et retourne un objet CanvasGradient)</p>
+<ul>
+    <li>L’écart entre le point (ou plus exactement le cercle) de départ du dégradé et le bord gauche du canevas ;</li>
+    <li>L’écart entre le point (cercle) de départ du dégradé et le bord supérieur du canevas ;</li>
+    <li>Le rayon du point (cercle) de départ du dégradé ;</li>
+    <li>L’écart entre le cercle de fin du dégradé et le bord gauche du canevas ;</li>
+    <li>L’écart entre le cercle de fin du dégradé et le bord supérieur du canevas ;</li>
+    <li>Le rayon du cercle de fin du dégradé</li>
+</ul>
+<p class="underline">En pratique :</p>
+<img src="" alt="">
+<canvas id="c11" class="canvasColor1" width="500px"></canvas>
+
+
+
+<script src="js/canvas.js"></script>
+</body>
+</html>

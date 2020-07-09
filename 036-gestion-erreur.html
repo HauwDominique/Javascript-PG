@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>gestion-erreur</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>Gestion des erreurs en JavaScript</h1>
+
+<p>Prévoir les erreurs potentielles et les prendre en charge est essentiel lorsqu’on crée un script.</p>
+
+<h2>Les erreurs : origine et pourquoi les traiter</h2>
+<p>Les erreurs peuvent avoir différentes origines :</p>
+<ul>
+    <li>peuvent <b>provenir du développeur</b> dans le cas d’erreur de syntaxe dans le code même ;</li>
+    <li>peuvent <b>provenir du serveur</b> dans le cas où celui-ci est dans l’incapacité de fournir les ressources (fichiers) demandés ;</li>
+    <li>peuvent <b>provenir du navigateur</b> ;</li>
+    <li>peuvent encore <b>être créées par un utilisateur</b> qui envoie une valeur non valide par exemple.</li>
+</ul>
+<p>On essaiera toujours de faire le maximum pour limiter les cas d’erreurs et pour prendre en charge les erreurs éventuelles sur lesquelles on n’a pas le contrôle.</p>
+
+<h2>Gérer une erreur avec les blocs try… catch</h2>
+<p>lorsqu’une erreur d’exécution survient dans un script le JavaScript crée automatiquement un objet à partir de l’<b>objet global Error</b> qui est l’objet de base pour les erreurs en JavaScript.<br>
+    On peut <b>capturer l’objet renvoyé par le JavaScript</b> qui représente l’erreur déclenchée et pouvoir <b>indiquer ce qu’on souhaite en faire, grâce aux blocs "try" and "catch".</b>
+</p>
+<ul>
+    <li>bloc <b>try</b> : on y place le <b>code à tester</b>;</li>
+    <li>bloc <b>catch</b> : on y <b>capture l'erreur</b> potentielle, et on y indique comment <b>la gérer</b>;</li>
+</ul>
+<p class="underline">Pratiquons :</p>
+<div class="borderLeft">
+    <p>
+        try <span class="alert">{ </span> <br>
+        alert('Bonjour') <br>
+        <span class="alert"> } catch(err){ </span> <br>
+        alert('Une erreur s\'est produite;') <br>
+        };
+    </p>
+</div>
+
+<p class="underline">Générons une erreur :</p>
+<div class="borderLeft">
+    <p>
+        try{ <br>
+        prenom; //on affiche une variable qui n'a pas été déclarée ;  ce qui va générer une erreur <br>
+        alert('Bonjour'); <br>
+        }  <span class="alert">catch(err) { </span> <br>
+        alert('Erreur rencontrée ; ' + <br>
+        '\nNom de l\'erreur : ' +  <span class="alert"> err.name </span> + <br>
+        '\nMessage de l\'erreur : ' +  <span class="alert"> err.message </span> + <br>
+        '\nEmplacement de l\'erreur : ' +  <span class="alert"> err.stack) </span>; <br>
+        };
+    </p>
+</div>
+<p><span class="underline">Notez </span>: on passe un <b>argument err à catch.</b> Celui-ci représente l’objet erreur créé par le JavaScript lorsque l’erreur survient et qu’on va « capturer » (catch) pour en utiliser les propriétés. <br>
+    <b>Error possède des propriétés standards</b> qu’on va pouvoir utiliser et qui vont nous donner des informations sur l’erreur comme la propriété message qui contient le message de l’erreur ou name qui contient le nom de l’erreur.
+</p>
+<p>Il existe 7 autres constructeurs d’erreurs de base en JavaScript. Le DOM nous fournit également une interface de gestion d’erreurs liées à celui-ci : l’interface DOMException.</p>
+
+<h2>Les exceptions en JavaScript et l’instruction throw</h2>
+<p>Parfois, on va <b>savoir à l’avance que notre code va provoquer des erreurs</b> dans certains cas particuliers d’utilisation.
+    On va pouvoir prendre en charge ce cas précis en amont en lançant <b>(throw) ce qu’on appelle une exception</b> si celui-ci survient.
+</p>
+<p>Une exception est une <b>erreur qu’on va déclencher à la place du JavaScript</b> afin de pouvoir plus facilement la gérer. <br>
+    On va notamment pouvoir passer un message pour expliquer l’erreur lors de la création de celle-ci plutôt que d’utiliser le message standard proposé par le JavaScript.
+</p>
+<p>Pour définir une exception, nous allons devoir <b>créer un objet</b> à partir de l’un des constructeurs d’erreurs prédéfinis en JavaScript en utilisant la syntaxe <b>new</b><br>
+    On essaiera toujours d’utiliser le constructeur qui fera le plus de sens ou <b>à défaut le constructeur générique Error</b> avec la syntaxe <span class="alertBold"> new Error() </span>.
+</p>
+
+<p class="underline">Mettons en pratique :</p>
+<div class="borderLeft">
+    <p>
+        function <span class="alert">divThrow()</span> { - //on crée une fonction qui gérera l'exception, et sera ensuite appelée dans le try and catch <br>
+        let x = prompt('Entrez un premier nombre'); <br>
+        let y = prompt('entrez un second nombre'); <br> <br>
+
+        // ici on gère les exceptions <br>
+        if(isNaN(x) || isNaN(y) || x == '' || y == '') { <br>
+        <span class="alert">throw new Error('Merci de rentrer deux nombres'); </span><br>
+        } else if(y == 0) { <br>
+        <span class="alert">throw new Error('Division par 0 impossible !'); </span><br>
+        } else{ <br>
+        alert (x + ' divisé  par ' + y + ' = ' + x/y); <br>
+        }; <br>
+        } <br> <br>
+
+        try{ <br>
+        <span class="alert">divThrow() </span> - // on rappelle la fonction gérant les exceptions, dans ce try <br>
+        } catch (e) { <br>
+        alert(e.message); <br>
+        }
+    </p>
+</div>
+<p class="underline">Explication :</p>
+<div class="borderLeft">
+    <p>
+        On crée une fonction divThrow() pour identifier les cas d'erreur et les gérer.<br>
+        Cette fonction prend en charge ces exceptions en amont, en les isolant dans un bloc if…else if…else dans la définition de notre fonction et en lançant des objets Erreur dans chaque cas avec un message personnalisé.
+    </p>
+    <p>On va ensuite créer nos deux blocs try et catch. On tente d’exécuter notre fonction dans le bloc try et on capture les exceptions dans le bloc catch.
+        Ce bloc catch se charge d’afficher le message lié à l’erreur qu’on a défini ci-dessus.
+    </p>
+    <p><span class="underline">Attention</span> : dès qu’on lance <b>une exception, il faut absolument la capturer dans un bloc catch</b> à un endroit dans le script.</p>
+</div>
+
+<h2>Le bloc finally</h2>
+<p>finally est un <b>bloc optionnel</b> qui doit être placé juste après un try…catch. <br>
+Il permet de préciser du code qui sera exécuté dans tous les cas, qu’une erreur ou exception ait été générée ou pas.
+</p>
+
+
+<script src="js/gestion-erreur.js"></script>
+</body>
+</html>

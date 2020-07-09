@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>l’asynchrone en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+<h1>l’asynchrone en JavaScript</h1>
+<h2>Une première définition des termes « synchrone » et « asynchrone »</h2>
+<p>Deux opérations sont <b>asynchrones si elles ne se déroulent pas en même temps</b> ou ne sont pas synchronisées.</p>
+<p>En informatique, on dit que deux opérations sont <b>synchrones lorsque la seconde attend que la première ait fini son travail pour démarrer</b>. <br>
+    Ce qu’il faut retenir de cette définition est le <b>concept de dépendance</b> : le début de l’opération suivante dépend de la complétude de l’opération précédente.
+</p>
+<p>Deux opérations sont qualifiées d’<b>asynchrones</b> en informatique lorsqu’elles sont <b>indépendantes</b> c’est-à-dire lorsque <b>la deuxième opération n’a pas besoin d’attendre que la première se termine pour démarrer</b>.</p>
+
+<h2>L’importance de l’asynchrone en programmation</h2>
+<p>Par défaut, le <b>JavaScript est un langage synchrone, bloquant et qui ne s’exécute que sur un seul thread.</b> Cela signifie que :</p>
+<ul>
+    <li>Les différentes opérations vont s’exécuter les unes à la suite des autres (elles sont synchrones) ;</li>
+    <li>Chaque nouvelle opération doit attendre que la précédente soit terminée pour démarrer (l’opération précédente est « bloquante ») ;</li>
+    <li>Le JavaScript ne peut exécuter qu’une instruction à la fois (il s’exécute sur un thread, c’est-à-dire un « fil » ou une « tache » ou un « processus » unique)</li>
+</ul>
+<p>Heureusement, le JavaScript nous fournit des outils pour créer du code asynchrone, ce qui permet dans certains cas de ne pas bloquer le navigateur lorsque des opérations sont trop longues à exécuter. <br>
+<p class="underline"> Exemple : une boucle trop longue : </p>
+<p class="borderLeft">while(x <= 10000000000) <br>
+    { x++;};
+</p>
+
+<h2>Les fonctions de rappel : à la base de l’asynchrone en JavaScript</h2>
+<p>En JavaScript, les <b>opérations asynchrones sont placées dans des files d’attentes</b> qui vont s’exécuter après que le fil d’exécution principal ou la tâche principale (le « main thread » en anglais) ait terminé ses opérations.
+    Elles ne bloquent donc pas l’exécution du reste du code JavaScript.
+</p>
+<p>Le premier outil utilisé en JavaScript pour générer du code asynchrone a été <b>les fonctions de rappel (ou callback) qui vont pouvoir être rappelées (« called back »)
+    à un certain moment</b> et / ou si certaines conditions sont réunies.
+</p>
+</p>
+<p>L’idée ici est de <b>passer une fonction de rappel en argument d’une autre fonction.</b>
+    Cette fonction de rappel va être rappelée à un certain moment par la fonction principale et pouvoir s’exécuter, sans forcément bloquer le reste du script tant que ce n’est pas le cas.
+</p>
+<p class="underline">Exemple de fonction de rappel et de code asynchrone :</p>
+<div class="borderLeft">
+    <p>
+        // setTimeout() est asynchrone <br>
+        setTimeout(alert, 5000, 'Message affiché après 5 secondes');
+    </p>
+    <p>// cette alerte sera affichée avant celle du setTimeout() <br>
+    alert('suite du script');
+    </p>
+</div>
+<p>Utiliser des fonctions de rappel nous permet donc de <b>créer du code qui va pouvoir être appelé à un certain moment défini ou indéfini dans le futur</b> et qui ne va pas bloquer le reste du script, c’est-à-dire du code asynchrone.
+
+<h3>Les limites des fonctions de rappel : le « callback hell »</h3>
+<p>Le principal défaut des fonctions de rappel pour générer du code asynchrone, est qu’on ne peut pas prédire quand notre fonction de rappel asynchrone aura terminé son exécution,
+    ce qui fait qu’<b>on ne peut pas prévoir dans quel ordre les différentes fonctions vont s’exécuter</b>.
+    Cela va être un vrai souci si la réalisation d’une opération asynchrone dépend de la réalisation d’une autre opération asynchrone.
+</p>
+<p>Le seul moyen de réaliser cela en s’assurant que la ressource précédente soit bien disponible avant le chargement de la suivante va être d’<b>imbriquer le deuxième code de chargement dans la fonction de rappel du premier code</b> de chargement,
+    puis le troisième code de chargement dans la fonction de rappel du deuxième code de chargement <b>et ainsi de suite...</b> </p>
+<p>Cela rend très rapidement le code complètement illisible et très difficile à gérer et à maintenir</p>
+
+<h2>L’introduction des promesses : vers une gestion spécifique de l’asynchrone</h2>
+<p>JavaScript a intégré un nouvel outil dont l’unique but est la génération et la gestion du code asynchrone : <b>les promesses avec l’objet constructeur Promise</b> (avec la syntaxe async et await basée sur les promesses).</p>
+<p>Une « promesse » est donc <b>un objet représentant l’état d’une opération asynchrone.</b> Comme dans la vie réelle, <b>une promesse peut être</b> :
+    <ul>
+        <li><b>en cours</b>,</li>
+        <li><b>honorée</b> (on a bien fait la chose qu’on avait promis),</li>
+        <li><b>rompue</b> (on ne fera pas ce qu’on avait promis et on a prévenu qu’on ne le fera pas).</li>
+    </ul>
+</p>
+<p>Plutôt que d’attacher des fonctions de rappel à nos fonctions pour générer des comportements asynchrones,
+    nous allons <b>créer ou utiliser des fonctions qui vont renvoyer des promesses</b> et allons <b>attacher des fonctions de rappel aux promesses</b>.</p>
+
+<script src="js/asynchrone.js"></script>
+</body>
+</html>

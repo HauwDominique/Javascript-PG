@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>La propagation des évènements en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>La propagation des évènements en JavaScript</h1>
+<p>Comment se passe la détection d'un évènement et à quel moment un gestionnaire d’évènement va se déclencher ?</p>
+
+<h2>Présentation du phénomène de propagation des évènements</h2>
+<p>Pour comprendre la propagation des évènements, étudions l’évènement click.</p>
+
+<fieldset id="d1" class="field">
+    <legend>div="d1"</legend>
+    <button id="btn1">Un bouton d1p1 dans une div</button>
+    <p id="d1p1">Un autre paragraphe d1p2 dans le div</p>
+</fieldset>
+<p id="p1"></p>
+
+<p>Notre document HTML possède ici un élément div qui contient lui-même deux éléments p. On attache un gestionnaire d’évènement <b>click au div d1</b>
+    ainsi qu’un <b>click au bouton élément d1p1</b> de ce div.</p>
+<p>Lorsqu'on clique sur le bouton d1p1, les 2 gestionnaires d'évènement se déclenche. <b>Mais dans quel ordre ?</b><br>
+    Le bouton d1p1 en 1er, puis la div d1.</p>
+<p>Pour comprendre pourquoi, il faut comprendre les concepts de propagation des évènements, de phase de capture et de phases de bouillonnement.</p>
+
+<h2>Les phases de capture et de bouillonnement</h2>
+<p>Lorsqu’<b>un évènement se déclenche</b>, celui-ci va en fait <b>naviguer à travers le DOM</b> et passer à travers les différents gestionnaires d’évènement disposés dans le document.
+    On dit également que <b>l’évènement se « propage » dans le DOM, selon différentes  phases, à savoir :</b>.
+    un évènement (représenté en JavaScript par un objet) va toujours suivre le même chemin en JavaScript :
+    <ul>
+    <li><b><span class="underline"> phase de capture : </span></b> (première phase de descente dans l’arbre du DOM)<br>
+        L'évènement se propage en partant <b>de l’ancêtre le plus lointain par rapport à la cible de l’évènement jusqu’à la cible</b> de l’évènement.<br>
+        Ici, l’évènement click va se propager en partant de l’ancêtre le plus lointain du paragraphe, c’est-à-dire en partant de l’élément html
+        puis en traversant les ancêtres de l’élément p un à un (body puis div) jusqu’à arriver à cet élément p.
+    </li>
+    <li><b><span class="underline"> phase de bouillenement : </span></b> (deuxième phase de remontée) <br>
+        Une fois arrivé à l’élément p, l’objet évènement <b>va faire le chemin inverse et remonter dans l’arborescence</b> du DOM de cet élément p jusqu’à l’ancêtre le plus lointain,
+        c’est-à-dire traverser l’élément div, puis l’élément body, puis finalement l’élément html.
+    </li>
+</ul>
+<p>Si la phase de capture se passe avant la phase de bouillonnement, l’évènement devrait atteindre le gestionnaire d’évènement du div avant celui du paragraphe et donc celui-ci devrait se déclencher en premier
+    alors pourquoi est-ce le contraire qui s’est passé dans l’exemple précédent ?
+</p>
+<p>Cela est dû au fait que <b>les gestionnaires d’évènements sont par défaut configurés pour ne s’exécuter</b> (ou pour ne « répondre ») <b>que dans la phase de bouillonnement</b>
+    et pour ignorer la phase de capture. On peut cependant choisir la phase de déclenchement de l'évènement.</p>
+</p>
+
+<h2>Choisir la phase de déclenchement d’un gestionnaire d’évènements</h2>
+<p>Les gestionnaires d’évènements se déclenchent <b>par défaut durant la phase de bouillonnement.</b></p>
+<p>Pour choisir dans quelle phase un gestionnaire d’évènement doit se déclencher, nous allons pouvoir <b>passer un troisième argument booléen à la méthode addEventListener()</b>.<br>
+    Pour lui demander de <b>réagir à la phase de capture</b>, on va donc devoir lui <b>passer la valeur <span class="alert"> true </span></b>.
+</p>
+<p><span class="underline"> Mise en pratique sur la phase de capture :</span></p>
+
+<p class="borderLeft ital">// réagir à la phase de capture<br>
+    let d2 = document.querySelector('#d2');<br>
+    let btn2 = document.querySelector('#btn2');<br>
+    let p2 = document.querySelector('#p2');<br><br>
+
+    d2.<b>>addEventListener</b>('click', function () {alert('div d2 cliquée')}<b><span class="alert"> , true </span></b>); // ici on ajoute en 3e argument true<br>
+    btn2.<b>addEventListener</b>('click', function () {p2.textContent = 'on vient de cliquer sur btn2'; alert('Le bouton btn2 a été cliqué')}<b><span class="alert"> , true </span></b>); // ici on ajoute en 3e argument true
+</p>
+
+<fieldset id="d2" class="field">
+    <legend>div="d2"</legend>
+    <button id="btn2">Un bouton btn2 dans une div</button>
+    <p id="d2p2">Un autre paragraphe d2p1 dans le div</p>
+</fieldset>
+<p id="p2"></p>
+
+<h2>Empêcher un évènement de se propager et annuler son comportement par défaut en JavaScript</h2>
+<p>Nous allons apprendre à stopper la propagation d’un évènement ou à faire en sorte qu’un évènement ne soit pas du tout pris en compte
+    et voir dans quelle situation cela peut s’avérer utile.
+</p>
+
+<h3>Stopper la propagation d’un évènement : <span class="alert">e.stopPropagation()</span> </h3>
+<ul>
+    <li>La méthode <b>stopPropagation() de</b>  l’interface <b><span class="underline"> Event </span></b>, va stopper la propagation d’un évènement <b>après qu’un gestionnaire d’évènement</b>
+        (gérant l’évènement en question) <b>ait été atteint.</b>
+        <p>- Si la phase de <b>bouillonnement</b> est choisie, le <b>gestionnaire le plus proche de l’élément</b> cible de l’évènement sera exécuté et les gestionnaires de ce même évènement
+            attachés aux éléments parents seront ignorés.<br>
+            - Si la phase de <b>capture</b> est choisie, <b>le gestionnaire pour cet évènement le plus lointain</b> de l’élément cible de l’évènement sera exécuté et les autres seront ignorés.
+        </p>
+    </li>
+    <li><b>stopImmediatePropagation() : </b>seul le <b><span class="underline"> premier gestionnaire </span> de l’évènement attaché au premier élément atteint</b> sera exécuté.<br>
+        Ceci sert dans le cas où on ne souhaite véritablement exécuter qu’un seul gestionnaire d’un évènement et ignorer tous les autres attachés à ce  même évènement.</li>
+</ul>
+
+<p>Mettons en pratique cela :</p>
+
+<p class="borderLeft ital">
+    //on utilise la phase de bouillenement<br>
+    d3.addEventListener('click', function () {
+    alert('div d3 cliquée')
+    }, );<br><br>
+
+    btn3.addEventListener('click', cliqueAndStop);<br><br>
+
+    //l'argument 'e' sert ici de référence à un objet Event<br>
+    function <b>cliqueAndStop(<span class="alert">e</span>)</b> {
+    alert('Btn3 cliqué - Arrêt de la propagation !');
+    <b><span class="alert">e</span>.stopPropagation()</b>;
+    };
+
+</p>
+
+<fieldset id="d3" class="field">
+    <legend>div="d3"</legend>
+    <button id="btn3">Un bouton btn3 dans une div</button>
+    <p id="d3p2">Un autre paragraphe d3p1 dans le div</p>
+</fieldset>
+
+<h2>Prévenir le comportement de base d’un évènement : <span class="alert">e.preventDefault()</span></h2>
+<ul>
+    <li><b>preventDefault()</b> de l’interface Event : fait en sorte que <b>l’action <span class="underline"> par défaut </span> d’un évènement</b> ne soit <b>pas prise en compte par le navigateur</b>.<br>
+    Cela est très intéressant pour prévenir l’envoi d’un formulaire mal rempli.
+    </li>
+</ul>
+
+<p>Mettons en pratique cela :</p>
+<p class="borderLeft ital">
+    let envoi = document.getElementById('btn-envoi');<br>
+    envoi.addEventListener('click', testDonnees);<br><br>
+
+    function testDonnees<b><span class="alert"> (e) </span></b> {<br>
+    let prenom = document.getElementById('prenom').value;<br>
+    //si (if...) les données ne remplissent pas certaines conditions, renvoie un message et empêche l'action par défaut de se déclencher<br>
+    <b>if(prenom == '') {</b><br>
+    alert('envoie du formulaire bloqué : le champ est vide.');<br>
+    <b>e.preventDefault();</b><br>
+    } else {<br>
+    alert('vous avez saisie ' + prenom);<br>
+    }<br>
+    }
+</p>
+
+<form action="" method="post">
+    <label for="prenom">Prénom</label>
+    <input type="text" id="prenom" value="" name="input">
+    <input type="submit" value="Envoyer" id="btn-envoi">
+</form>
+
+<script src="js/evenement-propagation.js"></script>
+</body>
+</html>

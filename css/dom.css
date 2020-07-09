@@ -1,0 +1,22 @@
+.imgDom{
+    width : 550px;
+    position: relative;
+    border: solid black 1px;
+}
+
+.imgTypeNoeud img{
+    width: 650px;
+}
+
+table{
+    border-collapse:collapse
+}
+
+td{
+    border: solid black 1px;
+    padding : 5px 15px;
+}
+
+.tdTitle{
+    color : red;
+}

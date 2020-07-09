@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Les tableaux en JavaScript et l’objet global Array</title>
+</head>
+<body>
+<h1>Les tableaux en JavaScript et l’objet global Array</h1>
+<p>Les variables de type Array, ou variables tableaux, sont des variables particulières qu’on retrouve dans de nombreux langages de programmation et qui permettent de stocker plusieurs valeurs à la fois avec un système de clef ou d’indice associé à chaque valeur.
+    En JavaScript, les tableaux sont avant tout des objets qui dépendent de l’objet global Array.</p>
+<p>Le principe des tableaux est relativement simple : un indice ou clef va être associé à chaque valeur du tableau. Pour récupérer une valeur dans le tableau, on va utiliser les indices qui sont chacun unique dans un tableau.
+<p>On distingue 2 types de tableaux :
+    <ul>
+        <li>les tableaux numérotés : tableaux dont les clefs ou indices sont des chiffres.</li>
+        <li>les tableaux associatifs : tableaux dont les clefs ou indices sont des chaines de caractères définies par le développeur</li>
+    </ul>
+<p><strong>Le JavaScript ne gère qu’un type de tableau : les tableaux numérotés</strong></p>
+</p>
+<br>
+
+<h2>Création d'un tableau :</h2>
+<p>On utilise les crochets […] comme ceci :</p>
+<p> let prenoms = ['Pierre', 'Mathilde', 'Jean'];</p>
+<p>let produits = ['Livre', 20, 'Ordinateur', 5, ['Magnets', 100]];</p>
+<p>Notre premier tableau prenoms contient des chaines de caractères.<br>
+    Notre deuxième tableau produits contient des valeurs de type chaine de caractères et de type nombre et même un autre tableau.
+</p>
+<br>
+
+<h2>Accéder à une valeur dans un tableau</h2>
+<p>Pour accéder à une valeur en particulier dans un tableau, il suffit de préciser le nom du tableau puis l’indice associé à la valeur à laquelle on souhaite accéder entre crochets.</p>
+<p id="sp1"></p>
+<p id="sp2"></p>
+<br>
+
+<h2>Utiliser une boucle "for…of" pour parcourir toutes les valeurs d’un tableau</h2>
+<p>Pour parcourir un tableau élément par élément, on va pouvoir utiliser une boucle spécialement créée dans ce but qui est la boucle <strong>for…of.</strong></p>
+<p> for(let valeur of prenoms) { document.getElementById.innerHtml += valeur + "br>" };</p>
+<p id="sp3"></p>
+<br>
+
+<h2>Tableaux associatifs en JavaScript, objets littéraux et boucle "for… in"</h2>
+<p>Dans nombre d’autres langages informatique (dont le PHP, par exemple), on peut créer des tableaux en choisissant d’attribuer une clef textuelle à chaque nouvelle valeur. On appelle ces tableaux des tableaux associatifs.
+</p>
+<p>En JavaScript, ce type de tableau n’existe tout simplement pas. La chose qui va le plus se rapprocher d’un tableau associatif en JavaScript est finalement un objet littéral.
+    Par ailleurs, notez qu’on va pouvoir utiliser une boucle for… in pour parcourir les propriétés d’un objet littéral une à une.<br>
+    <strong>La boucle for…in est l’équivalent de la boucle for…of mais pour les objets.</strong>
+</p>
+<p>let pierre = { <br>
+    'prenom' : 'Pierre', <br>
+    'age' : 29, <br>
+    'sport' : 'hockey', <br>
+    'cours' : ['Html', 'Css', 'Js'] <br>
+    };</p>
+<p>for(let key in pierre){ <br>
+    document.getElementById('sp4').innerHTML += key + ' : ' + pierre[key] + 'br>';
+    <br>}
+</p>
+<p id="sp4"></p>
+<br>
+
+<h3>Afficher le tableau</h3>
+<p>’on arrive à afficher les différentes valeurs de notre tableau prenoms dans notre paragraphe simplement avec document.getElementById('p1').innerHTML = prenoms.</p>
+<p>let produits = ['Livre', 20, 'Ordinateur', 5, ['Magnets', 100]];</p>
+<p id="showArray"></p>
+<p>Cela est dû au fait que lorsqu’un tableau doit être représenté par une valeur texte, JavaScript appelle automatiquement la méthode <b>toString()</b> sur celui-ci qui concatène les éléments du tableau et renvoie une chaîne de caractères contenant chacun des éléments, séparés par des virgules.</p>
+
+<h2>Les propriétés et les méthodes du constructeur Array()</h2>
+<p>Le constructeur Array() ne possède que deux propriétés : <strong> length </strong> et  prototype.</p>
+<h3>Les méthodes de Array() : </h3>
+<ul>
+    <li><strong> push() : </strong> va nous permettre d’ajouter des éléments en <b>fin de tableau et va retourner la nouvelle taille du tableau </b>. Nous allons passer les éléments à ajouter en argument.
+        <p>let prenoms = ['Pierre', 'Mathilde', 'Jean']; <br>
+            taille = prenoms.push('Alain', 'Paul');</p>
+        <p id="sp5"></p>
+    </li>
+    <li><strong> pop() :</strong> va elle nous permettre de supprimer <b>le dernier élément d’un tableau et va retourner l’élément supprimé.</b>
+        <p id="sp6"></p>
+    </li>
+    <li><strong>unshift() : </strong> va nous permettre d’ajouter des éléments en <b>début de tableau et va retourner la nouvelle taille du tableau.</b></li><br>
+    <li><strong>shift() : </strong> va elle nous permettre de supprimer le <b>premier élément d’un tableau et va retourner l’élément supprimé.</b></li><br>
+    <li> <b>splice() :</b> pour <strong> ajouter, supprimer ou remplacer des éléments n'importe où dans un tableau </strong>, on peut également utiliser splice().
+        <br> splice() va pouvoir prendre trois arguments : une position de départ à partir d’où commencer le changement, le nombre d’éléments à remplacer et finalement les éléments à ajouter au tableau.
+        <br>Si on précise 0 en nombre d’éléments à remplacer, alors aucun élément ne sera supprimé du tableau de base. Dans ce cas, il sera nécessaire de préciser des éléments à rajouter.
+        <br>Enfin, si on ne précise pas d’éléments à rajouter au tableau, le nombre d’éléments à remplacer tel quel précisé en deuxième argument seront supprimés du tableau à partir de la position indiquée en premier argument
+        <br><b>Cette méthode va également retourner un tableau contenant les éléments supprimés</b>
+        <p>// On supprime dans le tableau age, 2 éléments après le 1er et on insère 35 après le 1er
+            <br>let age2 = [29, 27, 28, 30];
+            <br>let agesplice = age2.splice(1, 2, 35) ;
+            <br>console.log('après splice : ' + age2) // renvoie 29, 35, 30;
+            <br>console.log('elements supprimés : ' + agesplice) //renvoie 27, 28;</p>
+    </li>
+    <li><b>join() : </b> retourne une chaine de caractères créée en concaténant les différentes valeurs d’un tableau.
+        Le séparateur utilisé par défaut sera la virgule mais nous allons également pouvoir passer le séparateur de notre choix en argument de join().
+        <p id="spjoin"></p>
+    </li>
+    <li><b>slice() : </b> renvoie un tableau créé en <b>découpant un tableau de départ.</b>
+    <br>Cette méthode va prendre en premier argument facultatif la position de départ où doit commencer la découpe de notre tableau de départ. Si la position passée est un nombre négatif, alors le début de la découpe sera calculé à partir de la fin du tableau de départ.
+    Si aucune position de départ n’est passée, la découpe commencera depuis le début du tableau de départ.
+    <br>On va également pouvoir lui passer en second argument facultatif la position où doit s’arrêter la découpe du tableau de départ. Si la position passée est un nombre négatif, alors la fin de la découpe sera calculé à partir de la fin du tableau de départ.
+    Si aucune position de fin n’est passée, alors on récupèrera le tableau de départ jusqu’à la fin pour créer notre nouveau tableau.
+        <p id="spSlice"></p>
+    </li>
+    <li><b>concat() : </b> va nous permettre de <b>fusionner différents tableaux entre eux pour en créer un nouveau </b> qu’elle va renvoyer.
+        <br>Cette méthode va prendre en arguments les tableaux que l’on souhaite concaténer à un premier de départ qu’on va pouvoir choisir arbitrairement.
+        <p>let concat = prenoms.concat(age);</p>
+        <p id="concat"></p>
+    </li>
+    <li><b>includes() : </b> permet de <b> déterminer si un tableau contient une valeur qu’on va passer en argument </b>. Si c’est le cas, includes() <b>renvoie true </b>.
+        Dans le cas contraire, cette méthode renvoie false.
+        <p>let include = prenoms.includes('Jean');</p>
+        <p>console.log(include) ∕∕renvoie true;</p>
+    </li>
+</ul>
+
+
+<script src="js/tableau.js"></script>
+</body>
+</html>

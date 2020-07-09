@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>La gestion d’évènements en JavaScript et la méthode addEventListener</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>La gestion d’évènements en JavaScript et la méthode addEventListener</h1>
+<p>Les évènements et leur prise en charge sont l’un des mécanismes principaux du JavaScript qui vont nous permettre d’ajouter un vrai dynamisme à nos pages Web.</p>
+
+<h2>Présentation et première définition des évènements</h2>
+<p>un évènement est une action qui se produit et qui possède deux caractéristiques essentielles :</p>
+<ul>
+    <li>une action qu’on peut « <b>écouter</b> », c’est-à-dire une action <b>qu’on peut détecter.</b></li>
+    <li>une action à laquelle on peut « <b>répondre</b> », c’est-à-dire qu’on va pouvoir attacher un code à cette action qui va s’exécuter dès qu’elle va se produire</li>
+</ul>
+<p>Les évènements qui vont nous intéresser particulièrement sont les <b>évènements liés au Web et donc au navigateur</b>. Ces évènements peuvent être très différents les uns des autres. </p>
+<ul>Exemple :
+    <li>Le chargement du document est un évènement</li>
+    <li>Un clic sur un bouton effectué par un utilisateur</li>
+    <li>Le survol d’un élément par la souris </li>
+    <li>Etc</li>
+</ul>
+
+<h2>Définir des gestionnaires d’évènements</h2>
+<p>Pour écouter et répondre à un évènement, nous allons définir ce qu’on appelle des gestionnaires d’évènements. Ces gestionnaires d'événements sont divisés en 2 parties.<br>
+Une partie pour écouter le déclenchement, et une partie gestionnaire qui sera le code à éxécuter.</p>
+<p>en JavaScript, il existe trois grandes façons d’<b>implémenter un gestionnaire d’évènements</b> :</p>
+<ul>
+    <li>Par des attributs HTML de type évènement (non recommandé) ;</li>
+    <li>Par des propriétés JavaScript liées aux évènements ;</li>
+    <li>Par  la méthode <b>addEventListener()</b> (recommandé)</li>
+</ul>
+
+<div class="margeLeft">
+<h3>1 - Les attributs Html de type évènement</h3>
+<p>Ces attributs HTML de « type évènement » possèdent souvent le nom de l’évènement qu’ils doivent écouter et gérer précédé par « on » comme par exemple : onclick, onmouseover, on mouseout</p>
+<p onmouseover="this.style.backgroundColor='orange'"
+onmouseout="this.style.backgroundColor='white'" class="ital borderLeft">
+    &ltul onmouseover="this.style.backgroundColor='orange'"<br>
+       onmouseout="this.style.backgroundColor='white'">
+</p>
+
+<h3>2 - les propriétés JavaScript pour gérer un évènement</h3>
+<p>Chaque évènement est représenté en JavaScript par <b>un objet basé sur l’interface Event</b>.<br>
+    Ces gestionnaires d’évènements sont des <b>propriétés qui sont de la forme « on » + nom de l’évènement géré</b>,
+    c’est-à-dire qui ont des noms similaires aux attributs HTML vus précédemment.</p>
+<p>On va à nouveau passer le code à exécuter (généralement <b>sous forme de fonction anonyme</b>) en cas de déclenchement de l’évènement en valeur de la propriété relative à l’évènement
+    et allons généralement utiliser ces propriétés à partir d’objets Element.</p>
+<div id="div1" class="ital borderLeft">
+    <p>let div1 = document.getElementById('div1');<br>
+        div1.onmouseover = function () {this.style.backgroundColor = 'yellow';}; //on utilise les propriétés gestionnaires d'évènement<br>
+        div1.onmouseout = function () {this.style.backgroundColor = 'white';};
+    </p>
+    <p>Cette façon de faire est <span class="underline"> moins efficace et performante </span> que la suivante car chaque objet ne va pouvoir posséder qu’une propriété gestionnaire d’évènements pour un même type d’évènements</p>
+</div>
+
+<h3>3 - la méthode addEventListener() pour gérer un évènement</h3>
+    <p>C’est la méthode la plus flexible et la plus performante.</p>
+    <p>On passe deux arguments à cette méthode : le <b>nom d’un évènement</b> qu’on souhaite prendre en charge ainsi que <b>le code à exécuter</b>
+        (qui prendra souvent la forme d’une fonction) en cas de déclenchement de cet évènement.</p>
+    <p><span class="underline"> Notez </span> qu’on va par ailleurs pouvoir utiliser la méthode addEventListener() pour <b>réagir plusieurs fois
+        et de façon différente à un même évènement</b> ou pour <b>réagir à différents évènements</b>
+        à partir de différents ou d’un même objet Element.
+    </p>
+
+    <p class="borderLeft ital">let btn = document.querySelector('button');<br>
+        let p2 = document.getElementById('p2');<br><br>
+
+        <b>btn.addEventListener('click', function()</b>{
+        p2.style.color='blue';
+        p2.style.fontWeight='bold';
+        }
+        );<br>
+        p2.addEventListener('mouseover', function () {
+        p2.style.backgroundColor='orange';
+        });<br>
+        p2.addEventListener('mouseout', function () {
+        p2.style.backgroundColor="white";
+        })
+    </p>
+    <div id="div2">
+        <p id="p2">Ce texte réagit aux différents événements</p>
+        <button>addEventListener()</button>
+    </div>
+
+    <h3>Supprimer un gestionnaire d’évènements avec removeEventListener()</h3>
+    <p><b>removeEventListener()</b> de l’interface EventTarget : permet de supprimer un gestionnaire d’évènement <b>déclaré avec addEventListener()</b>.<br>
+        Il suffit de passer <b>en argument le type d’évènement</b> ainsi que <b>le <span class="underline"> nom de la fonction </span> passée en argument de addEventListener()</b>.
+    </p>
+    <div class="borderLeft ital">
+        <p>let p3 = document.getElementById('p3');<br>
+            let btn2 = document.getElementById('btn2');<br><br>
+
+            function changeColor(){
+            this.style.backgroundColor='orange';
+            };<br>
+
+            p3.addEventListener('mouseover', changeColor);<br>
+            p3.addEventListener('mouseover', function () {
+            this.style.fontWeight='bold';
+            });<br>
+            <b>p3.removeEventListener('mouseover', changeColor);</b><br>
+        </p>
+    </div>
+    <button id="btn2">removeEventListener</button>
+    <p id="p3">Ce texte réagit aux différents événements</p>
+    <p>removeEventListener() va s’avérer utile lorsqu’on voudra retirer un gestionnaire d’évènement selon certains cas
+        comme par exemple dans la situation où un autre évènement s’est déjà déclenché.</p>
+
+</div>
+<script src="js/evenement.js"></script>
+</body>
+</html>

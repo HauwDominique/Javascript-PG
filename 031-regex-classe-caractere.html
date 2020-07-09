@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>regex-classe-caractere</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<h1>Les classes de caractères et classes abrégées des expressions régulières JavaScript</h1>
+
+<h2>Les classes de caractères</h2>
+
+<p>Les classes de caractères vont nous permettre de fournir différents choix de correspondance pour un caractère en spécifiant un ensemble de caractères qui vont pouvoir être trouvés.</p>
+<p>Pour déclarer une classe de caractères dans notre masque, nous allons utiliser <b>une paire de crochets [ ]</b> qui vont nous permettre de délimiter la classe en question.</p>
+<p class="underline">Voici quelques exemples :</p>
+<div class="borderLeft ital">
+    <p >
+        let chaine1 = "Bonjour, je m'appelle Pierre et vous ?";<br><br>
+        let masque1 = /[aeiouy]/; //cherche une voyelle<br>
+        let masque2 = /j[aeiouy]/g; //cherche "j" suivie d'une voyelle et affiche tous les résultats<br>
+        let masque3 = /[aeiyou][aeiouy]/g; //cherche une voyelle suivie d'une voyelle
+    </p>
+    <p id="p1"></p>
+</div>
+<p class="underline">Explications : </p>
+<div class="borderLeft ital">
+    <p>Notre premier masque contient uniquement <b>la classe de caractères</b> [aeiouy]</p>
+    <p>Notre deuxième masque permet de chercher <b>la séquence</b> « un j suivi d’un voyelle ». En effet, ici, on place le caractère « j » en dehors de notre classe de caractères.</p>
+    <p>Notre troisième masque utilise cette fois-ci deux classes de caractères d’affilée</p>
+</div>
+
+<h2>Les classes de caractères et les méta caractères</h2>
+<p>Dans le language des Regex, de nombreux caractères (ex : '[', ']', '/') vont avoir une signification spéciale. On les appelle des <b>métacarctères.</b><br>
+    Ils vont nous permettre de créer des masques complexes et donc des schémas de recherche puissants. <br>
+    Il existe de nombreux métacaractères qu’on va pouvoir inclure dans nos masques.
+</p>
+<p> Cependant, <b>au sein des classes de caractères, la plupart de ces métacaractères perdent leur signification spéciale.</b>
+    Il faudra donc toujours faire bien attention à bien distinguer les sens de ces caractères selon qu’ils sont dans une classe de caractères ou pas.
+</p>
+
+<table>
+    <tr>
+        <td class="firstTd">\</td>
+        <td><b>Caractère de protection ou d’échappement</b> qui va avoir plusieurs usages (on va pouvoir s’en servir pour <b>donner un sens spécial</b> à des caractères
+            qui n’en possèdent pas <b>ou</b> au contraire pour <b>neutraliser le sens spécial</b> des métacaractères).
+        </td>
+    </tr>
+    <tr>
+        <td class="firstTd">^</td>
+        <td>Si placé au tout <b>début d’une classe, permet de nier la classe</b> c’est-à-dire de chercher tout caractère qui n’appartient pas à la classe.</td>
+    </tr>
+    <tr>
+        <td class="firstTd">-</td>
+        <td><b>Entre deux caractères</b>, permet d’indiquer <b>un intervalle de caractères</b> (correspond à écrire les deux caractères et tous les caractères entre ces deux là).</td>
+    </tr>
+</table>
+
+<p><span class="underline">Notez :</span></p>
+<p>Si on souhaite rechercher le caractère représenté par l’un des métacaractères ci-dessus plutôt que de l’utiliser pour son sens spécial (par exemple si on souhaite rechercher le signe moins),
+    il faudra alors le protéger ou « l’échapper » avec un antislash.
+</p>
+<p>Il faudra également protéger les caractères de classe (les crochets) ainsi que le délimiteur de masque (le slash) si on souhaite les inclure pour les rechercher dans une classe de caractères.
+    Dans le cas contraire, cela peut poser des problèmes car le navigateur pourrait penser par exemple que ce n’est pas « ] » qui est cherché mais la classe qui est refermée.
+</p>
+
+<p class="underline">Mettons en pratique</p>
+<div class="borderLeft ital">
+    <p>
+        let chaine2 = 'Bonjour, je suis Pierre. Mon numéro est le [06.36.65.65.<br><br>
+
+        let masque4 = /[<span class="alert">^</span> aeiouy]/g; - //cherche autre chose qu'une voyelle<br>
+        let masque5 = /[<span class="alert">\^</span> aeiouy]/g; - //cherche ^ ou une voyelle<br>
+        let masque6 = /[aei<span class="alert">^</span> ouy]/g; - //cherche ^ ou une voyelle<br>
+        let masque7 = /[a-z]o/g; - //cherche une lettre minuscule suivie d'un o<br>
+        let masque8 = /[a-zA-Z]o/g; - //cherche une lettre minuscule ou majuscule suivie d'un o<br>
+        let masque9 = /[a <span class="alert">\-</span> z]/g; - //cherche "a", ou "-", ou "z"<br>
+        let masque10 = /[0-9 <span class="alert">az-</span> ]/g; - //cherche un chiffre, "a", "z" ou "-"<br>
+        let masque11 = /[0-9 <span class="alert">\/\[\]</span> ]/g; - //cherche un chiffre, "/", "[" ou "]"
+    </p>
+    <p id="p2"></p>
+</div>
+<p><span class="underline">Notez que : </span> les lettres qui ne font pas partie strictement de l’alphabet anglais commun (c’est-à-dire les lettres accentuées,
+    les lettres avec cédilles, etc.) ne seront pas ici trouvées.
+</p>
+
+<h2>Les classes de caractères abrégées ou prédéfinies</h2>
+<p>Le caractère d’échappement ou de protection <b>antislash</b> va pouvoir avoir <b>plusieurs rôles ou plusieurs sens</b> dans un contexte d’utilisation au sein de classes.<br>
+    Il peut protéger certains métacaractères (le métacaractère ne prendra pas sa signification spéciale).<br>
+    L’antislash va encore pouvoir être utilisé au sein de classes de caractères avec certains caractères « normaux » pour <b>au contraire leur donner une signification spéciale.</b><br>
+    On peut utiliser des <b><span class="underline"> classes abrégées </span></b> pour indiquer qu’on recherche un type de valeurs plutôt qu’une valeur ou qu’une plage
+    de valeurs en particuliers.
+</p>
+
+<table>
+    <tr>
+        <td class="firstTd">\w</td>
+        <td>Représente <b>tout caractère de « mot »</b> (caractère alphanumérique + tiret bas). Équivalent à [a-zA-Z0-9_]
+        </td>
+    </tr>
+    <tr>
+        <td class="firstTd">\W</td>
+        <td>tout caractère qui <b><span class="underline"> n’est pas </span> un caractère de « mot »</b>. Equivalent à [^a-zA- Z0-9_]</td>
+    </tr>
+    <tr>
+        <td class="firstTd">\d</td>
+        <td><b>un chiffre</b>. Équivalent à [0-9]</td>
+    </tr>
+    <tr>
+        <td class="firstTd">\D</td>
+        <td><b>qui <span class="underline"> n’est pas </span> un chiffre.</b> Équivalent à [^0-9]</td>
+    </tr>
+    <tr>
+        <td class="firstTd">\s</td>
+        <td><b>un caractère blanc</b> (espace, retour chariot ou retour à la ligne)</td>
+    </tr>
+    <tr>
+        <td class="firstTd">\S</td>
+        <td><b>qui <span class="underline"> n’est pas </span> un caractère blanc</b></td>
+    </tr>
+    <tr>
+        <td class="firstTd">\t</td>
+        <td>une espace <b>(tabulation)</b> horizontale</td>
+    </tr>
+    <tr>
+        <td class="firstTd">\v</td>
+        <td><b>une espace verticale</b></td>
+    </tr>
+    <tr>
+        <td class="firstTd">\n</td>
+        <td><b>un saut de ligne</b></td>
+    </tr>
+</table>
+
+<p class="underline">Mettons en pratique :</p>
+<div class="borderLeft ital">
+    <p>
+        let chaine3 = "Bonjour, je suis ^Alain^. Mon /numéro/ est le [06.25.25.25.05]"; <br> <br>
+
+        let masque12 = /\w/g; - // un caractère alphanumérique <br>
+        let masque13 = /\W/g; - // tout sauf un caractère alphanumérique <br>
+        let masque14 = /\d/g; - // un chiffre <br>
+        let masque15 = /[\da-z]/g; - // un chiffre <span class="alert"> ou </span> une lettre minuscule
+    </p>
+    <p>Résultat :</p>
+    <p id="p3"></p>
+</div>
+<br>
+
+<h1>Les métacaractères point, alternatives, ancres et quantificateurs des expressions régulières JavaScript</h1>
+<p>Dans les classes de caractères, nous n'avons accès qu'à 3 métacaractères (^, - et \).<br>
+    <b><span class="underline alert"> A l’extérieur des classes </span></b> de caractères de <b>nombreux autres caractères</b> possèdent une signification spéciale comme
+    le point, la barre verticale, l’accent circonflexe (qui va avoir une autre signification qu’au sein d’une classe), le signe dollar ou encore ce qu’on appelle <b>les quantificateurs</b>.
+</p>
+
+<h2>Le point <pan class="alert"> . </pan> </h2>
+<p>Le métacaractère <span class="alert"> . (point) </span> va nous permettre de rechercher <b>n’importe quel caractère <span class="underline"> à l’exception du caractère représentant une nouvelle ligne (\n)</span>.</b><br>
+    Pour rechercher le caractère « . » dans une chaine de caractère, il faudra l’échapper ou le protéger avec un antislash.</b>
+</p>
+<p class="underline">En pratique : </p>
+<div class="borderLeft ital">
+    <p>
+        let chaine4 = 'Bonjour, je suis ^Pierre^. Mon no. est le [06-25-25-25-25]'; <br> <br>
+
+        let masque16 = /o./g; - // un "o" <pan class="alert"> suivi </pan> par n'importe quel caractère sauf \n <br>
+        let masque17 = /o\./g; - // un "o" suivi d'un point <br>
+        let masque18 = /o[.]/g; - // "o" <pan class="alert"> suivie </pan> d'un point, car cette fois le point n'est pas à l'extérieur de la classe <br>
+        let masque19 = /[o.]/g; - // un "o" <pan class="alert"> ou </pan> un point, car le point n'est pas à l'extérieur de la classe <br>
+    </p>
+    <p id="p4"></p>
+</div>
+<p><span class="underline">Attention : </span> le point a un sens bien différent selon qu’il soit spécifié dans une classe ou en dehors d’une classe de caractères.</p>
+
+<h2>Les alternatives <pan class="alert"> | </pan> </h2>
+<p>Le métacaractère <span class="alert"> | (barre verticale) </span> sert à proposer des <b>alternatives.</b><br>
+    Concrètement, ce métacaractère va nous permettre de créer des masques qui vont pouvoir <b>chercher une séquence de caractères ou une autre</b>.
+<p class="underline">En pratique : </p>
+<div class="borderLeft ital">
+    <p>
+        let chaine4 = 'Bonjour, je suis ^Pierre^. Mon no. est le [06-25-25-25-25]'; <br> <br>
+        let masque20 = /o|j/g; - // Un "o" ou un "j" <br>
+        let masque21 = /[oj]/g; // Un "o" ou un "j" ; cette séquence est identique ou masque 20<br>
+        let masque22 = /Pierre|Jeanne/g; // "Pierre" ou "Jeanne"
+    </p>
+    <p id="p5"></p>
+</div>
+</p>
+
+<h2>Les ancres <pan class="alert"> ^ </pan> et <pan class="alert"> $ </pan> </h2>
+<p>Les deux métacaractères <span class="alert"> ^ et $ </span> vont nous permettre <b> « d’ancrer » des masques. </b></p>
+<ul>
+    <li> <b><span class="alert"> ^ </span> en dehors d’une classe</b> nous permet d’exprimer le fait qu’on recherche la présence du <b>caractère suivant</b> le ^, <b> <span class="underline"> en début de chaine.</span> </b></li>
+    <li> <b><span class="alert"> $ </span> en dehors d'une classe</b> nous permettre de rechercher la présence du <b>caractère précédant</b> ce métacaractère <b> <span class="underline"> en fin de chaine. </span></b><br>
+        Il va falloir placer le métacaractère $ en <b>fin de du masque</b> ou tout au moins en fin d’alternative pour qu’il exprime ce sens.
+    </li>
+</ul>
+<p class="underline">Exemples : </p>
+<div class="borderLeft ital">
+    <p>
+        let chaine5 = "Bonjour, je suis Pierre a^$b. Mon no. est le [06.25.25.25.25]"; <br><br>
+
+        let masque23 = /^./g; //n'importe quel caractère en début de chaine sauf un \n <br>
+        let masque24 = /^A-Z/g; //Une majuscule en début de chaine <br>
+        let masque25 = <span class="alert">/.$/g;</span> // N'importe quel caractère en fin de chaine sauf un \n. Ici il est important que le <span class="underline"> $ soit placé après le caractère recherché </span> <br>
+        let masque26 = /a\^\$b/g; // a^$b dans la chaine <br>
+        let masque27 = /[e$]/g; // e <span class="alert"> ou </span> $ dans la chaine <br>
+        let masque28 = /^[^a-b]/g; // Autre chose qu'une minuscule en début de chaine <br>
+        let masque29 = /^...$/; // Trois caractères uniquement (donc pas plus de 3 caractères, puisqu'on les inclus entre un début et une fin de chaine), sans retour à la ligne <br>
+        let masque30 = /.../;
+    </p>
+    <p id="p6"></p>
+</div>
+
+<h2>Les quantificateurs</h2>
+<p>Les quantificateurs sont des métacaractères qui vont représenter une <b>certaine quantité</b> d’un caractère ou d’une séquence de caractères.</p>
+<p>Voici les quantificateurs que l'on peut utiliser :</p>
+<table>
+    <tr>
+        <td class="firstTd">a{X}</td>
+        <td>une séquence de X « a ». / Ex : b{3}</td>
+    </tr>
+    <tr>
+        <td class="firstTd">a{X,Y}</td>
+        <td>une séquence de X à Y fois « a ». / Ex : b{3, 5}</td>
+    </tr>
+    <tr>
+        <td class="firstTd">a{X,}</td>
+        <td>une séquence d’<span class="underline"> au moins X fois </span> « a » sans limite supérieure. / Ex : b{3,}</td>
+    </tr>
+    <tr>
+        <td class="firstTd">a?</td>
+        <td>0 ou 1 « a ». Équivalent à a{0,1}</td>
+    </tr>
+    <tr>
+        <td class="firstTd">a+</td>
+        <td>au moins un « a ». Équivalent à a{1,}</td>
+    </tr>
+    <tr>
+        <td class="firstTd">a*</td>
+        <td>0, 1 ou plusieurs « a ». Équivalent à a{0,}</td>
+    </tr>
+</table>
+
+<p class="underline">Quelques exemples :</p>
+<div class="borderLeft ital">
+    <p>
+        let chaine5 = "Bonjour, je suis Pierre a^$b. Mon no. est le [06.25.25.25.25]"; <br><br>
+
+        let masque31a = /er/g; - // on cherche "er"<br><br>
+        let masque31 = /er?/g; - // on cherche "e", et "r" (r 0 ou 1 fois). donc "e" et/ou "er" <br>
+        let masque32 = /er+/g; - // on cherche un « e » suivi d’<span class="underline"> au moins un « r »</span>. On trouve cette séquence dans « Pierre ». Comme <b>les quantificateurs sont gourmands</b>, c’est la séquence la plus grande autorisée qui va être trouvée, à savoir « err ».<br>
+        let masque33 = /^[A-Z].{10}/g; - // cherche une chaine qui commence par une lettre de l’alphabet commun en majuscule suivie d’au moins 10 caractères qui peuvent être n’importe quel caractère à part un retour à la ligne<br>
+        let masque34 = /^\d{10,10}/g; - // une chaine qui contient exactement et uniquement 10 chiffres
+    </p>
+    <p id="p7"></p>
+
+    <p>
+        let chaine6 = 'ar arr arrr'; <br><br>
+        let masque35 = /ar{0}/g; <br>
+        let masque36 = /ar{2}/g; <br>
+        let masque37 = /ar{1,3}/g; <br>
+        let masque38 = /ar+/g;
+
+    </p>
+    <p id="p8"></p>
+</div>
+<br>
+
+<h1>Sous masques et des assertions dans les expressions régulières JavaScript</h1>
+
+<h2>Les sous masques <span class="alert">()</span></span> </h2>
+<p>Les métacaractères <b>( et )</b> vont être utilisés pour <b>délimiter des sous masques.</b></p>
+<p>Un sous masque est une partie d’un masque de recherche. Les parenthèses vont nous permettre d’isoler des alternatives
+    ou de définir sur quelle partie du masque un quantificateur doit s’appliquer.
+</p>
+<p><span class="underline"> Notez </span> que les parenthèses vont par défaut créer des <b>sous masques</b> dits <b>« capturants »</b>. Cela signifie tout simplement que lorsqu’un sous masque est trouvé dans la chaine de caractères,
+    la correspondance <b>sera gardée en mémoire et pourra ainsi être réutilisée</b> par la suite.<br>
+    Pour qu’une partie de la chaîne de caractère corresponde mais que la correspondance <b>ne soit pas gardée en mémoire</b>,
+    on pourra utiliser les signes <b> ?: </b> dans les parenthèses comme premiers caractères de celles-ci.
+</p>
+
+<p class="underline">Mettons en pratique :</p>
+<div class="borderLeft Ital">
+    <p>
+        let chaine7 = "Bonjour, Pierre et Alain"; <br><br>
+
+        let masque39 = /er|t/g; - // Correspondance "er" ou "t" <br>
+        let masque40 = /e(r|t)/; - // Correspondance "er" ou "et" + capture r ou t <br>
+        let masque40b = /e(r|t)/g; // Correspondance "er" ou "et" + capture r ou t <br>
+        let masque41 = /Bon(jour)/; - // Correspondance "Bonjour" + capture "jour" <br>
+        let masque42 = /Bon(jour)/g; - // Correspondance "Bonjour". Ici pas de capture "jour" car le drapeau g annule cette capture
+    </p>
+    <p id="p9"></p>
+</div>
+<p>Explications : </p>
+<div class="borderLeft ital">
+    <p>
+        masque40 : comme il n'y a pas le drapeau g, renvoie que la 1er correspondance (ici "er") + la capture du sous masque lié à cette 1er correspondance. <br>
+        masque40b : il y a le drapeau, donc retourne toutes les occurences. Par contre, ne renvoie pas les captures du sous masque à cause de ce drapeau.
+    </p>
+</div>
+
+<h2>Les assertions</h2>
+<p>On appelle « assertion » un <b>test</b> qui va se dérouler sur le ou <b>les caractères suivants ou précédent</b> celui qui est à l’étude actuellement.</p>
+<p>Il existe plusieurs types d'assertions :
+    <ul>
+    <li><b>assertion "avant"</b>: porte sur les <b>caractères suivants</b> celui à l’étude</li>
+    <li><b>assertion "arrière"</b>: porte sur les <b> caractères précédents</b> celui de l'étude.</li>
+    <li><b>assertion "positive"</b>: qui va chercher la <b>présence d’un caractère avant ou après le caractère à l'étude</b>.</li>
+    <li><b>assertion "négative"</b>: qui va vérifier que le caractère <b>n'est pas présent avant ou après le caractère à l'étude</b>.</li>
+</ul>
+<p><span class="underline">Notez :</span> que les assertions, à la différence des sous masques, ne sont pas capturantes par défaut et ne peuvent pas être répétées.</p>
+</p>
+
+<table>
+    <tr>
+        <td class="firstTd">a(?=b)</td>
+        <td>Cherche « a » suivi de « b » (assertion avant positive)</td>
+    </tr>
+    <tr>
+        <td class="firstTd">a(?!b)</tdfirstTd>
+        <td>Cherche « a » non suivi de « b » (assertion avant négative)</td>
+    </tr>
+    <tr>
+        <td class="firstTd">(?&lt=b)a</td>
+        <td>Cherche « a » précédé par « b » (assertion arrière positive)</td>
+    </tr>
+    <tr>
+        <td class="firstTd">(?&lt!b)a</td>
+        <td>Cherche « a » non précédé par « b » (assertion arrière négative)</td>
+    </tr>
+</table>
+
+<p class="underline">En pratique :</p>
+<div class="borderLeft ital">
+    <p>
+        let chaine8 = "Bonjour, Pierre Jacques et Alain"; <br><br>
+
+        let masque43 = /e(?=r)/g; - // cherche "e" suivi de "r". Attention, ne retourne que le caractère recherché (ici "e") <br>
+        let masque44 = /e(?!r)/g; - // cherche "e" non suivi de "r" <br>
+        let masque45 = /(?&lt=i)e/g; - // cherche "e" précédé de "i" <br>
+        let masque46 = /'(?&lt!i)e/g; - // cherche "e" non précédé de "i"
+    </p>
+    <p id="p10"></p>
+</div>
+<br>
+
+<h1>Les drapeaux, options ou marqueurs des expressions régulières JavaScript</h1>
+<p>Les drapeaux (ou marqueurs) sont des <b>caractères d’options</b> que nous pouvons ajouter à nos masques <b>pour changer le comportement par défaut de nos recherches</b>.</p>
+
+<h2>Présentation des options des regex</h2>
+<p>Les options, encore appelées modificateurs, sont des caractères qui vont nous permettre d’ajouter des options à nos expressions régulières.<br>
+Elles ne vons pas pas nous permettre de chercher tel ou tel caractère mais vont agir à un niveau plus élevé en modifiant le comportement par défaut des expressions régulières</p>
+<p>Les options sont les seuls caractères qui doivent obligatoirement être placés <b>en dehors des délimiteurs du masque, après le délimiteur final.</b></p>
+<p>Liste des options :</p>
+
+<table>
+    <tr>
+        <td class="firstTd">g</td>
+        <td>effectuer une <b>recherche globale</b></td>
+    </tr>
+    <tr>
+        <td class="firstTd">i</td>
+        <td>Rend la recherche <b>insensible à la casse</b></td>
+    </tr>
+    <tr>
+        <td class="firstTd">m</td>
+        <td>Par défaut, les expressions régulières considèrent la chaine dans laquelle on fait une recherche comme étant sur une seule ligne
+            et font qu’on ne peut donc utiliser les métacaractères ^ et $ qu’une seule fois. L’option m permet de tenir compte des caractères de retour à la ligne
+            et de retour chariot et <b>fait que ^ et $ vont pouvoir être utilisés pour chercher un début et une fin de ligne</b>.
+        </td>
+    </tr>
+    <tr>
+        <td class="firstTd">s</td>
+        <td>permet au <b>métacaractère . de remplacer n’importe quel caractère</b> y compris un caractère de nouvelle ligne</b></td>
+    </tr>
+</table>
+
+<p class="underline">En pratique :</p>
+<div class="borderLeft ital">
+    <p>
+        let chaine9 = "Bonjour, je suis Pierre <span class="alert"> \n </span> et mon no. est <span class="alert"> \n </span> le [06.25.25.25.25]"; <br><br>
+
+        let masque47 = /pierre/; // cherche "pierre" exactement <br>
+        let masque48 = /pierre/i; // cherche "pierre" ou "Pierre", ou "PIERRE", etc... <br>
+        let masque49 = /e$/; // cherche "e" en fin de chaine <br>
+        let masque50 = /e$/gm; // cherche "e" en fin de chaque ligne <br>
+        let masque51 = /./gs; // cherche tout caractère et effectue une recherche globale
+    </p>
+    <p id="p11"></p>
+</div>
+
+<p>Explications :</p>
+<div class="borderLeft ital">
+    <p>Le masque49 cherche le caractère « e » en fin de chaine. En effet, comme l’option m n’est pas présente, la regex considèrera que notre chaine est sur une seule ligne.<br>
+        Le masque50 utilise l’option m qui va changer le comportement par défaut de notre regex qui va alors tenir compte des retours à la ligne (\n) et des retours chariots (\r) dans notre chaine.
+        Ce masque nous permet de cherche le caractère « e » en fin de ligne ou de chaine.
+    </p>
+</div>
+
+
+
+<script src="js/regex-classe-caractere.js"></script>
+</body>
+</html>

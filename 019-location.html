@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>L’interface et l’objet Location en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<h1>L’interface et l’objet Location en JavaScript</h1>
+<p>L’interface Location va nous fournir des <b>informations relatives à l’URL</b> (c’est-à-dire la localisation) d’une page.<br>
+    On peut accéder à Location à partir des <b>interfaces Window ou Document</b>, en utilisant leur propriété location respective c’est-à-dire Window.location et Document.location.
+</p>
+
+<h2>Les propriétés de l'objet Location</h2>
+<ul>
+    <li><b>hash</b> : retourne la partie ancre d’une URL si l’URL en possède une ;</li>
+    <li><b>search</b> : qui retourne la partie recherche de l’URL si l’URL en possède une ;</li>
+    <li><b>pathname</b> : qui retourne le <b>chemin de l’URL précédé par un /</b> ;</li>
+    <li><b>href</b> : retourne l’<b>URL complète</b> ;</li>
+    <li><b>hostname</b> : retourne le <b>nom de l’hôte</b> ;</li>
+    <li> <b>port</b> : retourne le port de l’URL ;</li>
+    <li><b>protocol</b> : qui retourne le protocole de l’URL ;</li>
+    <li><b>host</b> : qui retourne le <b>nom de l’hôte et le port relatif à l’URL</b> ;</li>
+    <li><b>origin</b> : qui retourne le <b>nom de l’hôte, le port et le protocole de l’URL</b>.</li>
+</ul>
+<p class="underline">Exemple de code :</p>
+<p>location.pathname : renvoie :  /JS/pierreGiraud-tuto/location.html</p>
+
+<h2>Les méthode de l’objet Location</h2>
+<ul>
+    <li><b>assign()</b> : va <b>charger une ressource</b> à partir d’une URL passée en argument </li>
+    <li><b>reload()</b> : va recharger le document actuel ;</li>
+    <li><b>replace()</b> : va remplacer le document actuel par un autre disponible à l’URL fournie en argument</li>
+</ul>
+<p>La différence fondamentale entre les méthodes assign() et replace() est qu’<b>en utilisant assign(), on peut revenir en arrière pour revenir sur notre page de départ</b> car celle-ci a été
+    sauvegardée dans l’historique de navigation ce qui n’est pas le cas si on choisit d’utiliser replace().
+</p>
+<p class="underline">Exemple de code :</p>
+<p> let b1=document.getElementById('b1');<br>
+b1.addEventListener('click', assigne);
+</p>
+<p>function assigne() {<br>
+    location.assign('https://www.pierre-giraud.com');<br>
+    };</p>
+
+<button id="b1">Recharger la page</button>
+<button id="b2">Charger un nouveau document</button>
+<button id="b3">Remplacer le document</button>
+
+<script src="js/location.js"></script>
+</body>
+</html>

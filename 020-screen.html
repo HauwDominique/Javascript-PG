@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>L’interface et l’objet Screen en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+<h1>L’interface et l’objet Screen en JavaScript</h1>
+<p>L’objet Screen nous donne accès à des informations concernant l’écran de vos visiteurs, comme la taille ou la résolution de l’écran par exemple.<br>
+    On va pouvoir utiliser ces informations pour proposer différents affichages à différents visiteurs par exemple.</p>
+
+<h2>Les propriétés de l’objet Screen</h2>
+<p>6 propriétés qui sont bien supportées par les navigateurs et particulièrement intéressantes :</p>
+<ul>
+    <li><b>width</b> : retourne la <b>largeur totale</b> de l’écran ;</li>
+    <li><b>availWidth</b> : retourne la <b>largeur de l’écran moins celle de la barre de tâches</b> ;</li>
+    <li><b>height</b> : retourne la <b>hauteur totale de l’écran</b> ;</li>
+    <li><b>availHeight</b> : retourne la <b>hauteur de l’écran moins celle de la barre de tâches</b> ;</li>
+    <li><b>colorDepth</b> : retourne la <b>profondeur de la palette de couleur de l’écran</b> en bits ;</li>
+    <li><b>pixelDepth</b> : retourne la <b>résolution de l’écran en bits par pixel</b>.</li>
+</ul>
+<p id="sp1"></p>
+<p>Notez que si le navigateur ne peut pas déterminer les valeurs de colorDepth et de pixelDepth ou
+    si il ne veut pas les retourner pour des raisons de sécurité, il doit normalement renvoyer « 24 ».
+</p>
+
+<h2>Les méthode de l’objet Screen</h2>
+<p>L’objet Screen possède également deux méthodes <b>lockOrientation() et unlockOrientation()</b> mais qui sont <b>aujourd’hui dépréciées</b> et ne devraient pas être utilisées.</p>
+
+
+<script src="js/screen.js"></script>
+</body>
+</html>

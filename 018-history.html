@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>L’interface et l’objet History en JavaScript</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<h1>L’interface et l’objet History en JavaScript</h1>
+<p>L’objet History va nous permettre de manipuler l’historique du navigateur des visiteurs pour la session courante et de charger par exemple la page précédente.
+    Lorsqu’on parle « d’historique » ici on parle de la liste des pages visitées au sein de l’onglet ou fenêtre ou de la frame dans laquelle la page actuelle est ouverte.<br>
+    Nous allons utiliser la propriété history de Window pour obtenir une référence à l’objet History.</p>
+
+<h2>Les propriétés et méthodes de History</h2>
+<p>L’interface History implémente plusieurs propriétés et méthodes qu’on va pouvoir utiliser à partir d’un objet History.<br>
+    Les propriétés et méthodes qui vont nous intéresser sont les suivantes :</p>
+<ul>
+    <li>La <b>propriété length</b> qui retourne le <b>nombre d’éléments dans l’historique</b> (en comptant la page actuelle), c’est-à-dire le nombre d’URL parcourues durant la session ;
+        <p id="p1"></p>
+    </li>
+    <li>La méthode <b>go()</b> :nous permet de <b>charger une page depuis l’historique de session</b>. On va lui passer un nombre en argument qui représente la place de la page qu’on souhaite atteindre dans l’historique par rapport à la page actuelle (-1 pour la page précédente et 1 pour la page suivante par exemple) ;
+    </li>
+    <li>La méthode <b>back()</b> : nous permet de charger la <b>page précédente dans l’historique</b> de session par rapport à la page actuelle. Utiliser back() est équivalent à utiliser go(-1) ;
+    </li>
+    <li>La méthode <b>forward()</b> : nous permet de charger la <b>page suivante dans l’historique de session par rapport à la page actuelle</b>. Utiliser back() est équivalent à utiliser go(1).
+    </li>
+</ul>
+
+<p>Exemple de code :</p>
+<p>
+    let b1 = document.getElementById('b1');<br>
+    b1.addEventListener('click', historyGo);<br>
+</p>
+<p>function historyGo(){<br>
+    history.go(-2);<br>
+    };</p>
+<button id="b1">2 pages en arrière ds l'historique</button>
+<button id="b2">Vers la page précédente</button>
+<button id="b3">Vers la page suivante</button>
+
+
+
+<script src="js/history.js"></script>
+</body>
+</html>

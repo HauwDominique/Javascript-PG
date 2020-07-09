@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JavaScript API, Browser Object Model et interface Window</title>
+</head>
+<body>
+
+<h1>JavaScript API, Browser Object Model et interface Window</h1>
+<br>
+<h2>Définition et présentation des API JavaScript</h2>
+<p>Une API (Application Programming Interface ou Interface de Programmation Applicative en français) <b>est une interface</b>,
+    c’est-à-dire un ensemble de codes grâce à laquelle un logiciel fournit des services à des clients.<br>
+    Le principe et l’intérêt principal d’une API est de permettre à des personnes externes de pouvoir réaliser des opérations complexes et cachant justement cette complexité.<br>
+    Le développeur n’aura pas besoin de connaître les détails de la logique interne du logiciel tiers et n’y aura d’ailleurs pas accès directement puisqu’il devra justement passer par l’API qui <b>va nous fournir en JavaScript un ensemble d’objets et donc
+        de propriétés et de méthodes prêtes à l’emploi</b> et nous permettant de réaliser des opérations complexes.
+</p>
+<p>Les API JavaScript vont pouvoir être classées dans deux grandes catégories :
+    <ul>
+    <li>Les <b>API intégrées aux navigateurs web</b> et qu’on va donc pouvoir utiliser immédiatement pour du développement web <b>comme l’API DOM </b>(Document Object Model) qui va nous permettre de manipuler le HTML et le CSS d’une page, l’API Geolocation qui va nous permettre de définir des données de géolocalisation
+        ou encore l’API Canvas qui permet de dessiner et de manipuler des graphiques dans une page </li>
+    <li>Les <b>API externes</b>, proposées par certains logiciels ou sites comme la suite d’API <b>Google Map</b> qui permettent d’intégrer et de manipuler des cartes dans nos pages web ou encore l’API Twitter qui permet d’afficher une liste de tweets sur un site par exemple
+        ou bien l’API YouTube qui permet d’intégrer des vidéos sur un site.</li>
+</ul>
+</p>
+<br>
+
+<h2>Introduction au Browser Object Model (BOM) et à l’objet Window</h2>
+<p>Le BOM (Model Objet intégrés au navigateur) est une sorte de « super API » elle-même composée de plusieurs API dont certaines sont elles mêmes composées de plusieurs API etc.
+    <br>A la base du BOM, nous avons l’interface Window qui représente une fenêtre de navigateur contenant une page ou un document.
+</p>
+<p>L’objet Window implémente l’interface Window. Cet objet est supporté par tous les navigateurs et tous les objets globaux, variables globales et fonctions globales
+    appartiennent automatiquement à cet objet (c’est-à-dire sont des enfants de cet objet).
+</p>
+<p>Le BOM est composé de différentes interfaces qu’on va pouvoir utiliser via des objets.
+    <ul>
+    <li>L’objet <b>Navigator</b> qui représente l’état et l’identité du navigateur et qu’on va utiliser avec l’API Geolocation ;</li>
+    <li>L’objet <b>History</b> qui permet de manipuler l’historique de navigation du navigateur</li>
+    <li>L’objet <b>Location</b> qui fournit des informations relatives à l’URL de la page courante ;</li>
+    <li>L’objet <b>Screen</b> qui nous permet d’examiner les propriétés de l’écran qui affiche la fenêtre courante ;</li>
+    <li>L’objet <b>Document</b> et le DOM dans son ensemble que nous étudierons en détail dans la suite.</li>
+    <li>L’objet <b>Window</b> représente la fenêtre du navigateur actuellement ouverte</li>
+</ul>
+</p>
+<br>
+
+<h2>Propriétés, méthodes et fonctionnement de l’objet Window</h2>
+<p>L’objet Window représente la fenêtre du navigateur actuellement ouverte. Pour les navigateurs qui supportent les onglets, chaque onglet va posséder son propre objet Window</p>
+<h3>Les propriétés de l’objet Window</h3>
+<p>L’objet Window possède de nombreuses propriétés dont notamment des propriétés document, navigator, location qui retournent des références aux objets du même nom.</p>
+<p>Intéressons-nous aux propriétés <b>innerHeight, innerWidth, outerHeight et outerWidth</b>.
+    <ul>
+    <li><b>innerHeight et innerWidth</b> vont retourner la <b>hauteur et la largeur</b> de la partie visible de la fenêtre de navigation
+        (la partie dans laquelle le code est rendu, donc la partie interne).
+        <p id="sp1"></p>
+    </li>
+    <li><b>outerHeight et outerWidth</b> vont retourner la <b>hauteur et la largeur de la fenêtre du navigateur en comptant les options du navigateur
+        (la partie externe de la fenêtre)</b>.
+        <p id="sp2"></p>
+    </li>
+</ul>
+<p>Ces propriétés vont donc nous permettre d’obtenir la taille de la fenêtre active ou du navigateur.</p>
+</p>
+
+<h3>Les méthodes de Window</h3>
+<p>L’objet Window possède également de nombreuses méthodes. Intéressons-nous aux méthodes permettant d'afficher des boites de dialogues.</p>
+<ul>
+    <li> <b>open()</b> nous permet d’ouvrir une certaine ressource dans une fenêtre, un onglet ou au sein d’un élément iframe.
+        On va passer en argument de cette méthode une URL qui correspond à la ressource à charger.
+    <p>let b1 = document.getElementById('b1');
+        <br>b1.addEventListener('click', openWindow);
+        <br>let winSize = 'width=300, height=300';
+        <br>
+        <br>function openWindow(){
+        <br>// on récupère l'information renvoyé par open() dans une variable fenêtre
+        <br><b>fenetre = window.open('http://localhost:63342/JS/pierreGiraud-tuto/boucle.html?_ijt=flq2f8u2hcb6dju2uuu2nln2u7', '', winSize)</b>;
+        <br>};
+    </p>
+    <p>La méthode open() va également renvoyer une référence pointant vers la fenêtre créée qu’on va pouvoir utiliser ensuite avec d’autres méthodes, commme celles-ci par exemple :</p>
+    </li>
+    <li><b>resizeBy()</b> permet de redimensionner la nouvelle fenêtre créée.
+        <br>A noter que l'on se sert de la référence renvoyée par open() et stockée dans la variable fenetre.
+    <p>let b2 = document.getElementById('b2');<br>
+        b2.addEventListener('click', resizeWindowBy);<br>
+        <br>function resizeWindowBy(){
+        <br><b>fenetre.resizeBy(200, 100);</b>//augmente A CHAQUE CLIC, la taille de 200px de large et 100px de haut.
+        <br>};
+    </p>
+    </li>
+    <li>même principe pour les méthodes <b>resizeTo(), moveBy(), moveTo(), scrollBy(), scrollTo()</b> pour lesquelles on passe en argument les tailles ou valeurs.</li>
+    <li><b>close()</b> :  cette méthode n'a pas besoin d'argument, elle ferme directement la fenêtre.</li>
+</ul>
+
+<button id="b1">window.open</button>
+<button id="b2">window.resizeBy</button>
+<button id="b3">window.resizeTo</button>
+<button id="b4">window.moveBy</button>
+<button id="b5">window.moveTo</button>
+<button id="b6">window.scrollBy</button>
+<button id="b7">window.scrollTo</button>
+<button id="b8">window.close</button>
+
+<br>
+<p>L’objet Window possède également des méthodes qui vont nous permettre d’afficher des boites d’alerte, de dialogue ou de confirmation dans la fenêtre.
+    <ul>
+    <li><b>alert()</b> permet d’afficher une boite d’alerte</li>
+    <li><b>prompt()</b> affiche une boite de dialogue permettant aux utilisateurs de nous envoyer du texte.
+        <p>
+            <button id="b9">prompt</button>
+        </p>
+    </li>
+    <li><b>confirm()</b> ouvre une boite avec un message (facultatif) et deux boutons pour l’utilisateur : un bouton Ok (renvoie true) et un bouton Annuler(renvoie false).
+        <p id="sp3"></p>
+    </li>
+</ul>
+</p>
+
+
+<script src="js/api.js"></script>
+</body>
+</html>

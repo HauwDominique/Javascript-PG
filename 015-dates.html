@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Les dates en JavaScript et l’objet global Date</title>
+</head>
+<body>
+    <h1>Les dates en JavaScript et l’objet global Date</h1>
+    <p>Pour travailler avec des dates et les manipuler en JavaScript, nous allons utiliser l’objet natif Date.</p>
+    <p>Le JavaScript stocke les dates en interne sous forme d’un <b>Timestamp Unix exprimé en millisecondes</b> (c’est-à-dire le Timestamp Unix multiplié par 1000).
+        Le Timestamp Unix correspond au nombre de secondes écoulées <b>depuis le 1er janvier 1970 à minuit UTC ou GMT</b>
+        (c’est-à-dire minuit selon l’heure de Londres).
+    </p>
+    <p>De nombreux langages représentent les dates sous forme de Timestamp Unix car c’est un nombre et il est beaucoup plus facile de travailler et de manipuler des nombres que des dates littérales qui peuvent s’écrire sous de nombreux différents formats.
+    </p>
+
+    <h2>Récupérer la date actuelle</h2>
+    <ul>
+        <li><b>Date() :</b> pour récupérer la date actuelle sous <b>forme littérale</b>.
+        <p id="date"></p>
+        </li>
+        <li> <b>Date.now() : </b> pour afficher cette même date sous <b>forme de nombre</b> (le nombre de millisecondes écoulées
+            depuis le 1er janvier 1970), on peut utiliser la méthode statique now() du constructeur Date.
+            <p id="now"></p>
+        </li>
+    </ul>
+    <br>
+
+    <h2>Créer un objet de type date</h2>
+    <p><b>Pour créer et manipuler une date particulière</b>, nous allons devoir <b>créer un objet de type date</b>.<br>
+        Pour créer un objet de type date, nous allons cette fois-ci être obligé d’utiliser le constructeur Date() <b>avec donc le mot clef new</b>.
+    </p>
+    <p>On va pouvoir instancier notre constructeur Date() de différentes manières pour créer une date.</p>
+    <ul>
+        <li>instancier <b>Date() sans lui passer d’argument</b>, auquel cas le constructeur va créer un objet date
+            <b>contenant la date actuelle complète en fonction de l’heure locale du système</b>.<br>
+            <p id="sp1"></p>
+        </li>
+        <li>fournir une date <b>sous forme de millisecondes écoulées depuis le 1er janvier 1970</b> à Date() pour qu’il crée un objet avec la date demandée.
+            <p id="sp2"></p>
+        </li>
+        <li><b>passer une suite de nombres à notre constructeur</b> pour qu’il crée un objet date morceau par morceau. Ces nombres représentent, <b>dans l’ordre :</b>
+            <p></p>
+            <ul>
+                <li>L’<b>année</b> (argument obligatoire) de la date qu’on souhaite créer </li>
+                <li>Le <b>numéro du mois</b> (argument obligatoire) de la date qu’on souhaite créer, <b>entre 0 (pour janvier) et 11 (pour décembre)</b> ;</li>
+                <li>Le <b>numéro du jour du mois</b> (facultatif) de la date qu’on souhaite créer, <b>entre 1 et 31</b> ;</li>
+                <li>L’<b>heure</b> (facultatif) de la date qu’on souhaite créer, <b>entre 0 et 23</b> ;</li>
+                <li>Le nombre de <b>minutes</b> (facultatif) de la date qu’on souhaite créer, <b>entre 0 et 59</b> ;</li>
+                <li>Le nombre de <b>secondes</b> (facultatif) de la date qu’on souhaite créer, <b>entre 0 et 59</b> </li>
+                <li>Le nombre de <b>millisecondes</b> (facultatif) de la date qu’on souhaite créer, <b>entre 0 et 999</b>.</li>
+            </ul>
+            <p id="sp3"></p>
+        </li>
+        <li>fournir une <b>date littérale en argument de Date()</b>. De cette manière, un objet sera créé avec la date indiquée. Bien évidemment, on va devoir <b>passer la date en anglais et formatée</b> de façon à ce que JavaScript puisse la comprendre.
+            Concernant les formats de date, il est conseillé d’utiliser la norme ISO 8601.
+            <p id="sp4"></p>
+        </li>
+    </ul>
+    <br>
+
+    <h2>Les méthodes getters et setters de l’objet Date</h2>
+    <p>L’objet Date possède de nombreuses méthodes qu’on peut classer en différents groupes :
+        les méthodes qui vont nous permettre d’<b>obtenir une date</b>, celles qui vont permettre de <b>définir une date</b>, celles qui vont permettre de <b>formater une date</b>, etc.
+    </p>
+
+    <h3>Les getters de l’objet Date</h3>
+    <p>L’objet Date va posséder différentes méthodes getters qui vont chacune nous permettre de <b>récupérer un composant d’une date</b> (année, mois, jour, heure, etc.).
+        <br>Les getters suivants vont renvoyer un composant de date selon l’heure locale :
+        <ul>
+        <li><b>getDay()</b> renvoie le <b>jour de la semaine sous forme de chiffre</b> (avec <b>0 pour dimanche, 1 pour lundi et 6 pour samedi</b>) pour la date spécifiée selon l’heure locale ;</li>
+        <li><b>getDate()</b> renvoie le <b>jour du mois en chiffres</b> pour la date spécifiée selon l’heure locale ;</li>
+        <li><b>getMonth()</b> renvoie le <b>numéro du mois de l’année (avec 0 pour janvier, 1 pour février, 11 pour décembre</b>) pour la date spécifiée selon l’heure locale ;</li>
+        <li><b>getFullYear()</b> renvoie l’<b>année en 4 chiffres</b> pour la date spécifiée selon l’heure locale ;</li>
+            <li><b>getHours()</b> renvoie l’heure en chiffres pour la date spécifiée selon l’heure locale ;</li>
+            <li><b>getMinutes()</b> renvoie les minutes en chiffres</li>
+            <li><b>getSeconds()</b> renvoie les secondes en chiffres</li>
+            <li><b>getMilliseconds()</b> renvoie les millisecondes</li>
+        </ul>
+    </p>
+    <p id="getter"></p>
+
+    <h3>Les setters de l’objet Date</h3>
+    <p>Les setters de l’objet Date vont nous permettre de <b>définir (ou de modifier) des composants de dates</b> pour une date donnée.
+        Ces setters vont correspondre exactement aux getters vus précédemment.</p>
+    <ul>
+        <li>setDate() et setUTCDate()</li>
+        <li>setMonth() et setUTCMonth()</li>
+        <li>setFullYear() et setUTCFullYear()</li>
+        <li>setHours() et setUTCHours ()</li>
+        <li>setMinutes() et setUTCMinutes()</li>
+        <li>setSeconds() et setUTCSeconds()</li>
+        <li>setMilliseconds() et setUTCMilliseconds()</li>
+    </ul>
+    <p id="setter"></p>
+
+    <h3>Convertir une date au format local</h3>
+    <p>Ces méthodes vont notamment nous permettre d’afficher les éléments de date dans un ordre local (jour puis mois puis année par exemple) ou de pouvoir afficher une heure selon un format 12 heures ou 24 heures.
+        Elles vont également nous permettre de traduire des dates littérales anglaises dans la langue locale.</p>
+    <p>Pour faire cela, on va pouvoir utiliser les méthodes : </p>
+    <ul>
+        <li><b>toLocaleDateString('locale',{options}) : </b> renvoie la partie « <b>jour-mois-année</b> » d’une date, formatée en fonction d’une <b>locale et d’options</b>.</li>
+        <li><b>toLocaleTimeString('locale',{options}) :</b> renvoie la partie « <b>heures-minutes-secondes</b> » d’une date, formatée en fonction d’une locale et d’options</li>
+        <li><b>toLocaleString('locale',{options})</b> renvoie la <b>date complète</b>, formatée en fonction d’une locale et d’options</li>
+    </ul>
+    <p>La <b>locale sert à définir la langue dans laquelle la date doit être formatée</b>. Pour la France, on utilisera <b>fr-FR</b>.<br>
+        Les <b>options</b> vont permettre de modifier le comportement par défaut de nos méthodes et notamment d’expliciter
+        si on souhaite que la date passée soit <b>renvoyée sous forme de chiffres ou sous forme littérale</b>.
+    </p>
+    <p>Les options qui vont particulièrement nous intéresser : </p>
+    <ul>
+        <li><b>weekday : </b> représente le jour de la semaine. Les valeurs possibles sont <b>« narrow », « short » et « long »</b>;</li>
+        <li><b>day : </b> représente le jour du mois. Les valeurs possibles sont <b>numeric et 2-digit</b> ;</li>
+        <li><b>month :</b> représente le mois. Les valeurs possibles sont numeric et 2-digit ;</li>
+        <li><b>year :</b> représente l’année. Les valeurs possibles sont numeric et 2-digit ;</li>
+        <li><b>hour :</b> représente l’heure. Les valeurs possibles sont numeric et 2-digit ;</li>
+        <li><b>minute</b> qui représente les minutes. Les valeurs possibles sont numeric et 2-digit ;</li>
+        <li><b>second</b> qui représente les secondes. Les valeur possibles sont numeric et 2-digit.</li>
+        <li><b>timeZone : </b> permet de définir le fuseau horaire à utiliser.</li>
+    </ul>
+    <p>A noter que les navigateurs sont obligés de supporter à minima les ensembles suivants. Si vous utilisez une autre combinaison, celle-ci pourra ne pas être supportée :
+        <ul>
+            <li>weekday, year, month, day, hour, minute, second ;</li>
+            <li>weekday, year, month, day ;</li>
+            <li>year, month, day ;</li>
+            <li>year, month ;</li>
+            <li>month, day ;</li>
+            <li>hour, minute, second ;</li>
+            <li>hour, minute.</li>
+        </ul>
+    </p>
+    <p id="sp8"></p>
+
+
+    <script src="js/dates.js"></script>
+</body>
+</html>
